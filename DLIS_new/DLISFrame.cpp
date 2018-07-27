@@ -1,202 +1,232 @@
-#include "StdAfx.h"
 #include "DLISFrame.h"
-#include "windows.h"
 #include "assert.h"
 
+#include <cstring>
 
-CDLISFrame::CDLISFrame() : m_channels(NULL), m_channels_count(0), m_frame_len(0), m_count(0)
+CDLISFrame::
+CDLISFrame()
+  : m_channels(nullptr)
+  , m_channels_count(0)
+  , m_frame_len(0)
+  , m_count(0)
 {
-    memset(&m_buffer, 0, sizeof(m_buffer));
-    memset(&m_numbers, 0, sizeof(m_numbers));
+  memset(&m_buffer, 0, sizeof(m_buffer));
+  memset(&m_numbers, 0, sizeof(m_numbers));
 }
 
 
 CDLISFrame::~CDLISFrame()
+{}
+
+
+bool
+CDLISFrame::
+Initialize()
 {
+  m_buffer.size  = 0;
+  m_numbers.size = 0;
+
+  return true;
 }
 
 
-bool CDLISFrame::Initialize()
+void
+CDLISFrame::
+Shutdown()
 {
-    m_buffer.size  = 0;
-    m_numbers.size = 0;
+  if (m_buffer.data)
+    delete [] m_buffer.data;
 
-    return true;
+  if (m_numbers.data)
+    delete[] m_numbers.data;
+
+  memset(&m_buffer, 0, sizeof(m_buffer));
+  memset(&m_numbers, 0, sizeof(m_numbers));
 }
 
 
-void CDLISFrame::Shutdown()
+bool
+CDLISFrame::
+AddRawData(int number, char *raw_data, int raw_data_size)
 {
-    if (m_buffer.data)
-        delete [] m_buffer.data;
+  // РґРѕР±Р°РІРёРј РґР°РЅРЅС‹Рµ
+  if (!m_buffer.Resize(m_buffer.size + raw_data_size))
+    return false;
 
-    if (m_numbers.data)
-        delete[] m_numbers.data;
+  memcpy(m_buffer.data + m_buffer.size, raw_data, raw_data_size);
+  m_buffer.size += raw_data_size;
 
-    memset(&m_buffer, 0, sizeof(m_buffer));
-    memset(&m_numbers, 0, sizeof(m_numbers));
+  m_count = (int)m_buffer.size / m_frame_len;
+  //
+  if (!m_numbers.Resize(sizeof(int)))
+    return false;
+
+  memcpy(m_numbers.data + m_numbers.size, &number, sizeof(int));
+  m_numbers.size += sizeof(int);
+
+  return true;
 }
 
 
-bool CDLISFrame::AddRawData(int number, char *raw_data, int raw_data_size)
+void
+CDLISFrame::
+AddChannels(DlisValueObjName *object, DlisChannelInfo *channels, int channels_count, int frame_len)
 {
-    // добавим данные
-    if (!m_buffer.Resize(m_buffer.size + raw_data_size))
-        return false;
-    
-    memcpy(m_buffer.data + m_buffer.size, raw_data, raw_data_size);
-    m_buffer.size += raw_data_size;
+  m_obj_key        = *object;
+  m_channels       = channels;
+  m_channels_count = channels_count;
 
-    m_count = (int)m_buffer.size / m_frame_len;
-    //
-    if (!m_numbers.Resize(sizeof(int)))
-        return false;
-
-    memcpy(m_numbers.data + m_numbers.size, &number, sizeof(int));
-    m_numbers.size += sizeof(int);
-
-    return true;
+  m_frame_len = frame_len;
 }
 
 
-void CDLISFrame::AddChannels(DlisValueObjName *object, DlisChannelInfo *channels, int channels_count, int frame_len)
+int
+CDLISFrame::
+GetNumber(int row)
 {
-    m_obj_key        = *object;
-    m_channels       = channels;
-    m_channels_count = channels_count;
+  int number;
 
-    m_frame_len      = frame_len;
-}
-
-int CDLISFrame::GetNumber(int row)
-{
-    int number;
-    
-    number = *(((int *)m_numbers.data) + row);
-    return number;
+  number = *(((int *)m_numbers.data) + row);
+  return number;
 }
 
 
-char *CDLISFrame::GetColumnName(int column)
+char *
+CDLISFrame::
+GetColumnName(int column)
 {
-    char *name;
+  char *name;
 
-    name = m_channels[column].obj_name->identifier;
-    return name;
+  name = m_channels[column].obj_name->identifier;
+  return name;
 }
 
 
-DlisValueObjName *CDLISFrame::GetObject()
+DlisValueObjName *
+CDLISFrame::
+GetObject()
 {
-    return &m_obj_key;
+  return &m_obj_key;
 }
 
 
-float *CDLISFrame::GetValueFloat(int column, int row, int *dimension)
+float *
+CDLISFrame::
+GetValueFloat(int column, int row, int *dimension)
 {
-    float  *ret;
-    
-    ret = (float *)GetValue(column, row, dimension);
-    return ret;
+  float *ret;
+
+  ret = (float *)GetValue(column, row, dimension);
+  return ret;
 }
 
 
-double *CDLISFrame::GetValueDouble(int column, int row, int *dimension)
+double *
+CDLISFrame::
+GetValueDouble(int column, int row, int *dimension)
 {
-    double  *ret;
-    
-    ret = (double *)GetValue(column, row, dimension);
-    return ret;
+  double *ret;
+
+  ret = (double *)GetValue(column, row, dimension);
+  return ret;
 }
 
 
-int *CDLISFrame::GetValueInt(int column, int row, int *dimension)
+int *
+CDLISFrame::
+GetValueInt(int column, int row, int *dimension)
 {
-    int  *ret;
+  int *ret;
 
-    ret = (int *)GetValue(column, row, dimension);
-    return ret;
-
+  ret = (int *)GetValue(column, row, dimension);
+  return ret;
 }
 
 
-int CDLISFrame::CountColumns()
+int
+CDLISFrame::
+CountColumns()
 {
-    return m_channels_count;
+  return m_channels_count;
 }
 
 
-int CDLISFrame::CountRows()
+int
+CDLISFrame::
+CountRows()
 {
-    return m_count;
+  return m_count;
 }
 
 
-void CDLISFrame::Big2LittelEndian(void *data, int len)
+void
+CDLISFrame::
+Big2LittelEndian(void *data, int len)
 {
-    char *dst;
-    char  tmp;
+  char *dst;
+  char tmp;
 
-    dst = (char *)data;
+  dst = (char *)data;
 
-    switch (len)
-    {
-        case 2:
-            tmp    = dst[0];
-            dst[0] = dst[1];
-            dst[1] = tmp;
-            break;
+  switch (len)
+  {
+    case 2:
+      tmp    = dst[0];
+      dst[0] = dst[1];
+      dst[1] = tmp;
+      break;
 
-        case 4:
-            tmp    = dst[0];
-            dst[0] = dst[3];
-            dst[3] = tmp;
+    case 4:
+      tmp    = dst[0];
+      dst[0] = dst[3];
+      dst[3] = tmp;
 
-            tmp    = dst[1];
-            dst[1] = dst[2];
-            dst[2] = tmp;
-            break;
+      tmp    = dst[1];
+      dst[1] = dst[2];
+      dst[2] = tmp;
+      break;
 
-        case 8:
-            tmp    = dst[0];
-            dst[0] = dst[7];
-            dst[7] = tmp;
+    case 8:
+      tmp    = dst[0];
+      dst[0] = dst[7];
+      dst[7] = tmp;
 
-            tmp    = dst[1];
-            dst[1] = dst[6];
-            dst[6] = tmp;
+      tmp    = dst[1];
+      dst[1] = dst[6];
+      dst[6] = tmp;
 
-            tmp    = dst[2];
-            dst[2] = dst[5];
-            dst[5] = tmp;
+      tmp    = dst[2];
+      dst[2] = dst[5];
+      dst[5] = tmp;
 
-            tmp    = dst[3];
-            dst[3] = dst[4];
-            dst[4] = tmp;
-            break;
-
-    }
+      tmp    = dst[3];
+      dst[3] = dst[4];
+      dst[4] = tmp;
+      break;
+  }
 }
 
-void *CDLISFrame::GetValue(int column, int row, int *dimension)
+
+void *
+CDLISFrame::
+GetValue(int column, int row, int *dimension)
 {
-    void     *ret;
-    char     *data, *ptr;
-    DlisChannelInfo  *channel;
+  void *ret;
+  char *data, *ptr;
+  DlisChannelInfo *channel;
 
-    channel = &m_channels[column];
+  channel = &m_channels[column];
 
-    data = m_buffer.data + m_frame_len * row + channel->offsets;
-    ptr  = data;
-    for (int i = 0; i < channel->dimension; i++)
-    {
-        Big2LittelEndian(ptr, channel->element_size);
-        ptr += channel->element_size;
-    }
+  data = m_buffer.data + m_frame_len * row + channel->offsets;
+  ptr  = data;
+  for (int i = 0; i < channel->dimension; i++)
+  {
+    Big2LittelEndian(ptr, channel->element_size);
+    ptr += channel->element_size;
+  }
 
-    *dimension = channel->dimension;
+  *dimension = channel->dimension;
 
-    ret = (void *)data;
-    return ret;
-
+  ret = (void *)data;
+  return ret;
 }

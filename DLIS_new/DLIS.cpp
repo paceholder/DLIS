@@ -1,107 +1,117 @@
-#include    <stdio.h>
-#include    <tchar.h>
+#include <stdio.h>
+#include <cstring>
+//#include <string.h>
+
 #include    "DLISParser.h"
 
-void  NotifyFrame(CDLISFrame *frame, void *params)
+void
+NotifyFrame(CDLISFrame *frame, void *params)
 {
+  return;
+  static int count = 0;
+
+  float *d;
+  int   k = 0;
+
+  int column = frame->CountColumns();
+  if (column < 1)
     return;
-    static  int count = 0;
 
-    float   *d;
-    int      k = 0;
-
-	int column = frame->CountColumns();
-	if (column < 1)
-		return;
-
-    if (count < 100)
+  if (count < 100)
+  {
+    if (count == 0)
     {
-        if (count == 0)
-        {
-            for (int i = 0; i < frame->CountColumns(); i++)
-            {
-                printf("%s", frame->GetColumnName(i));
+      for (int i = 0; i < frame->CountColumns(); i++)
+      {
+        printf("%s", frame->GetColumnName(i));
 
-                if (i != (frame->CountColumns() - 1))
-                    printf("\t");
-            }
-            printf("\n");
-        }
+        if (i != (frame->CountColumns() - 1))
+          printf("\t");
+      }
 
-        for (int i = 0; i < frame->CountRows(); i++)
-            for (int j = 0; j < frame->CountColumns(); j++)
-            {
-                if (j == 0)
-                    printf("#%d\t", frame->GetNumber(i));
-
-                d = frame->GetValueFloat(j, i, &k);
-                double ret = *d;
-
-                printf("value: %.5f  count: %d", ret, k);
-                if (j != (frame->CountColumns() - 1))
-                    printf("\t");
-            }
-        printf("\n");
+      printf("\n");
     }
-    count++;
+
+    for (int i = 0; i < frame->CountRows(); i++)
+      for (int j = 0; j < frame->CountColumns(); j++)
+      {
+        if (j == 0)
+          printf("#%d\t", frame->GetNumber(i));
+
+        d = frame->GetValueFloat(j, i, &k);
+        double ret = *d;
+
+        printf("value: %.5f  count: %d", ret, k);
+        if (j != (frame->CountColumns() - 1))
+          printf("\t");
+      }
+
+    printf("\n");
+  }
+
+  count++;
 }
 
 
-void Usage()
+void
+Usage()
 {
-    printf("Usage: \n"
-           "-p \"c:\\example.dlis\"\n"
-          );
+  printf("Usage: \n"
+         "-p \"c:\\example.dlis\"\n"
+         );
 }
 
 
-int main(int argc, char **argv)
+int
+main(int argc, char **argv)
 {
-    if (argc < 2)
+  if (argc < 2)
+  {
+    Usage();
+    return -1;
+  }
+
+#define MAX_PATH 1000000
+
+  int  i = 1;
+  char dlis_path[MAX_PATH] = {0};
+
+  while (i < argc)
+  {
+    if (strcmp(argv[i], "-p") == 0)
     {
+      if ((i + 1) >= argc)
+      {
         Usage();
         return -1;
+      }
+
+      i++;
+      strcpy(dlis_path, argv[i]);
     }
 
+    i++;
+  }
 
-    int   i = 1;
-    char  dlis_path[MAX_PATH] = {0};
+  if (dlis_path[0] == 0)
+  {
+    Usage();
+    return -1;
+  }
 
-    while (i < argc)
-    {
-        if (strcmp(argv[i], "-p") == 0)
-        {
-            if ((i + 1) >= argc)
-            {
-                Usage();
-                return -1;
-            }
+  bool r;
 
-            i++;
-            strcpy_s(dlis_path, argv[i]);
-        }
-        i++;        
-    }
-    
-    if (dlis_path[0] == 0)
-    {
-        Usage();
-        return -1;
-    }
+  CDLISParser parser;
 
+  parser.Initialize();
 
-    bool r;
-    CDLISParser  parser;
+  parser.CallbackNotifyFrame(&NotifyFrame, 0);
 
-    parser.Initialize();
-	parser.CallbackNotifyFrame(&NotifyFrame, 0);
+  r = parser.Parse(dlis_path);
 
-    wchar_t buff[260] = { 0 };
-    MultiByteToWideChar(CP_ACP, 0, dlis_path, (int)strlen(dlis_path), buff, _countof(buff)); 
-    r = parser.Parse(buff);
-    //printf("all frames: %d, bad frames: %d\n", parser.CountAllFrames(), parser.CountBadFrames());
+  //printf("all frames: %d, bad frames: %d\n", parser.CountAllFrames(), parser.CountBadFrames());
 
-    parser.Shutdown();
+  parser.Shutdown();
 
-    return 0;
+  return 0;
 }

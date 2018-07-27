@@ -5,50 +5,53 @@
 #include "new.h"
 #endif
 
-bool MemoryBuffer::Resize(size_t new_max_size)
+bool
+MemoryBuffer::
+Resize(std::size_t new_max_size)
 {
 
-    // если размера буфера хватает, выходим - выделять ничего не надо
-    if (new_max_size < max_size)
-        return true;
-    
-    char   *buf = NULL;
-    size_t  cap = new_max_size / 4;
-
-    // ограничим размер нового буфера по минимальному и максимальному значению
-    if (cap < 16)    
-        cap = 16;
-    
-    if (cap > 1024 * 1024)
-        cap  = 32 * 1024;
-
-    // новая емкость буфера
-    cap += new_max_size;
-    
-    // выделим память под буфер
-    buf = new(std::nothrow) char[cap];
-    if (!buf)
-        return false;
-    
-    // копируем старые данные
-    memcpy(buf, data, size);
-    max_size = cap;
-     
-    // освободим старую память и запомним новый буфер
-    delete data;
-    data = buf;
-
+  // РµСЃР»Рё СЂР°Р·РјРµСЂР° Р±СѓС„РµСЂР° С…РІР°С‚Р°РµС‚, РІС‹С…РѕРґРёРј - РІС‹РґРµР»СЏС‚СЊ РЅРёС‡РµРіРѕ РЅРµ РЅР°РґРѕ
+  if (new_max_size < max_size)
     return true;
+
+  char *buf       = NULL;
+  std::size_t cap = new_max_size / 4;
+
+  // РѕРіСЂР°РЅРёС‡РёРј СЂР°Р·РјРµСЂ РЅРѕРІРѕРіРѕ Р±СѓС„РµСЂР° РїРѕ РјРёРЅРёРјР°Р»СЊРЅРѕРјСѓ Рё РјР°РєСЃРёРјР°Р»СЊРЅРѕРјСѓ Р·РЅР°С‡РµРЅРёСЋ
+  if (cap < 16)
+    cap = 16;
+
+  if (cap > 1024 * 1024)
+    cap = 32 * 1024;
+
+  // РЅРѕРІР°СЏ РµРјРєРѕСЃС‚СЊ Р±СѓС„РµСЂР°
+  cap += new_max_size;
+
+  // РІС‹РґРµР»РёРј РїР°РјСЏС‚СЊ РїРѕРґ Р±СѓС„РµСЂ
+  buf = new(std::nothrow) char[cap];
+  if (!buf)
+    return false;
+
+  // РєРѕРїРёСЂСѓРµРј СЃС‚Р°СЂС‹Рµ РґР°РЅРЅС‹Рµ
+  memcpy(buf, data, size);
+  max_size = cap;
+
+  // РѕСЃРІРѕР±РѕРґРёРј СЃС‚Р°СЂСѓСЋ РїР°РјСЏС‚СЊ Рё Р·Р°РїРѕРјРЅРёРј РЅРѕРІС‹Р№ Р±СѓС„РµСЂ
+  delete data;
+  data = buf;
+
+  return true;
 }
 
 
-void MemoryBuffer::Free()
+void
+MemoryBuffer::
+Free()
 {
-    if (data)
-        delete data;
-    
-    data     = NULL;
-    size     = 0;
-    max_size = 0;
-}
+  if (data)
+    delete data;
 
+  data     = NULL;
+  size     = 0;
+  max_size = 0;
+}

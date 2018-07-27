@@ -1,13 +1,12 @@
 #pragma once
 
-// буфер реаллокации данных
+// Р±СѓС„РµСЂ СЂРµР°Р»Р»РѕРєР°С†РёРё РґР°РЅРЅС‹С…
 struct MemoryBuffer
 {
-    char            *data;
-    size_t           size;
-    size_t           max_size;
+    char *data;
+    std::size_t size;
+    std::size_t max_size;
 
-    bool             Resize(size_t new_len); 
-    void             Free();    
+    bool Resize(std::size_t new_len);
+    void Free();
 };
-

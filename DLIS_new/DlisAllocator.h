@@ -1,42 +1,46 @@
 #pragma once
 
-#include "windows.h"
+#include <cstddef> // std::size_t
 
 class CDLISAllocator
 {
-private:
-    struct PullChunk
-    {
-        char          *data;
-        size_t         len;
-        size_t         max_size;
-        PullChunk     *next;
-    };
+public:
 
-    struct PullBase
-    {
-        size_t         id;
-        PullChunk     *chunks;
-        PullBase      *next;
-    };
-
+  CDLISAllocator();
+  ~CDLISAllocator() = default;
 
 private:
-    size_t            m_pull_id;
-    PullBase         *m_pulls;
+
+  struct PullChunk
+  {
+    char *data;
+    std::size_t len;
+    std::size_t max_size;
+    PullChunk *next;
+  };
+
+  struct PullBase
+  {
+    std::size_t id;
+    PullChunk *chunks;
+    PullBase *next;
+  };
 
 public:
-    CDLISAllocator();
-    ~CDLISAllocator();
 
-    //
-    size_t         PullCreate(size_t  max_size);
-    void           PullFree(UINT pull_id);
-    void           PullRelease(PullBase *pull);
-    void           PullFreeAll();
+  std::size_t   PullCreate(std::size_t max_size);
+  void     PullFree(unsigned int pull_id);
+  void     PullRelease(PullBase *pull);
+  void     PullFreeAll();
 
-    char          *MemoryGet (size_t pull_id, size_t size);   
+  char    *MemoryGet (std::size_t pull_id, std::size_t size);
 
 private:
-    char          *MemoryChunkGet(PullBase *pull, size_t size);
+
+  std::size_t m_pull_id;
+
+  PullBase *m_pulls;
+
+private:
+  char  *MemoryChunkGet(PullBase *pull, std::size_t size);
 };
