@@ -3,16 +3,16 @@
 #include <fstream>
 #include <type_traits>
 #include <string>
+#include <vector>
 
 #include <boost/fusion/include/std_tuple.hpp>
 #include <boost/fusion/include/for_each.hpp>
-
 #include <boost/endian/conversion.hpp>
 
+#include "Descriptors.hpp"
 
 namespace DLIS
 {
-
 
 template<typename T>
 std::enable_if_t<std::is_arithmetic<T>::value>
@@ -25,10 +25,7 @@ convertEndian(T & t)
 template<typename T>
 std::enable_if_t<!std::is_arithmetic<T>::value>
 convertEndian(T & t)
-{
-}
-
-
+{}
 
 template<typename ... T>
 void
@@ -43,17 +40,40 @@ read(std::ifstream & file, std::tuple<T ...> * tuple)
       convertEndian(part);
     };
 
-
   boost::fusion::for_each(*tuple, readTuplePart);
 }
+
 
 template<typename T>
 void
 read(std::ifstream & file, T * t)
 {
-  std::cout << "OMMM" << std::endl;
   file.read(reinterpret_cast<char*>(t), sizeof(T));
   convertEndian(t);
+}
+
+
+std::string
+read(std::ifstream & file, RepresentationCode rc)
+{
+  switch (rc)
+  {
+    case RepresentationCode::IDENT:
+    {
+      uint8_t length;
+      read(file, &length);
+
+      std::string s(length, '\0');
+
+      file.read(&s[0], length);
+
+      return s;
+    }
+    break;
+
+    default:
+      break;
+  }
 }
 
 
@@ -61,24 +81,6 @@ read(std::ifstream & file, T * t)
 //void
 //read(std::ifstream & file, T*...)
 //{
-  ////
+////
 //}
-
-
-
-//std::string
-//read(std::ifstream & file, RepresentationCode rc)
-//{
-  //switch(rc)
-  //{
-  //case RepresentationCode::OBNAME:
-
-    //break;
-  //default:
-    //break;
-  //}
-
-//}
-
-
 }

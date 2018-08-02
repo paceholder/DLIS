@@ -164,15 +164,17 @@ CallbackNotifyFrame(DlisNotifyCallback func, void *params)
 }
 
 
-char *
+std::string
 CDLISParser::
 AttrGetString(DlisAttribute *attr, char *buf, size_t buf_len)
 {
+  std::string result;
+
   if (!attr)
-    return nullptr;
+    return result;
 
   if (!buf || buf_len == 0)
-    return nullptr;
+    return result;
 
   buf[0] = 0;
 
@@ -183,18 +185,19 @@ AttrGetString(DlisAttribute *attr, char *buf, size_t buf_len)
   {
     case RC_ASCII:
     case RC_IDENT:
-      strncpy(buf, attr->value->data, buf_len);
+      result = attr->value->data;
       break;
 
     case RC_ORIGIN:
     case RC_UVARI:
     {
-      char   *src;
-      size_t len_byte;
-      int    val = 0;
       // в первом байте содержится размер, далее данные в байтах
-      len_byte = *(byte *)attr->value->data;
-      src      = attr->value->data + sizeof(byte);
+      std::size_t len_byte = *(unsigned char *)attr->value->data;
+
+      char * src = attr->value->data + sizeof(unsigned char);
+
+      int    val = 0;
+
       memcpy(&val, src, len_byte);
       _itoa_s(val, buf, buf_len, 10);
     }

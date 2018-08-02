@@ -14,7 +14,9 @@ set(CMAKE_DISABLE_SOURCE_CHANGES  ON)
 set(Boost_USE_STATIC_LIBS    OFF)
 set(Boost_USE_MULTITHREADED  ON)
 
-find_package(Boost 1.6 REQUIRED
+find_package(Boost 
+             1.64
+             REQUIRED
              COMPONENTS
              program_options
              filesystem

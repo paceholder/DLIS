@@ -27,7 +27,7 @@ struct  VisibleRecordHeader
 #pragma pack(push, 1)
 struct  SegmentHeader
 {
-  short length;                                // segment length
+  uint16_t length;                                // segment length
   unsigned char attributes;                    // segment attributes byte
   unsigned char type;                          // logical record type byte
 

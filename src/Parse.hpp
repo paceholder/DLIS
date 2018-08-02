@@ -9,7 +9,6 @@
 namespace DLIS
 {
 
-
 void
 parse(std::string filename)
 {
@@ -48,7 +47,6 @@ parse(std::string filename)
 
   // Logical record Segment Header
 
-
   LogicalRecordSegmentHeader segHeader;
   read(file, &segHeader);
 
@@ -66,14 +64,31 @@ parse(std::string filename)
 
     if (a.isSet())
     {
-      uint8_t length;
+      SetDescriptor setDescriptor = componentDescriptor;
 
-      read(file, &length);
+      if (setDescriptor & SetDescriptorBits::TYPE)
+      {
+        auto setType = read(file, RepresentationCode::IDENT);
+        std::cout << "Set Type: " << setType << std::endl;
+      }
 
-      std::cout << "LENGTH: " << (unsigned int)length << std::endl;
+      if (setDescriptor & SetDescriptorBits::NAME)
+      {
+        auto setName = read(file, RepresentationCode::IDENT);
+        std::cout << "Set Name: " << setName << std::endl;
+      }
 
+
+      // read attributes
+      {
+        ComponentDescriptor attr;
+        read(file, &attr);
+
+        auto const & a = DLIS::accessor(attr);
+        std::cout << a << std::endl;
+
+      }
     }
-
   }
   else // Indirectly Formatted
   {
@@ -90,10 +105,5 @@ parse(std::string filename)
 
     //std::cout << ah.fiveSymbols() << std::endl;
   }
-
-
-
 }
-
-
 }

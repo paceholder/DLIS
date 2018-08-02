@@ -112,6 +112,13 @@ enum SetDescriptorBits : uint8_t
   NAME = BOOST_BINARY(0000 1000)
 };
 
+struct Set
+{
+  std::string type;
+  std::string name;
+
+};
+
 //enum class ComponentDescriptorRoleBits : uint8_t
 //{
 //FOURTH_BIT_TYPE = BOOST_BINARY(000 1 0000),
@@ -120,7 +127,7 @@ enum SetDescriptorBits : uint8_t
 
 
 
-enum class RepresentaionCode : uint8_t
+enum class RepresentationCode : uint8_t
 {
   FSHORT = 1,
   FSINGL = 2,
