@@ -2,6 +2,23 @@ File Structure
 ==============
 
 
+    [__________________________DLIS file________________________]
+
+    [Storage Unit Label][Storage Unit Lenght & Version][Records ]
+                                                           |
+                                    _______________________|
+                                   |
+    [____________________________Record_________________________]
+
+    [Visible Record Header][              Segments              ]
+                                              |
+                                    __________|
+                                   |
+    [___________________________Segment_________________________]
+
+    [Logical Record Segment Header][    Objects   ][   Trailer  ]
+
+
 1. Storage Unit Label - 80 bytes
   - `char[4]` - Storage Unit Sequence Number
   - `char[5]` - DLIS Version
@@ -14,20 +31,20 @@ File Structure
   - `uint8_t` - 0xFF
   - `uint8_t` - major version
 
-3. Logical Record Segment
+    1. Logical Record Segment
 
-  1. Logical Record Segment Header
-    - `uint16_t` - Logical Record Segment Length
-    - `uint8_t` - Logical Record Segment Attributes
-    - `uint8_t` - Logical Record Type
+        1. Logical Record Segment Header
+          - `uint16_t` - Logical Record Segment Length
+          - `uint8_t` - Logical Record Segment Attributes
+          - `uint8_t` - Logical Record Type
 
 
-- Explicitly Formatted Logical Record (EFLR)
-  - Set
-    - Object1: [ Attribute1, Attribute2, ... Attribute N ]
-    - Object1: [ Attribute1, Attribute2, ... Attribute N ]
-    - ...
-    - ObjectM: [ Attribute1, Attribute2, ... Attribute N ]
+        2. Explicitly Formatted Logical Record (EFLR)
+          - Set
+            - Object1: [ Attribute1, Attribute2, ... Attribute N ]
+            - Object1: [ Attribute1, Attribute2, ... Attribute N ]
+            - ...
+            - ObjectM: [ Attribute1, Attribute2, ... Attribute N ]
 
 
 Components are used to describe structural properties
