@@ -40,10 +40,17 @@ parse(std::string filename)
 
   // Visible record header
 
-  VisibleRecordHeader lav;
-  read(file, &lav);
+  VisibleRecordHeader vrh;
+  read(file, &vrh);
 
-  std::cout << DLIS::accessor(lav) << std::endl;
+  auto const & headerAccessor = DLIS::accessor(vrh);
+
+  std::cout << headerAccessor << std::endl;
+
+  //lav.lengh();
+
+
+
 
   // Logical record Segment Header
 

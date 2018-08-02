@@ -114,9 +114,26 @@ struct Accessor<VisibleRecordHeader>
   std::ostream &
   operator<<(std::ostream & stream, Accessor<Type> const & a)
   {
-    stream << "Visible Record Header:" << "\n";
-    stream << '\t' << a.length() << "\n";
-    stream << '\t' << a.majorVersion() << "\n";
+    auto leftC = [](std::ostream & stream) -> std::ostream&
+                 {
+                   stream << '\t' << std::left << std::setw(20);
+                   return stream;
+                 };
+
+    auto rightC = [](std::ostream & stream) -> std::ostream&
+                  {
+                    stream << '\t' << std::right << std::setw(10);
+                    return stream;
+                  };
+
+
+    stream << "Visible Record Header:" << '\n';
+
+    leftC(stream) << "Record Length:";
+    rightC(stream) << a.length() << '\n';
+
+    leftC(stream) << "Major Version:";
+    rightC(stream) << a.majorVersion() << '\n';
 
     return stream;
   }
