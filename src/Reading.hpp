@@ -15,7 +15,6 @@ namespace DLIS
 {
 
 
-
 template<typename ... T>
 std::size_t
 size(std::tuple<T ...> & tuple)
@@ -33,7 +32,6 @@ size(std::tuple<T ...> & tuple)
 
   return s;
 }
-
 
 
 template<typename T>
