@@ -14,6 +14,28 @@
 namespace DLIS
 {
 
+
+
+template<typename ... T>
+std::size_t
+size(std::tuple<T ...> & tuple)
+{
+  std::size_t s = 0;
+
+  auto sizeOfTuplePart =
+    [&s](auto & part)
+    {
+      using Type = decltype(part);
+      s += sizeof(Type);
+    };
+
+  boost::fusion::for_each(tuple, sizeOfTuplePart);
+
+  return s;
+}
+
+
+
 template<typename T>
 std::enable_if_t<std::is_arithmetic<T>::value>
 convertEndian(T & t)

@@ -40,15 +40,23 @@ parse(std::string filename)
 
   // Visible record header
 
-  VisibleRecordHeader vrh;
-  read(file, &vrh);
+  for(unsigned int i = 0; i < 100; ++i)
+  {
+    VisibleRecordHeader vrh;
+    read(file, &vrh);
 
-  auto const & headerAccessor = DLIS::accessor(vrh);
+    auto const & headerAccessor = DLIS::accessor(vrh);
 
-  std::cout << headerAccessor << std::endl;
+    if (headerAccessor.length() == 0)
+      return;
 
-  //lav.lengh();
+    std::cout << headerAccessor << std::endl;
 
+
+    //lav.lengh();
+
+    file.ignore(headerAccessor.length() - DLIS::size(vrh) );
+  }
 
 
 
