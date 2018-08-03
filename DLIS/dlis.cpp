@@ -3,34 +3,34 @@
 
 
 
-// Модуль поддержки чтения и записи данных в формате DLIS 1.0
-//	Автор: Александр Газизулин (TGT Oil & Gas Services)
-//	Язык: C++03
-//	Используемые библиотеки: нет
-//	Версия: 0.1.3
-//	Дата: 12.01.2016
+// РњРѕРґСѓР»СЊ РїРѕРґРґРµСЂР¶РєРё С‡С‚РµРЅРёСЏ Рё Р·Р°РїРёСЃРё РґР°РЅРЅС‹С… РІ С„РѕСЂРјР°С‚Рµ DLIS 1.0
+//	РђРІС‚РѕСЂ: РђР»РµРєСЃР°РЅРґСЂ Р“Р°Р·РёР·СѓР»РёРЅ (TGT Oil & Gas Services)
+//	РЇР·С‹Рє: C++03
+//	РСЃРїРѕР»СЊР·СѓРµРјС‹Рµ Р±РёР±Р»РёРѕС‚РµРєРё: РЅРµС‚
+//	Р’РµСЂСЃРёСЏ: 0.1.3
+//	Р”Р°С‚Р°: 12.01.2016
 
 
-/* Изменения относительно версии 0.1.1
+/* РР·РјРµРЅРµРЅРёСЏ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ РІРµСЂСЃРёРё 0.1.1
 
-	   Версия 0.1.2 (16.12.2015)
-   - Шаблонная функция Dlis::LogicalFile::addNewObject с 4 параметрами
-	 (и нешаблонная с 5 параметрами) не заполняла RI-параметр (хотя в случае
-	 ошибки эти функции корректно возвращают NULL).
-   -> исправлено
-   Изменения не затрагивают заголовочный файл.
+	   Р’РµСЂСЃРёСЏ 0.1.2 (16.12.2015)
+   - РЁР°Р±Р»РѕРЅРЅР°СЏ С„СѓРЅРєС†РёСЏ Dlis::LogicalFile::addNewObject СЃ 4 РїР°СЂР°РјРµС‚СЂР°РјРё
+	 (Рё РЅРµС€Р°Р±Р»РѕРЅРЅР°СЏ СЃ 5 РїР°СЂР°РјРµС‚СЂР°РјРё) РЅРµ Р·Р°РїРѕР»РЅСЏР»Р° RI-РїР°СЂР°РјРµС‚СЂ (С…РѕС‚СЏ РІ СЃР»СѓС‡Р°Рµ
+	 РѕС€РёР±РєРё СЌС‚Рё С„СѓРЅРєС†РёРё РєРѕСЂСЂРµРєС‚РЅРѕ РІРѕР·РІСЂР°С‰Р°СЋС‚ NULL).
+   -> РёСЃРїСЂР°РІР»РµРЅРѕ
+   РР·РјРµРЅРµРЅРёСЏ РЅРµ Р·Р°С‚СЂР°РіРёРІР°СЋС‚ Р·Р°РіРѕР»РѕРІРѕС‡РЅС‹Р№ С„Р°Р№Р».
 
-	   Версия 0.1.3 (12.01.2016)
-   - Допускается (по примеру Schlumberger) использование символа процента '%'
-	 в значениях с кодом представления UNITS (в нарушение стандарта DLIS 1.0).
-	 Теперь при наличии символа '%' функции Units::valid() возвращают true,
-	 а фунция ValueInterface::Dispatcher::setValue() для кода представления
-	 UNITS больше не возвращает ошибку RI::WrongValType.
-   Изменения не затрагивают заголовочный файл.
+	   Р’РµСЂСЃРёСЏ 0.1.3 (12.01.2016)
+   - Р”РѕРїСѓСЃРєР°РµС‚СЃСЏ (РїРѕ РїСЂРёРјРµСЂСѓ Schlumberger) РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ СЃРёРјРІРѕР»Р° РїСЂРѕС†РµРЅС‚Р° '%'
+	 РІ Р·РЅР°С‡РµРЅРёСЏС… СЃ РєРѕРґРѕРј РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ UNITS (РІ РЅР°СЂСѓС€РµРЅРёРµ СЃС‚Р°РЅРґР°СЂС‚Р° DLIS 1.0).
+	 РўРµРїРµСЂСЊ РїСЂРё РЅР°Р»РёС‡РёРё СЃРёРјРІРѕР»Р° '%' С„СѓРЅРєС†РёРё Units::valid() РІРѕР·РІСЂР°С‰Р°СЋС‚ true,
+	 Р° С„СѓРЅС†РёСЏ ValueInterface::Dispatcher::setValue() РґР»СЏ РєРѕРґР° РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ
+	 UNITS Р±РѕР»СЊС€Рµ РЅРµ РІРѕР·РІСЂР°С‰Р°РµС‚ РѕС€РёР±РєСѓ RI::WrongValType.
+   РР·РјРµРЅРµРЅРёСЏ РЅРµ Р·Р°С‚СЂР°РіРёРІР°СЋС‚ Р·Р°РіРѕР»РѕРІРѕС‡РЅС‹Р№ С„Р°Р№Р».
 */
 
 
-//	Секция реализации
+//	РЎРµРєС†РёСЏ СЂРµР°Р»РёР·Р°С†РёРё
 
 
 #include <cfloat>
@@ -76,7 +76,7 @@ inline size_t elemCount(const std::vector<T> &v) { return v.size(); }
 //inline bool isVector(const std::vector<T> &v) { return true; }
 
 
-// Поиск в контейнере с элементами любого вида
+// РџРѕРёСЃРє РІ РєРѕРЅС‚РµР№РЅРµСЂРµ СЃ СЌР»РµРјРµРЅС‚Р°РјРё Р»СЋР±РѕРіРѕ РІРёРґР°
 template<class InputIt, class GetKeyPredicate, class KeyType>
 InputIt findByKey(InputIt first, InputIt last, GetKeyPredicate keyOf, const KeyType &key) 
 {
@@ -88,9 +88,9 @@ InputIt findByKey(InputIt first, InputIt last, GetKeyPredicate keyOf, const KeyT
 	return last;
 }
 
-//// Поиск в контейнере с элементами - не указателями
+//// РџРѕРёСЃРє РІ РєРѕРЅС‚РµР№РЅРµСЂРµ СЃ СЌР»РµРјРµРЅС‚Р°РјРё - РЅРµ СѓРєР°Р·Р°С‚РµР»СЏРјРё
 //template<class InputIt, typename Key>
-//// - NB: обойтись без параметра T, хотя он зависит от InputIt, не получается
+//// - NB: РѕР±РѕР№С‚РёСЃСЊ Р±РµР· РїР°СЂР°РјРµС‚СЂР° T, С…РѕС‚СЏ РѕРЅ Р·Р°РІРёСЃРёС‚ РѕС‚ InputIt, РЅРµ РїРѕР»СѓС‡Р°РµС‚СЃСЏ
 //InputIt findByKey(InputIt first, InputIt last,
 //				  Key (InputIt::value_type:: *getkey)() const, const Key &key) {
 //	for (; first != last; ++first) {
@@ -99,9 +99,9 @@ InputIt findByKey(InputIt first, InputIt last, GetKeyPredicate keyOf, const KeyT
 //	return last;
 //}
 
-//// Поиск в контейнере с элементами - указателями типа T*
+//// РџРѕРёСЃРє РІ РєРѕРЅС‚РµР№РЅРµСЂРµ СЃ СЌР»РµРјРµРЅС‚Р°РјРё - СѓРєР°Р·Р°С‚РµР»СЏРјРё С‚РёРїР° T*
 //template<class InputIt, class T, typename Key>
-//// - NB: обойтись без параметра T, хотя он зависит от InputIt, не получается
+//// - NB: РѕР±РѕР№С‚РёСЃСЊ Р±РµР· РїР°СЂР°РјРµС‚СЂР° T, С…РѕС‚СЏ РѕРЅ Р·Р°РІРёСЃРёС‚ РѕС‚ InputIt, РЅРµ РїРѕР»СѓС‡Р°РµС‚СЃСЏ
 //InputIt findPtrByKey(InputIt first, InputIt last,
 ////					 const Key (T:: *getkey)() const, const Key &key) {
 //					 const Key (T:: *&getkey)() const, const Key &key) {
@@ -117,8 +117,8 @@ InputIt findByKey(InputIt first, InputIt last, GetKeyPredicate keyOf, const KeyT
 //	if (first == last) return true;
 //	InputIt predLast = last;
 ////		--predLast;
-//// - NB: Декремент predLast является оптимизацией; отказываемся от нее, пока
-////		 итератор ObjectConstIt не поддерживает оператор декремента
+//// - NB: Р”РµРєСЂРµРјРµРЅС‚ predLast СЏРІР»СЏРµС‚СЃСЏ РѕРїС‚РёРјРёР·Р°С†РёРµР№; РѕС‚РєР°Р·С‹РІР°РµРјСЃСЏ РѕС‚ РЅРµРµ, РїРѕРєР°
+////		 РёС‚РµСЂР°С‚РѕСЂ ObjectConstIt РЅРµ РїРѕРґРґРµСЂР¶РёРІР°РµС‚ РѕРїРµСЂР°С‚РѕСЂ РґРµРєСЂРµРјРµРЅС‚Р°
 //	for (; first != predLast; ++first) {
 //		int cnt = 0;
 //		for (InputIt cur = first; cur != last; ++cur) {
@@ -135,15 +135,15 @@ bool allUniqueKeys(InputIt first, InputIt last, GetKeyPredicate keyOf)
 //	InputIt predLast = last;
 //	--predLast;
 //	for (; first != predLast; ++first) {
-/* - NB: Использование predLast является оптимизацией; отказываемся от нее, пока
-		 итератор ObjectConstIt не поддерживает оператор декремента (а также
-		 чтобы не ограничивать применение шаблона forward-итераторами) */
+/* - NB: РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ predLast СЏРІР»СЏРµС‚СЃСЏ РѕРїС‚РёРјРёР·Р°С†РёРµР№; РѕС‚РєР°Р·С‹РІР°РµРјСЃСЏ РѕС‚ РЅРµРµ, РїРѕРєР°
+		 РёС‚РµСЂР°С‚РѕСЂ ObjectConstIt РЅРµ РїРѕРґРґРµСЂР¶РёРІР°РµС‚ РѕРїРµСЂР°С‚РѕСЂ РґРµРєСЂРµРјРµРЅС‚Р° (Р° С‚Р°РєР¶Рµ
+		 С‡С‚РѕР±С‹ РЅРµ РѕРіСЂР°РЅРёС‡РёРІР°С‚СЊ РїСЂРёРјРµРЅРµРЅРёРµ С€Р°Р±Р»РѕРЅР° forward-РёС‚РµСЂР°С‚РѕСЂР°РјРё) */
 	for (; first != last; ++first) 
     {
 		InputIt next = first;
 		if (findByKey(++next, last, keyOf, keyOf(*first)) != last) 
             return false;
-		// - NB: Ситуация равенства входных итераторов в findByKey предусмотрена
+		// - NB: РЎРёС‚СѓР°С†РёСЏ СЂР°РІРµРЅСЃС‚РІР° РІС…РѕРґРЅС‹С… РёС‚РµСЂР°С‚РѕСЂРѕРІ РІ findByKey РїСЂРµРґСѓСЃРјРѕС‚СЂРµРЅР°
 	}
 	return true;
 }
@@ -154,13 +154,13 @@ bool allUnique(InputIt first, InputIt last) {
 //	InputIt predLast = last;
 //	--predLast;
 //	for (; first != predLast; ++first) {
-/* - NB: Использование predLast является оптимизацией; отказываемся от нее, пока
-		 итератор ObjectConstIt не поддерживает оператор декремента (а также
-		 чтобы не ограничивать применение шаблона forward-итераторами) */
+/* - NB: РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ predLast СЏРІР»СЏРµС‚СЃСЏ РѕРїС‚РёРјРёР·Р°С†РёРµР№; РѕС‚РєР°Р·С‹РІР°РµРјСЃСЏ РѕС‚ РЅРµРµ, РїРѕРєР°
+		 РёС‚РµСЂР°С‚РѕСЂ ObjectConstIt РЅРµ РїРѕРґРґРµСЂР¶РёРІР°РµС‚ РѕРїРµСЂР°С‚РѕСЂ РґРµРєСЂРµРјРµРЅС‚Р° (Р° С‚Р°РєР¶Рµ
+		 С‡С‚РѕР±С‹ РЅРµ РѕРіСЂР°РЅРёС‡РёРІР°С‚СЊ РїСЂРёРјРµРЅРµРЅРёРµ С€Р°Р±Р»РѕРЅР° forward-РёС‚РµСЂР°С‚РѕСЂР°РјРё) */
 	for (; first != last; ++first) {
 		InputIt next = first;
 		if (find(++next, last, *first) != last) return false;
-		// - NB: Ситуация равенства входных итераторов в findByKey предусмотрена
+		// - NB: РЎРёС‚СѓР°С†РёСЏ СЂР°РІРµРЅСЃС‚РІР° РІС…РѕРґРЅС‹С… РёС‚РµСЂР°С‚РѕСЂРѕРІ РІ findByKey РїСЂРµРґСѓСЃРјРѕС‚СЂРµРЅР°
 	}
 	return true;
 }
@@ -169,14 +169,14 @@ bool allUnique(InputIt first, InputIt last) {
 //		{ delete *p; }
 //	v.clear();
 //}
-//// - NB: Протестировано в проекте Contnrs
+//// - NB: РџСЂРѕС‚РµСЃС‚РёСЂРѕРІР°РЅРѕ РІ РїСЂРѕРµРєС‚Рµ Contnrs
 //template <class T>
 //void erasePtrVec(std::vector<T *> &v, size_t first, size_t last) {
 //	if (first >= last) return;
 //	for (size_t n = first; n < last; ++n) delete v[n];
 //	v.erase(v.begin() + first, v.begin() + last);
 //}
-// - Заменены шаблонами более общего вида XXXPtrContainer
+// - Р—Р°РјРµРЅРµРЅС‹ С€Р°Р±Р»РѕРЅР°РјРё Р±РѕР»РµРµ РѕР±С‰РµРіРѕ РІРёРґР° XXXPtrContainer
 
 template <class Container>
 void erasePtrContainer(Container &c,
@@ -206,16 +206,16 @@ void clearPtrContainer(Container &c,
 	erasePtrContainer(c, deletePtr, c.begin(), c.end());
 }
 
-// - NB: Удобно было бы объединить пары шаблонов XXXPtrContainer, используя
-//		 значение по умолчанию, однако это, видимо, трудно сделать одновременно
-//		 просто и надежно (так, нельзя использовать значение NULL,
-//		 а, например, существование и результат конструктора итератора
-//		 по умолчанию в стандарте C++ не определен)
-// - NB: Возможно, правильно было бы как-то указать в аргументах шаблонов
-//		  XXXPtrContainer, что они применимы только к контейнерам указателей
+// - NB: РЈРґРѕР±РЅРѕ Р±С‹Р»Рѕ Р±С‹ РѕР±СЉРµРґРёРЅРёС‚СЊ РїР°СЂС‹ С€Р°Р±Р»РѕРЅРѕРІ XXXPtrContainer, РёСЃРїРѕР»СЊР·СѓСЏ
+//		 Р·РЅР°С‡РµРЅРёРµ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ, РѕРґРЅР°РєРѕ СЌС‚Рѕ, РІРёРґРёРјРѕ, С‚СЂСѓРґРЅРѕ СЃРґРµР»Р°С‚СЊ РѕРґРЅРѕРІСЂРµРјРµРЅРЅРѕ
+//		 РїСЂРѕСЃС‚Рѕ Рё РЅР°РґРµР¶РЅРѕ (С‚Р°Рє, РЅРµР»СЊР·СЏ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ Р·РЅР°С‡РµРЅРёРµ NULL,
+//		 Р°, РЅР°РїСЂРёРјРµСЂ, СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёРµ Рё СЂРµР·СѓР»СЊС‚Р°С‚ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР° РёС‚РµСЂР°С‚РѕСЂР°
+//		 РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ РІ СЃС‚Р°РЅРґР°СЂС‚Рµ C++ РЅРµ РѕРїСЂРµРґРµР»РµРЅ)
+// - NB: Р’РѕР·РјРѕР¶РЅРѕ, РїСЂР°РІРёР»СЊРЅРѕ Р±С‹Р»Рѕ Р±С‹ РєР°Рє-С‚Рѕ СѓРєР°Р·Р°С‚СЊ РІ Р°СЂРіСѓРјРµРЅС‚Р°С… С€Р°Р±Р»РѕРЅРѕРІ
+//		  XXXPtrContainer, С‡С‚Рѕ РѕРЅРё РїСЂРёРјРµРЅРёРјС‹ С‚РѕР»СЊРєРѕ Рє РєРѕРЅС‚РµР№РЅРµСЂР°Рј СѓРєР°Р·Р°С‚РµР»РµР№
 
 
-void reverseBytes(byte *pBytes, uint cnt) {	// Число байт не больше maxCnt!
+void reverseBytes(byte *pBytes, uint cnt) {	// Р§РёСЃР»Рѕ Р±Р°Р№С‚ РЅРµ Р±РѕР»СЊС€Рµ maxCnt!
 
 	const uint maxCnt = 8;
 	if (cnt > maxCnt) 
@@ -239,14 +239,14 @@ void reverseBytes(byte *pBytes, uint cnt) {	// Число байт не больше maxCnt!
 template <typename T> void reverseBytes(T &v) {
 	reverseBytes((byte *)&v, sizeof v);
 }
-// - только для переменных размером не более 8 байт!
+// - С‚РѕР»СЊРєРѕ РґР»СЏ РїРµСЂРµРјРµРЅРЅС‹С… СЂР°Р·РјРµСЂРѕРј РЅРµ Р±РѕР»РµРµ 8 Р±Р°Р№С‚!
 
 void d_test_reverseBytes_on_const() {
 	int i;
 	const int ic = 4;
 	reverseBytes(i);
 	reverseBytes(ic);
-// - NB: нет ошибки (даже предупреждения) компилятора, хотя ic - константа
+// - NB: РЅРµС‚ РѕС€РёР±РєРё (РґР°Р¶Рµ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёСЏ) РєРѕРјРїРёР»СЏС‚РѕСЂР°, С…РѕС‚СЏ ic - РєРѕРЅСЃС‚Р°РЅС‚Р°
 // ******************************************************
 // ?????????????????????????????!!!!!!!!!!!!!!!!!!!!!!!!!
 // ******************************************************
@@ -292,10 +292,10 @@ void copy(std::ostream &os, std::istream &is, std::streamsize count) {
 		bytesLeft -= n;
 	}
 }
-// - NB: За основу взят алгоритм из библиотеки Delphi7 VCL (TStream.CopyFrom)
+// - NB: Р—Р° РѕСЃРЅРѕРІСѓ РІР·СЏС‚ Р°Р»РіРѕСЂРёС‚Рј РёР· Р±РёР±Р»РёРѕС‚РµРєРё Delphi7 VCL (TStream.CopyFrom)
 
 
-// Функции обработки строк
+// Р¤СѓРЅРєС†РёРё РѕР±СЂР°Р±РѕС‚РєРё СЃС‚СЂРѕРє
 
 bool toChars(char *p, size_t charCnt, const string &s, bool allowTruncate = false) 
 {
@@ -307,7 +307,7 @@ bool toChars(char *p, size_t charCnt, const string &s, bool allowTruncate = fals
 	memcpy(p, s.data(), min(sLen, charCnt));
 	if (sLen < charCnt) 
         memset(p + sLen, ' ', charCnt - sLen);
-	// - дополняем при необходимости пробелами
+	// - РґРѕРїРѕР»РЅСЏРµРј РїСЂРё РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё РїСЂРѕР±РµР»Р°РјРё
 	return true;
 }
 
@@ -315,12 +315,12 @@ bool strToInt(const string &s, long &num/*, bool leftJustified = false*/) {
 	std::istringstream is(s);
 	is >> num;
 	return !is.fail();
-/* ToDo: учесть leftJustified! */
+/* ToDo: СѓС‡РµСЃС‚СЊ leftJustified! */
 }
 bool charsToInt(const char *p, unsigned charCnt, long &num
 			  /*, leftJustified = false*/) {
 	return strToInt(string(p, charCnt), num);
-/* ToDo: учесть leftJustified! */
+/* ToDo: СѓС‡РµСЃС‚СЊ leftJustified! */
 }
 
 string intToStr(long num, unsigned minWidth = 0/*, bool leftJustified = false*/) {
@@ -328,20 +328,20 @@ string intToStr(long num, unsigned minWidth = 0/*, bool leftJustified = false*/)
 	if (minWidth != 0) os << std::setw(minWidth);
 	os << num;
 	return os.str();
-/* ToDo: учесть leftJustified! */
+/* ToDo: СѓС‡РµСЃС‚СЊ leftJustified! */
 }
-// - NB: Эксперименты показывают, что при нехватке места (width) выводимое
-//		 значение не усекается и длина выводимой строки становится больше width
-//		 (однако задавать значение width всегда полезно, т.к. оно определяет
-//		 МИНИМАЛЬНУЮ ширину поля)
+// - NB: Р­РєСЃРїРµСЂРёРјРµРЅС‚С‹ РїРѕРєР°Р·С‹РІР°СЋС‚, С‡С‚Рѕ РїСЂРё РЅРµС…РІР°С‚РєРµ РјРµСЃС‚Р° (width) РІС‹РІРѕРґРёРјРѕРµ
+//		 Р·РЅР°С‡РµРЅРёРµ РЅРµ СѓСЃРµРєР°РµС‚СЃСЏ Рё РґР»РёРЅР° РІС‹РІРѕРґРёРјРѕР№ СЃС‚СЂРѕРєРё СЃС‚Р°РЅРѕРІРёС‚СЃСЏ Р±РѕР»СЊС€Рµ width
+//		 (РѕРґРЅР°РєРѕ Р·Р°РґР°РІР°С‚СЊ Р·РЅР°С‡РµРЅРёРµ width РІСЃРµРіРґР° РїРѕР»РµР·РЅРѕ, С‚.Рє. РѕРЅРѕ РѕРїСЂРµРґРµР»СЏРµС‚
+//		 РњРРќРРњРђР›Р¬РќРЈР® С€РёСЂРёРЅСѓ РїРѕР»СЏ)
 bool intToChars(char *p, unsigned charCnt, long num
 				/*, leftJustified = false*/) {
 	return toChars(p, charCnt, intToStr(num, charCnt));
-	/* ToDo: учесть leftJustified! */
+	/* ToDo: СѓС‡РµСЃС‚СЊ leftJustified! */
 }
-// - NB: Возвращает false, если для представления числа не хватило места
+// - NB: Р’РѕР·РІСЂР°С‰Р°РµС‚ false, РµСЃР»Рё РґР»СЏ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ С‡РёСЃР»Р° РЅРµ С…РІР°С‚РёР»Рѕ РјРµСЃС‚Р°
 
-// Функции, отбрасывающие пробелы в конце строки
+// Р¤СѓРЅРєС†РёРё, РѕС‚Р±СЂР°СЃС‹РІР°СЋС‰РёРµ РїСЂРѕР±РµР»С‹ РІ РєРѕРЅС†Рµ СЃС‚СЂРѕРєРё
 void eraseTrailingSpaces(string &s) {
 	std::size_t last = s.find_last_not_of(" ");
 	if (last != string::npos) s.erase(last + 1);
@@ -356,10 +356,10 @@ string getEraseTrailingSpaces(const string &s) {
 
 bool operator<(const RI &ri1, const RI &ri2) {
 	if (ri1.m_rc == ri2.m_rc) return ri1.m_rcc > ri2.m_rcc;
-/* - NB: Для удобства, в отличие от "базовых" кодов m_rc, уточняющие коды
-		 m_rcc с бОльшими значениями считаются менее серьезными (такой порядок
-		 выглядит более естественным, т.к. проверки на самые серьезные ошибки
-		 обычно выполняются в первую очередь) */
+/* - NB: Р”Р»СЏ СѓРґРѕР±СЃС‚РІР°, РІ РѕС‚Р»РёС‡РёРµ РѕС‚ "Р±Р°Р·РѕРІС‹С…" РєРѕРґРѕРІ m_rc, СѓС‚РѕС‡РЅСЏСЋС‰РёРµ РєРѕРґС‹
+		 m_rcc СЃ Р±РћР»СЊС€РёРјРё Р·РЅР°С‡РµРЅРёСЏРјРё СЃС‡РёС‚Р°СЋС‚СЃСЏ РјРµРЅРµРµ СЃРµСЂСЊРµР·РЅС‹РјРё (С‚Р°РєРѕР№ РїРѕСЂСЏРґРѕРє
+		 РІС‹РіР»СЏРґРёС‚ Р±РѕР»РµРµ РµСЃС‚РµСЃС‚РІРµРЅРЅС‹Рј, С‚.Рє. РїСЂРѕРІРµСЂРєРё РЅР° СЃР°РјС‹Рµ СЃРµСЂСЊРµР·РЅС‹Рµ РѕС€РёР±РєРё
+		 РѕР±С‹С‡РЅРѕ РІС‹РїРѕР»РЅСЏСЋС‚СЃСЏ РІ РїРµСЂРІСѓСЋ РѕС‡РµСЂРµРґСЊ) */
 	else return ri1.m_rc < ri2.m_rc;
 }
 
@@ -375,7 +375,7 @@ RI &RI::upTo(const RI &ri) {
 }
 
 class ErrorLogImpl : public ErrorLog {
-// - NB: базовый класс RI определяет основную ошибку
+// - NB: Р±Р°Р·РѕРІС‹Р№ РєР»Р°СЃСЃ RI РѕРїСЂРµРґРµР»СЏРµС‚ РѕСЃРЅРѕРІРЅСѓСЋ РѕС€РёР±РєСѓ
 public:
 	typedef std::map<RI::RetCode, size_t> StatTable;
 	typedef StatTable::value_type StatPair;
@@ -406,30 +406,30 @@ void ErrorLogImpl::add(const RI &ri) {
 	if (ri.ok()) return;
 	std::pair<StatTable::iterator, bool> insertInfo =
 			mm_stat.insert(std::make_pair(ri.retCode(), 1));
-	// - если кода еще нет в списке, он добавляется с частотой 1
+	// - РµСЃР»Рё РєРѕРґР° РµС‰Рµ РЅРµС‚ РІ СЃРїРёСЃРєРµ, РѕРЅ РґРѕР±Р°РІР»СЏРµС‚СЃСЏ СЃ С‡Р°СЃС‚РѕС‚РѕР№ 1
 	if (!insertInfo.second) {
-	// - если код уже в списке (вставка не удалась)
-		StatPair &pair = *insertInfo.first;	// Найденная пара с кодом
-		++pair.second;	// Инкрементируем частоту найденного кода
+	// - РµСЃР»Рё РєРѕРґ СѓР¶Рµ РІ СЃРїРёСЃРєРµ (РІСЃС‚Р°РІРєР° РЅРµ СѓРґР°Р»Р°СЃСЊ)
+		StatPair &pair = *insertInfo.first;	// РќР°Р№РґРµРЅРЅР°СЏ РїР°СЂР° СЃ РєРѕРґРѕРј
+		++pair.second;	// РРЅРєСЂРµРјРµРЅС‚РёСЂСѓРµРј С‡Р°СЃС‚РѕС‚Сѓ РЅР°Р№РґРµРЅРЅРѕРіРѕ РєРѕРґР°
 	}
 	if (ri.critical()) dynamic_cast<RI &>(*this) = ri;
-	/* - NB: новая критическая ошибка заменяет старую (чтобы в окончательном
-			 сообщении в качестве основной фигурировала последняя, желательно
-			 наиболее общая ошибка)	*/
+	/* - NB: РЅРѕРІР°СЏ РєСЂРёС‚РёС‡РµСЃРєР°СЏ РѕС€РёР±РєР° Р·Р°РјРµРЅСЏРµС‚ СЃС‚Р°СЂСѓСЋ (С‡С‚РѕР±С‹ РІ РѕРєРѕРЅС‡Р°С‚РµР»СЊРЅРѕРј
+			 СЃРѕРѕР±С‰РµРЅРёРё РІ РєР°С‡РµСЃС‚РІРµ РѕСЃРЅРѕРІРЅРѕР№ С„РёРіСѓСЂРёСЂРѕРІР°Р»Р° РїРѕСЃР»РµРґРЅСЏСЏ, Р¶РµР»Р°С‚РµР»СЊРЅРѕ
+			 РЅР°РёР±РѕР»РµРµ РѕР±С‰Р°СЏ РѕС€РёР±РєР°)	*/
 	else upTo(ri);
 }
 
 
 const std::ios_base::openmode modeStreamBinInOut =
 		std::ios_base::binary | std::ios_base::in | std::ios_base::out;
-// - NB: Указание атрибутов in и out при открытии binary-потоков необходимо
+// - NB: РЈРєР°Р·Р°РЅРёРµ Р°С‚СЂРёР±СѓС‚РѕРІ in Рё out РїСЂРё РѕС‚РєСЂС‹С‚РёРё binary-РїРѕС‚РѕРєРѕРІ РЅРµРѕР±С…РѕРґРёРјРѕ
 
 class Input {
 public:
 	Input() : m_ris(NULL),	m_lastValidPos(-1) {}
 	~Input() { close(); }
-// - NB: В текущей версии (с полем m_ifs) можно было оставить деструктор
-//		 по умолчанию, т.к. файл закрылся бы автоматически
+// - NB: Р’ С‚РµРєСѓС‰РµР№ РІРµСЂСЃРёРё (СЃ РїРѕР»РµРј m_ifs) РјРѕР¶РЅРѕ Р±С‹Р»Рѕ РѕСЃС‚Р°РІРёС‚СЊ РґРµСЃС‚СЂСѓРєС‚РѕСЂ
+//		 РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ, С‚.Рє. С„Р°Р№Р» Р·Р°РєСЂС‹Р»СЃСЏ Р±С‹ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё
 	Input(std::istream *stream, ErrorLogImpl *err = NULL,
 		  std::streamsize byteCount = -1);
 	Input(const string &fileName, ErrorLogImpl *err);
@@ -447,13 +447,13 @@ public:
             m_rErr->add(RI(retCode, rcCase)); 
     }
 
-// - NB: код функций addIssue надо бы объединить
+// - NB: РєРѕРґ С„СѓРЅРєС†РёР№ addIssue РЅР°РґРѕ Р±С‹ РѕР±СЉРµРґРёРЅРёС‚СЊ
 	ErrorLogImpl *pErrorLog() { return m_rErr; }
 	std::streampos getPos() { return m_ris->tellg(); }
 	std::streampos lastValidPos() { return m_lastValidPos; }
 	bool atEnd();
-	// - NB: Функции getPos, atEnd не имеют атрибут const,
-	//		 т.к. его не имеет функция m_ris->tellg
+	// - NB: Р¤СѓРЅРєС†РёРё getPos, atEnd РЅРµ РёРјРµСЋС‚ Р°С‚СЂРёР±СѓС‚ const,
+	//		 С‚.Рє. РµРіРѕ РЅРµ РёРјРµРµС‚ С„СѓРЅРєС†РёСЏ m_ris->tellg
 	void setPos(std::streampos pos);
 	void offset(std::streamoff off);
 
@@ -468,10 +468,10 @@ private:
 		if (p != std::streampos(-1)) m_lastValidPos = p;
 	}
 	std::ifstream m_ifs;
-	// - используется (через ссылку m_ris) только при чтении из файла
-/* - NB: Теперь, когда поток управляется не через ссылку, а через указатель,
-		 чтение из файла можно реализовать без специального поля m_ifs
-		 (см. класс Output) */
+	// - РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ (С‡РµСЂРµР· СЃСЃС‹Р»РєСѓ m_ris) С‚РѕР»СЊРєРѕ РїСЂРё С‡С‚РµРЅРёРё РёР· С„Р°Р№Р»Р°
+/* - NB: РўРµРїРµСЂСЊ, РєРѕРіРґР° РїРѕС‚РѕРє СѓРїСЂР°РІР»СЏРµС‚СЃСЏ РЅРµ С‡РµСЂРµР· СЃСЃС‹Р»РєСѓ, Р° С‡РµСЂРµР· СѓРєР°Р·Р°С‚РµР»СЊ,
+		 С‡С‚РµРЅРёРµ РёР· С„Р°Р№Р»Р° РјРѕР¶РЅРѕ СЂРµР°Р»РёР·РѕРІР°С‚СЊ Р±РµР· СЃРїРµС†РёР°Р»СЊРЅРѕРіРѕ РїРѕР»СЏ m_ifs
+		 (СЃРј. РєР»Р°СЃСЃ Output) */
 	std::istream *m_ris;
 		#ifndef NDEBUG
 		std::streampos d_curPos;
@@ -479,7 +479,7 @@ private:
 		#endif
 	std::streampos m_lastValidPos;
 	std::streampos m_endPos;
-	// - Позиция конца данных или -1, если она определяется концом файла/потока
+	// - РџРѕР·РёС†РёСЏ РєРѕРЅС†Р° РґР°РЅРЅС‹С… РёР»Рё -1, РµСЃР»Рё РѕРЅР° РѕРїСЂРµРґРµР»СЏРµС‚СЃСЏ РєРѕРЅС†РѕРј С„Р°Р№Р»Р°/РїРѕС‚РѕРєР°
 	ErrorLogImpl *m_rErr;
 }; // class Input
 
@@ -589,10 +589,10 @@ void Input::close()
 
 	if (pifs) 
     {
-        // - NB: В текущей версии (с полем m_ifs) здесь pifs=&m_ifs
+        // - NB: Р’ С‚РµРєСѓС‰РµР№ РІРµСЂСЃРёРё (СЃ РїРѕР»РµРј m_ifs) Р·РґРµСЃСЊ pifs=&m_ifs
 		pifs->close();
-        //		delete pifs;	// - также закрывает файл
-        // - NB: В текущей версии нельзя выполнять 'delete pifs' (см. выше)
+        //		delete pifs;	// - С‚Р°РєР¶Рµ Р·Р°РєСЂС‹РІР°РµС‚ С„Р°Р№Р»
+        // - NB: Р’ С‚РµРєСѓС‰РµР№ РІРµСЂСЃРёРё РЅРµР»СЊР·СЏ РІС‹РїРѕР»РЅСЏС‚СЊ 'delete pifs' (СЃРј. РІС‹С€Рµ)
 	}
 
 	m_ris = NULL;
@@ -614,7 +614,7 @@ void Input::setPos(std::streampos pos) {
 		#endif
 	storeLastValidPos();
 }
-// - NB: а если pos<0?
+// - NB: Р° РµСЃР»Рё pos<0?
 
 void Input::read(void *pBuf, std::streamsize cnt) 
 {
@@ -624,8 +624,8 @@ void Input::read(void *pBuf, std::streamsize cnt)
 	if (m_ris->gcount() != cnt) 
         throw RI(RI::ReadErr, 2);
 
-	// - проверка "на всякий случай"
-	//	 (после вызова check такого не должно быть)
+	// - РїСЂРѕРІРµСЂРєР° "РЅР° РІСЃСЏРєРёР№ СЃР»СѓС‡Р°Р№"
+	//	 (РїРѕСЃР»Рµ РІС‹Р·РѕРІР° check С‚Р°РєРѕРіРѕ РЅРµ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ)
 #ifndef NDEBUG
 	d_curPos = m_ris->tellg();
 #endif
@@ -641,8 +641,8 @@ void Input::read(std::ostream &os, std::streamsize cnt)
 	if (m_ris->gcount() != cnt)
 		throw RI(RI::ReadErr, 3);
 
-	// - проверка "на всякий случай"
-	//	 (после вызова check такого не должно быть)
+	// - РїСЂРѕРІРµСЂРєР° "РЅР° РІСЃСЏРєРёР№ СЃР»СѓС‡Р°Р№"
+	//	 (РїРѕСЃР»Рµ РІС‹Р·РѕРІР° check С‚Р°РєРѕРіРѕ РЅРµ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ)
 #ifndef NDEBUG
 	d_curPos = m_ris->tellg();
 #endif
@@ -660,10 +660,10 @@ template <class T> void Input::read(T &v) {
 void Input::offset(std::streamoff off) 
 {
 	m_ris->seekg(off, m_ris->cur);
-	// - NB: Вызов check() здесь не имеет смысла, т.к. оказалось,
-	//	 что при  вызове std::istream::seekg() никакие флаги ошибок
-	//	 не устанавливаются, а функция tellg после этого просто возвращает
-	//	 запрошенное значение позиции (даже если она за пределами потока)
+	// - NB: Р’С‹Р·РѕРІ check() Р·РґРµСЃСЊ РЅРµ РёРјРµРµС‚ СЃРјС‹СЃР»Р°, С‚.Рє. РѕРєР°Р·Р°Р»РѕСЃСЊ,
+	//	 С‡С‚Рѕ РїСЂРё  РІС‹Р·РѕРІРµ std::istream::seekg() РЅРёРєР°РєРёРµ С„Р»Р°РіРё РѕС€РёР±РѕРє
+	//	 РЅРµ СѓСЃС‚Р°РЅР°РІР»РёРІР°СЋС‚СЃСЏ, Р° С„СѓРЅРєС†РёСЏ tellg РїРѕСЃР»Рµ СЌС‚РѕРіРѕ РїСЂРѕСЃС‚Рѕ РІРѕР·РІСЂР°С‰Р°РµС‚
+	//	 Р·Р°РїСЂРѕС€РµРЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ РїРѕР·РёС†РёРё (РґР°Р¶Рµ РµСЃР»Рё РѕРЅР° Р·Р° РїСЂРµРґРµР»Р°РјРё РїРѕС‚РѕРєР°)
 		#ifndef NDEBUG
 		d_curPos = m_ris->tellg();
 		#endif
@@ -677,9 +677,9 @@ void Input::check() {
 		std::streampos pos;
 		if (fail || (pos = m_ris->tellg()) == (std::streampos)(-1))
 			throw RI(RI::ReadErr, 4);
-		// - здесь учитывается также (маловероятный) случай, когда основная
-		//	 операция не установила флаг failbit, а следующий за ней вызов
-		//	 tellg установил его
+		// - Р·РґРµСЃСЊ СѓС‡РёС‚С‹РІР°РµС‚СЃСЏ С‚Р°РєР¶Рµ (РјР°Р»РѕРІРµСЂРѕСЏС‚РЅС‹Р№) СЃР»СѓС‡Р°Р№, РєРѕРіРґР° РѕСЃРЅРѕРІРЅР°СЏ
+		//	 РѕРїРµСЂР°С†РёСЏ РЅРµ СѓСЃС‚Р°РЅРѕРІРёР»Р° С„Р»Р°Рі failbit, Р° СЃР»РµРґСѓСЋС‰РёР№ Р·Р° РЅРµР№ РІС‹Р·РѕРІ
+		//	 tellg СѓСЃС‚Р°РЅРѕРІРёР» РµРіРѕ
 		eof = m_endPos != (std::streampos)(-1) && pos > m_endPos;
 	}
 	if (eof)
@@ -724,8 +724,8 @@ void Output::open(const string &fileName) {
 		d_curPos = m_ros->tellp();
 		#endif
 }
-// - NB: Если все ошибки при выполнении этой функции генерируют исключения,
-//		 то возвращаемое RI-значение избыточно
+// - NB: Р•СЃР»Рё РІСЃРµ РѕС€РёР±РєРё РїСЂРё РІС‹РїРѕР»РЅРµРЅРёРё СЌС‚РѕР№ С„СѓРЅРєС†РёРё РіРµРЅРµСЂРёСЂСѓСЋС‚ РёСЃРєР»СЋС‡РµРЅРёСЏ,
+//		 С‚Рѕ РІРѕР·РІСЂР°С‰Р°РµРјРѕРµ RI-Р·РЅР°С‡РµРЅРёРµ РёР·Р±С‹С‚РѕС‡РЅРѕ
 
 void Output::close() {
 	if (!m_ros) return;
@@ -733,9 +733,9 @@ void Output::close() {
 	if (pofs) {
 		pofs->close();
 		check();
-// - чтобы ошибка при закрытии файла не произошла в деструкторе ниже
-//	 (а это действительно важно?)
-		delete pofs;	// - NB: деструктор здесь закрывает файл
+// - С‡С‚РѕР±С‹ РѕС€РёР±РєР° РїСЂРё Р·Р°РєСЂС‹С‚РёРё С„Р°Р№Р»Р° РЅРµ РїСЂРѕРёР·РѕС€Р»Р° РІ РґРµСЃС‚СЂСѓРєС‚РѕСЂРµ РЅРёР¶Рµ
+//	 (Р° СЌС‚Рѕ РґРµР№СЃС‚РІРёС‚РµР»СЊРЅРѕ РІР°Р¶РЅРѕ?)
+		delete pofs;	// - NB: РґРµСЃС‚СЂСѓРєС‚РѕСЂ Р·РґРµСЃСЊ Р·Р°РєСЂС‹РІР°РµС‚ С„Р°Р№Р»
 	}
 	m_ros = NULL;
 }
@@ -788,7 +788,7 @@ const string
 
 //template <typename Num>
 //bool inRange(Num val, Num lo, Num hi) {	return val >= lo && val <= hi; }
-// - NB: В таком виде шаблон пока не нужен (т.к. типы val и lo/hi обычно разные)
+// - NB: Р’ С‚Р°РєРѕРј РІРёРґРµ С€Р°Р±Р»РѕРЅ РїРѕРєР° РЅРµ РЅСѓР¶РµРЅ (С‚.Рє. С‚РёРїС‹ val Рё lo/hi РѕР±С‹С‡РЅРѕ СЂР°Р·РЅС‹Рµ)
 bool inRange(int val, int lo, int hi) {	return val >= lo && val <= hi; }
 
 bool DateTime::valid() const {
@@ -808,8 +808,8 @@ bool DateTime::valid() const {
 	static const string charset =
 //			loCaseAlpha + upCaseAlpha + digits + " -./()";
 				loCaseAlpha + upCaseAlpha + digits + " -./()" + '%';
-	// - По примеру Schlumberger допускаем использование символа процента '%'
-	//		(вопреки стандарту DLIS 1.0)
+	// - РџРѕ РїСЂРёРјРµСЂСѓ Schlumberger РґРѕРїСѓСЃРєР°РµРј РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ СЃРёРјРІРѕР»Р° РїСЂРѕС†РµРЅС‚Р° '%'
+	//		(РІРѕРїСЂРµРєРё СЃС‚Р°РЅРґР°СЂС‚Сѓ DLIS 1.0)
 	return s.length() < 256 && s.find_first_not_of(charset) == string::npos;
 }
 
@@ -848,7 +848,7 @@ bool valid(Code code) {	return code > Undefined && code < Count; }
 //template<> Code getProperCode<double>() { return FDOUBL; }
 //// ...
 
-// Точное соответствие между типами C++ и кодами Representation::Code
+// РўРѕС‡РЅРѕРµ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ РјРµР¶РґСѓ С‚РёРїР°РјРё C++ Рё РєРѕРґР°РјРё Representation::Code
 template <typename T>
 inline Code typeCode() { return Undefined; }
 template<> inline Code typeCode<byte>()		  { return USHORT; }
@@ -861,7 +861,7 @@ template<> inline Code typeCode<ieeeDouble>() { return FDOUBL; }
 template <typename T>
 inline Code typeCode(const T &) { return typeCode<T>(); }
 
-// Оптимальное соответствие между типами C++ и кодами Representation::Code
+// РћРїС‚РёРјР°Р»СЊРЅРѕРµ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ РјРµР¶РґСѓ С‚РёРїР°РјРё C++ Рё РєРѕРґР°РјРё Representation::Code
 template <typename T>
 inline Code typeBestCode() { return typeCode<T>(); }
 template<> inline Code typeBestCode<string>()	  { return ASCII;  }
@@ -897,7 +897,7 @@ unsigned getSize(Code code) {
 			case FDOUB2:
 				sz = 24; break;
 			default:
-				sz = -1;  // - переменная длина
+				sz = -1;  // - РїРµСЂРµРјРµРЅРЅР°СЏ РґР»РёРЅР°
 			}
 			sizes[nCode] = sz;
 		}
@@ -910,40 +910,40 @@ unsigned getSize(Code code) {
 // ...
 }; // namespace Representation
 
-// Класс  предназначен для определения возможности помещения целых значений
-//	одного типа в целочисленные поля другого типа
-//	(класс не привязан к модулю Dlis)
+// РљР»Р°СЃСЃ  РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅ РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё РїРѕРјРµС‰РµРЅРёСЏ С†РµР»С‹С… Р·РЅР°С‡РµРЅРёР№
+//	РѕРґРЅРѕРіРѕ С‚РёРїР° РІ С†РµР»РѕС‡РёСЃР»РµРЅРЅС‹Рµ РїРѕР»СЏ РґСЂСѓРіРѕРіРѕ С‚РёРїР°
+//	(РєР»Р°СЃСЃ РЅРµ РїСЂРёРІСЏР·Р°РЅ Рє РјРѕРґСѓР»СЋ Dlis)
 class IntTypes {
 public:
 	template <typename IntType, typename IntValueType>
 	static bool canHold(IntValueType value) {
 		return IntField::intField<IntType>().canHold(value);
 	}
-	// - Возвращает true, если тип IntType может содержать значение value;
-	//	 тип IntType передается как явный аргумент шаблона
-// - пока используется только в тесте
+	// - Р’РѕР·РІСЂР°С‰Р°РµС‚ true, РµСЃР»Рё С‚РёРї IntType РјРѕР¶РµС‚ СЃРѕРґРµСЂР¶Р°С‚СЊ Р·РЅР°С‡РµРЅРёРµ value;
+	//	 С‚РёРї IntType РїРµСЂРµРґР°РµС‚СЃСЏ РєР°Рє СЏРІРЅС‹Р№ Р°СЂРіСѓРјРµРЅС‚ С€Р°Р±Р»РѕРЅР°
+// - РїРѕРєР° РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ С‚РѕР»СЊРєРѕ РІ С‚РµСЃС‚Рµ
 	template <typename IntType, typename IntValueType>
 	static bool canHold(const IntType &, IntValueType value) {
 		return IntField::intField<IntType>().canHold(value);
 	}
-	// - Возвращает true, если тип IntType может содержать значение value;
-	//	 тип IntType передается как тип первого параметра функции
+	// - Р’РѕР·РІСЂР°С‰Р°РµС‚ true, РµСЃР»Рё С‚РёРї IntType РјРѕР¶РµС‚ СЃРѕРґРµСЂР¶Р°С‚СЊ Р·РЅР°С‡РµРЅРёРµ value;
+	//	 С‚РёРї IntType РїРµСЂРµРґР°РµС‚СЃСЏ РєР°Рє С‚РёРї РїРµСЂРІРѕРіРѕ РїР°СЂР°РјРµС‚СЂР° С„СѓРЅРєС†РёРё
 	template <typename IntType, typename OtherIntType>
 	static bool canHold() {
 		const IntField &other(IntField::intField<OtherIntType>());
 		return IntField::intField<IntType>().canHold(other);
 	}
-	// - Возвращает true, если тип IntType может содержать любые значения
-	//	 типа OtherIntType
-// - пока используется только в тесте
+	// - Р’РѕР·РІСЂР°С‰Р°РµС‚ true, РµСЃР»Рё С‚РёРї IntType РјРѕР¶РµС‚ СЃРѕРґРµСЂР¶Р°С‚СЊ Р»СЋР±С‹Рµ Р·РЅР°С‡РµРЅРёСЏ
+	//	 С‚РёРїР° OtherIntType
+// - РїРѕРєР° РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ С‚РѕР»СЊРєРѕ РІ С‚РµСЃС‚Рµ
 protected:
-	class IntField {	// Описатель представления целого типа или значения
+	class IntField {	// РћРїРёСЃР°С‚РµР»СЊ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ С†РµР»РѕРіРѕ С‚РёРїР° РёР»Рё Р·РЅР°С‡РµРЅРёСЏ
 	public:
 		enum BitCount {bc7, bc8, bc15, bc16, bc31, bc32};
-		// - (bc7, bс15 и bс31 используются только для положительных чисел)
+		// - (bc7, bСЃ15 Рё bСЃ31 РёСЃРїРѕР»СЊР·СѓСЋС‚СЃСЏ С‚РѕР»СЊРєРѕ РґР»СЏ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹С… С‡РёСЃРµР»)
 		template <typename IntType>
 			static const IntField &intField();
-		// - возвращает описатель типа
+		// - РІРѕР·РІСЂР°С‰Р°РµС‚ РѕРїРёСЃР°С‚РµР»СЊ С‚РёРїР°
 		template<> static const IntField &intField<byte>() {
 			static IntField t(bc8, false); return t;
 		}
@@ -971,21 +971,21 @@ protected:
 		bool canHold(const IntField &other) const;
 		template <typename IntType>
 		bool canHold(IntType value) const { return canHold(intField(value)); }
-		/* - NB: Хотя эта операция не быстрая (см., например, код функций
-				 getBitCount), предваряющий вызов canHold(intField<IntType>())
-				 (при условии, что value будет передаваться по ссылке,
-				 а не по значению) вряд ли значительно ускорит ее -
-				 см., например, код canHold(const IntField &) */
+		/* - NB: РҐРѕС‚СЏ СЌС‚Р° РѕРїРµСЂР°С†РёСЏ РЅРµ Р±С‹СЃС‚СЂР°СЏ (СЃРј., РЅР°РїСЂРёРјРµСЂ, РєРѕРґ С„СѓРЅРєС†РёР№
+				 getBitCount), РїСЂРµРґРІР°СЂСЏСЋС‰РёР№ РІС‹Р·РѕРІ canHold(intField<IntType>())
+				 (РїСЂРё СѓСЃР»РѕРІРёРё, С‡С‚Рѕ value Р±СѓРґРµС‚ РїРµСЂРµРґР°РІР°С‚СЊСЃСЏ РїРѕ СЃСЃС‹Р»РєРµ,
+				 Р° РЅРµ РїРѕ Р·РЅР°С‡РµРЅРёСЋ) РІСЂСЏРґ Р»Рё Р·РЅР°С‡РёС‚РµР»СЊРЅРѕ СѓСЃРєРѕСЂРёС‚ РµРµ -
+				 СЃРј., РЅР°РїСЂРёРјРµСЂ, РєРѕРґ canHold(const IntField &) */
 	private:
 //		enum BitCount {bc7, bc8, bc15, bc16, bc31, bc32};
 		static BitCount getBitCount(uint32 value);
 		static BitCount getBitCount(int32 value);
 		template <typename IntType>
 			static IntField intField(IntType value);
-		// - возвращает описатель значения
-/* - NB: Если вынести intField из private-секции, в классе-наследнике
-		 DlisIntTypes могут возникать неоднозначности из-за его одноименной
-		 функции */
+		// - РІРѕР·РІСЂР°С‰Р°РµС‚ РѕРїРёСЃР°С‚РµР»СЊ Р·РЅР°С‡РµРЅРёСЏ
+/* - NB: Р•СЃР»Рё РІС‹РЅРµСЃС‚Рё intField РёР· private-СЃРµРєС†РёРё, РІ РєР»Р°СЃСЃРµ-РЅР°СЃР»РµРґРЅРёРєРµ
+		 DlisIntTypes РјРѕРіСѓС‚ РІРѕР·РЅРёРєР°С‚СЊ РЅРµРѕРґРЅРѕР·РЅР°С‡РЅРѕСЃС‚Рё РёР·-Р·Р° РµРіРѕ РѕРґРЅРѕРёРјРµРЅРЅРѕР№
+		 С„СѓРЅРєС†РёРё */
 	// ------------------------------------------------------------------------
 		IntField(BitCount bitCount, bool isSigned) :
 			bitCount(bitCount), isSigned(isSigned) {}
@@ -999,11 +999,11 @@ template <typename IntType>
 /*static*/ IntTypes::IntField IntTypes::IntField::intField(IntType value) {
 	IntField::BitCount bitCount;
 	bool isSigned;
-	if (intField<IntType>().isSigned) {	// знаковый тип
+	if (intField<IntType>().isSigned) {	// Р·РЅР°РєРѕРІС‹Р№ С‚РёРї
 		isSigned = value < 0;
 		if (isSigned) bitCount = getBitCount((int32)value);
 		else		  bitCount = getBitCount((uint32)value);
-	} else {							// беззнаковый тип
+	} else {							// Р±РµР·Р·РЅР°РєРѕРІС‹Р№ С‚РёРї
 		isSigned = false;
 		bitCount = getBitCount((uint32)value);
 	}
@@ -1039,17 +1039,17 @@ bool IntTypes::IntField::canHold(const IntField &other) const {
 // ============================================================================
 
 class DlisIntTypes : private IntTypes {
-// - NB: Для классов, содержащих только статические функции,
-//		 public-наследование избыточно (а на практике иногда вызывало путаницу)
+// - NB: Р”Р»СЏ РєР»Р°СЃСЃРѕРІ, СЃРѕРґРµСЂР¶Р°С‰РёС… С‚РѕР»СЊРєРѕ СЃС‚Р°С‚РёС‡РµСЃРєРёРµ С„СѓРЅРєС†РёРё,
+//		 public-РЅР°СЃР»РµРґРѕРІР°РЅРёРµ РёР·Р±С‹С‚РѕС‡РЅРѕ (Р° РЅР° РїСЂР°РєС‚РёРєРµ РёРЅРѕРіРґР° РІС‹Р·С‹РІР°Р»Рѕ РїСѓС‚Р°РЅРёС†Сѓ)
 	typedef Representation::Code RCode;
 public:
-	struct OtherTypes {	// Класс-заглушка для значений любого (нецелого) типа
+	struct OtherTypes {	// РљР»Р°СЃСЃ-Р·Р°РіР»СѓС€РєР° РґР»СЏ Р·РЅР°С‡РµРЅРёР№ Р»СЋР±РѕРіРѕ (РЅРµС†РµР»РѕРіРѕ) С‚РёРїР°
 		template <typename T>
 		static RCode valueBestCode(const T &val) {
 			return Representation::Undefined;
 		}
 	};
-	struct Integers {	// Класс поддержки значений целого типа
+	struct Integers {	// РљР»Р°СЃСЃ РїРѕРґРґРµСЂР¶РєРё Р·РЅР°С‡РµРЅРёР№ С†РµР»РѕРіРѕ С‚РёРїР°
 		template <typename T>
 		static RCode valueBestCode(const T &val);
 	};
@@ -1070,16 +1070,16 @@ public:
 			return true;
 		else if (intCode == Representation::UVARI) {
 //			return &f == &IntField::intfield<int32>();
-// - NB: Ошибка компиляции по непонятным причинам
-//		 (хотя ее нет в похожей ситуации в функции canHoldType)
+// - NB: РћС€РёР±РєР° РєРѕРјРїРёР»СЏС†РёРё РїРѕ РЅРµРїРѕРЅСЏС‚РЅС‹Рј РїСЂРёС‡РёРЅР°Рј
+//		 (С…РѕС‚СЏ РµРµ РЅРµС‚ РІ РїРѕС…РѕР¶РµР№ СЃРёС‚СѓР°С†РёРё РІ С„СѓРЅРєС†РёРё canHoldType)
 				const IntField &fi32 = IntField::intField<int32>();
 				return &f == &fi32;
-			// - Тип int32 тоже может содержать все значения кода UVARI
+			// - РўРёРї int32 С‚РѕР¶Рµ РјРѕР¶РµС‚ СЃРѕРґРµСЂР¶Р°С‚СЊ РІСЃРµ Р·РЅР°С‡РµРЅРёСЏ РєРѕРґР° UVARI
 		}
 	}
-	// - Возвращает true, если тип IntType может содержать любое значение
-	//	 в (целочисленном) коде представления intCode;
-	//	 тип IntType передается как тип первого параметра функции
+	// - Р’РѕР·РІСЂР°С‰Р°РµС‚ true, РµСЃР»Рё С‚РёРї IntType РјРѕР¶РµС‚ СЃРѕРґРµСЂР¶Р°С‚СЊ Р»СЋР±РѕРµ Р·РЅР°С‡РµРЅРёРµ
+	//	 РІ (С†РµР»РѕС‡РёСЃР»РµРЅРЅРѕРј) РєРѕРґРµ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ intCode;
+	//	 С‚РёРї IntType РїРµСЂРµРґР°РµС‚СЃСЏ РєР°Рє С‚РёРї РїРµСЂРІРѕРіРѕ РїР°СЂР°РјРµС‚СЂР° С„СѓРЅРєС†РёРё
 	template <typename IntType>
 	static bool canHoldType(RCode intCode, const IntType &) {
 //		return intField(intCode).canHold(IntField::intField<IntType>());
@@ -1089,13 +1089,13 @@ public:
 		if (ok) {
 			if (intCode == Representation::UVARI)
 				ok = &f != &IntField::intField<uint32>();
-				// - Код UVARI не может содержать все значения uint32
+				// - РљРѕРґ UVARI РЅРµ РјРѕР¶РµС‚ СЃРѕРґРµСЂР¶Р°С‚СЊ РІСЃРµ Р·РЅР°С‡РµРЅРёСЏ uint32
 		}
 		return ok;
 	}
-	// - Возвращает true, если код представления intCode может содержать любое
-	//	 значение типа IntType;
-	//	 тип IntType передается как тип второго параметра функции
+	// - Р’РѕР·РІСЂР°С‰Р°РµС‚ true, РµСЃР»Рё РєРѕРґ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ intCode РјРѕР¶РµС‚ СЃРѕРґРµСЂР¶Р°С‚СЊ Р»СЋР±РѕРµ
+	//	 Р·РЅР°С‡РµРЅРёРµ С‚РёРїР° IntType;
+	//	 С‚РёРї IntType РїРµСЂРµРґР°РµС‚СЃСЏ РєР°Рє С‚РёРї РІС‚РѕСЂРѕРіРѕ РїР°СЂР°РјРµС‚СЂР° С„СѓРЅРєС†РёРё
 	template <typename IntValueType>
 	static bool canHoldValue(RCode intCode, IntValueType value) {
 //		return intField(intCode).canHold(value);
@@ -1106,8 +1106,8 @@ public:
 		}
 		return ok;
 	}
-	// - Возвращает true, если код представления intCode может содержать
-	//	 значение value;
+	// - Р’РѕР·РІСЂР°С‰Р°РµС‚ true, РµСЃР»Рё РєРѕРґ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ intCode РјРѕР¶РµС‚ СЃРѕРґРµСЂР¶Р°С‚СЊ
+	//	 Р·РЅР°С‡РµРЅРёРµ value;
 private:
 	static const IntField &intField(RCode code);
 };
@@ -1119,7 +1119,7 @@ DlisIntTypes::Integers::valueBestCode(const T &val) {
 	IntField::BitCount bc;
 	bool negative;
 	IntField::getValueInfo(val, bc, negative);
-	if (negative)	// - если число отрицательное
+	if (negative)	// - РµСЃР»Рё С‡РёСЃР»Рѕ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅРѕРµ
 		switch (bc) {
 		case IntField::bc8:  return SSHORT;
 		case IntField::bc16: return SNORM;
@@ -1128,7 +1128,7 @@ DlisIntTypes::Integers::valueBestCode(const T &val) {
 		}
 	else
 		if (val <= Representation::maxUVARI)
-			return UVARI; // - лучший код для одиночных неотрицательных чисел
+			return UVARI; // - Р»СѓС‡С€РёР№ РєРѕРґ РґР»СЏ РѕРґРёРЅРѕС‡РЅС‹С… РЅРµРѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹С… С‡РёСЃРµР»
 		else
 			return ULONG;
 }
@@ -1145,15 +1145,15 @@ DlisIntTypes::Integers::valueBestCode(const T &val) {
 	case SLONG:  return IntField::intField<int32>();
 	}
 }
-// - NB: Нужно реализовать через статический массив
+// - NB: РќСѓР¶РЅРѕ СЂРµР°Р»РёР·РѕРІР°С‚СЊ С‡РµСЂРµР· СЃС‚Р°С‚РёС‡РµСЃРєРёР№ РјР°СЃСЃРёРІ
 
 // ============================================================================
 
 const bool d_BatchValRead = true;
 
-class Value {	// Контейнер значений во внутреннем формате DLIS
+class Value {	// РљРѕРЅС‚РµР№РЅРµСЂ Р·РЅР°С‡РµРЅРёР№ РІРѕ РІРЅСѓС‚СЂРµРЅРЅРµРј С„РѕСЂРјР°С‚Рµ DLIS
 public:
-	typedef Representation::Code Code;	// - для краткости
+	typedef Representation::Code Code;	// - РґР»СЏ РєСЂР°С‚РєРѕСЃС‚Рё
 //	bool isEmpty() const { return m_raw.size() == 0; }
 	class Convertor;
 	static void skip(const byte *&p, Code code);
@@ -1197,7 +1197,7 @@ protected:
     {
 		if (count == 0) 
             return;
-		// - иначе индекс endpos выйдет за пределы контейнера m_raw
+		// - РёРЅР°С‡Рµ РёРЅРґРµРєСЃ endpos РІС‹Р№РґРµС‚ Р·Р° РїСЂРµРґРµР»С‹ РєРѕРЅС‚РµР№РЅРµСЂР° m_raw
 		size_t endpos = m_raw.size();
 
 		extendBy(count);
@@ -1215,7 +1215,7 @@ protected:
 	template <class Out>
 		static void writeNext(Out &out, const byte *&p,
 							  Code code, size_t count = 1);
-// - NB: Функции readNext и writeNext используются рекурсивно
+// - NB: Р¤СѓРЅРєС†РёРё readNext Рё writeNext РёСЃРїРѕР»СЊР·СѓСЋС‚СЃСЏ СЂРµРєСѓСЂСЃРёРІРЅРѕ
 //	template <typename T>
 //		static RI getNext(T &var, const byte *&p,
 //						  Code code, long index);
@@ -1226,11 +1226,11 @@ protected:
 private:
 	template <typename InType, void (Value:: *process)(InType &, Code)>
 		void processCompound(InType &input_file, Code code);
-// - NB: Этот template нельзя использовать с функцией skip, т.к. она статическая
+// - NB: Р­С‚РѕС‚ template РЅРµР»СЊР·СЏ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ СЃ С„СѓРЅРєС†РёРµР№ skip, С‚.Рє. РѕРЅР° СЃС‚Р°С‚РёС‡РµСЃРєР°СЏ
 //	void readCompound(Input &in, Code code)
 //		{ processCompound<Input, readNext>(in, code); }
 //	void readNext(Input &in, Code code);
-//	// - NB: readNext() вызывается (только) из read() рекурсивно
+//	// - NB: readNext() РІС‹Р·С‹РІР°РµС‚СЃСЏ (С‚РѕР»СЊРєРѕ) РёР· read() СЂРµРєСѓСЂСЃРёРІРЅРѕ
 	void extendBy(size_t count) {
 		m_raw.resize(m_raw.size() + count);
 	}
@@ -1239,26 +1239,26 @@ private:
 class Value::Convertor {
 private:
 	static const int32 maxPreciseIntAsFloat = 1/FLT_EPSILON + 0.5;
-// - (примерное?) значение максимального целого числа, которое можно хранить
-//	 в формате float без потери точности
-	typedef Representation::Code Code;	// - для удобства
+// - (РїСЂРёРјРµСЂРЅРѕРµ?) Р·РЅР°С‡РµРЅРёРµ РјР°РєСЃРёРјР°Р»СЊРЅРѕРіРѕ С†РµР»РѕРіРѕ С‡РёСЃР»Р°, РєРѕС‚РѕСЂРѕРµ РјРѕР¶РЅРѕ С…СЂР°РЅРёС‚СЊ
+//	 РІ С„РѕСЂРјР°С‚Рµ float Р±РµР· РїРѕС‚РµСЂРё С‚РѕС‡РЅРѕСЃС‚Рё
+	typedef Representation::Code Code;	// - РґР»СЏ СѓРґРѕР±СЃС‚РІР°
 public:
-// Определение длины UVARI-формата числа по первому байту формата
+// РћРїСЂРµРґРµР»РµРЅРёРµ РґР»РёРЅС‹ UVARI-С„РѕСЂРјР°С‚Р° С‡РёСЃР»Р° РїРѕ РїРµСЂРІРѕРјСѓ Р±Р°Р№С‚Сѓ С„РѕСЂРјР°С‚Р°
 	static uint getSizeUVARI(byte firstByte) 
     {
-		switch (firstByte >> 6) {	// Определяем длину по старшим 2 битам
+		switch (firstByte >> 6) {	// РћРїСЂРµРґРµР»СЏРµРј РґР»РёРЅСѓ РїРѕ СЃС‚Р°СЂС€РёРј 2 Р±РёС‚Р°Рј
 			case 2:  return 2;	// '10'
 			case 3:  return 4;	// '11'
-			default: return 1;	// '00' или '01'
+			default: return 1;	// '00' РёР»Рё '01'
 		}
 	}
-// Определение длины UVARI-формата числа по значению числа
+// РћРїСЂРµРґРµР»РµРЅРёРµ РґР»РёРЅС‹ UVARI-С„РѕСЂРјР°С‚Р° С‡РёСЃР»Р° РїРѕ Р·РЅР°С‡РµРЅРёСЋ С‡РёСЃР»Р°
 	static uint getSizeUVARIof(uint32 val) {
 		if		(val <= 0x7F)	return 1;
 		else if (val <= 0x3FFF) return 2;
 		else					return 4;
 	}
-// Конвертирование целых типов
+// РљРѕРЅРІРµСЂС‚РёСЂРѕРІР°РЅРёРµ С†РµР»С‹С… С‚РёРїРѕРІ
 	static RI fromRaw(byte &val, const byte *&p, Code c) {
 		return fromRawIntDisp(val, p, c);
 	}
@@ -1331,7 +1331,7 @@ public:
 		}
 	}
 
-// Конвертирование вещественных типов
+// РљРѕРЅРІРµСЂС‚РёСЂРѕРІР°РЅРёРµ РІРµС‰РµСЃС‚РІРµРЅРЅС‹С… С‚РёРїРѕРІ
 	static RI fromRaw(ieeeSingle &val, const byte *&p, Code c) 
     {
 		using namespace Representation;
@@ -1360,7 +1360,7 @@ public:
 			fromRawIntDisp(i, p, c);
 			val = i;
 			if (abs(i) > maxPreciseIntAsFloat) return RI(RI::FromRawPrec);
-			// - NB: в предположении, что ieeeSingle=float
+			// - NB: РІ РїСЂРµРґРїРѕР»РѕР¶РµРЅРёРё, С‡С‚Рѕ ieeeSingle=float
 			break;
 		}
 
@@ -1373,7 +1373,7 @@ public:
 			fromRawIntDisp(i, p, c);
 			val = i;
 			if (i > maxPreciseIntAsFloat) return RI(RI::FromRawPrec);
-			// - NB: в предположении, что ieeeSingle=float
+			// - NB: РІ РїСЂРµРґРїРѕР»РѕР¶РµРЅРёРё, С‡С‚Рѕ ieeeSingle=float
 			break;
 		}
 
@@ -1428,7 +1428,7 @@ public:
 		}
 		return RI();
 	}
-// - NB: Функции fromRaw конвертирования вещественных типов надо бы объединить
+// - NB: Р¤СѓРЅРєС†РёРё fromRaw РєРѕРЅРІРµСЂС‚РёСЂРѕРІР°РЅРёСЏ РІРµС‰РµСЃС‚РІРµРЅРЅС‹С… С‚РёРїРѕРІ РЅР°РґРѕ Р±С‹ РѕР±СЉРµРґРёРЅРёС‚СЊ
 	template <class Out>
 	static RI toRaw(Out &out, ieeeDouble val, Code c) {
 		using namespace Representation;
@@ -1447,7 +1447,7 @@ public:
 		default: return RI(RI::FromRawNone, 8).toCritical();
 		}
 	}
-// Конвертирование для типа Representation::Code
+// РљРѕРЅРІРµСЂС‚РёСЂРѕРІР°РЅРёРµ РґР»СЏ С‚РёРїР° Representation::Code
 	static RI fromRaw(Representation::Code &val, const byte *&p,
 					  Code c = Representation::USHORT) {
 		using namespace Representation;
@@ -1462,15 +1462,15 @@ public:
 		using namespace Representation;
 		if (c != USHORT) return RI(RI::FromRawNone, 9).toCritical();
 		if (val < FSHORT || val >= Count) return RI(RI::BadRaw, 3).toCritical();
-// - NB: Возможно, код ошибки BadRaw здесь не совсем подходит
+// - NB: Р’РѕР·РјРѕР¶РЅРѕ, РєРѕРґ РѕС€РёР±РєРё BadRaw Р·РґРµСЃСЊ РЅРµ СЃРѕРІСЃРµРј РїРѕРґС…РѕРґРёС‚
 		toRaw(out, (byte)val);
 		return RI();
 	}
-// Конвертирование строковых Representation-кодов
+// РљРѕРЅРІРµСЂС‚РёСЂРѕРІР°РЅРёРµ СЃС‚СЂРѕРєРѕРІС‹С… Representation-РєРѕРґРѕРІ
 	static RI fromRaw(string &val, const byte *&p, Code c);
-/* - NB: Тело функции вынесено за пределы класса, т.к. должно находиться после
-		 тела специализации шаблона fromRawCode(), который в ней используется
-		 (иначе возникает ошибка 'specialization of ... after instantiation') */
+/* - NB: РўРµР»Рѕ С„СѓРЅРєС†РёРё РІС‹РЅРµСЃРµРЅРѕ Р·Р° РїСЂРµРґРµР»С‹ РєР»Р°СЃСЃР°, С‚.Рє. РґРѕР»Р¶РЅРѕ РЅР°С…РѕРґРёС‚СЊСЃСЏ РїРѕСЃР»Рµ
+		 С‚РµР»Р° СЃРїРµС†РёР°Р»РёР·Р°С†РёРё С€Р°Р±Р»РѕРЅР° fromRawCode(), РєРѕС‚РѕСЂС‹Р№ РІ РЅРµР№ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ
+		 (РёРЅР°С‡Рµ РІРѕР·РЅРёРєР°РµС‚ РѕС€РёР±РєР° 'specialization of ... after instantiation') */
 	template <class Out>
 		static RI toRaw(Out &out, const string &val, Code c);
 	static RI fromRaw(Symbol &val, const byte *&p, Code c) {
@@ -1490,7 +1490,7 @@ public:
 		fromRaw(id, p, IDENT);
 		val.set(Ident(id), ori, cpy);
 		return RI();
-// - NB: Нужно бы еще проверить на соответствие стандарту DLIS
+// - NB: РќСѓР¶РЅРѕ Р±С‹ РµС‰Рµ РїСЂРѕРІРµСЂРёС‚СЊ РЅР° СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ СЃС‚Р°РЅРґР°СЂС‚Сѓ DLIS
 	}
 	template <class Out>
 	static RI toRaw(Out &out, const Symbol &val, Code c) {
@@ -1502,21 +1502,21 @@ public:
 		if (c != OBNAME) return RI(RI::ToRawNone, 2).toCritical();
 		toRaw(out, val.originId(), UVARI);
 		toRaw(out, (byte)val.copyNum());
-// - NB: Явно указываем тип byte на случай изменения определения функции
+// - NB: РЇРІРЅРѕ СѓРєР°Р·С‹РІР°РµРј С‚РёРї byte РЅР° СЃР»СѓС‡Р°Р№ РёР·РјРµРЅРµРЅРёСЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ С„СѓРЅРєС†РёРё
 //		 ObjectName::copyNum()
 		toRaw(out, val.ident(), IDENT);
-/* - NB: Не используем возвращаемый код в предположении, что длина возвращаемой
-		 функцией ObjectName::ident строки (как экземпляра Ident)
-		 гарантированно не длиннее 255 символов */
+/* - NB: РќРµ РёСЃРїРѕР»СЊР·СѓРµРј РІРѕР·РІСЂР°С‰Р°РµРјС‹Р№ РєРѕРґ РІ РїСЂРµРґРїРѕР»РѕР¶РµРЅРёРё, С‡С‚Рѕ РґР»РёРЅР° РІРѕР·РІСЂР°С‰Р°РµРјРѕР№
+		 С„СѓРЅРєС†РёРµР№ ObjectName::ident СЃС‚СЂРѕРєРё (РєР°Рє СЌРєР·РµРјРїР»СЏСЂР° Ident)
+		 РіР°СЂР°РЅС‚РёСЂРѕРІР°РЅРЅРѕ РЅРµ РґР»РёРЅРЅРµРµ 255 СЃРёРјРІРѕР»РѕРІ */
 		return RI();
 	}
-// Конвертирование для кода Representation::DTIME
+// РљРѕРЅРІРµСЂС‚РёСЂРѕРІР°РЅРёРµ РґР»СЏ РєРѕРґР° Representation::DTIME
 	static RI fromRaw(DateTime &val, const byte *&p, Code c) {
 		if (c != Representation::DTIME)
 			return RI(RI::FromRawNone, 10).toCritical();
 		DateTime dt;
 		byte yr1900;
-		byte tz_m;	// 2-й байт, содержащий timeZone и month
+		byte tz_m;	// 2-Р№ Р±Р°Р№С‚, СЃРѕРґРµСЂР¶Р°С‰РёР№ timeZone Рё month
 		uint16 ms;
 		fromRaw(yr1900, p);
 		fromRaw(tz_m, p);
@@ -1526,8 +1526,8 @@ public:
 		fromRaw(dt.sec, p);
 		fromRaw(ms, p);
 		dt.year = 1900 + yr1900;
-		dt.timeZone = DateTime::TimeZone(tz_m >> 4); // - старшие 4 бита tz_m
-		dt.month = tz_m & 0xf;						 // - младшие 4 бита tz_m
+		dt.timeZone = DateTime::TimeZone(tz_m >> 4); // - СЃС‚Р°СЂС€РёРµ 4 Р±РёС‚Р° tz_m
+		dt.month = tz_m & 0xf;						 // - РјР»Р°РґС€РёРµ 4 Р±РёС‚Р° tz_m
 		if (littleEndian) reverseBytes(ms);
 		dt.msec = ms;
 		if (!dt.valid()) return RI(RI::BadRaw, 4).toCritical();
@@ -1552,12 +1552,12 @@ public:
 		toRaw(out, ms);
 		return RI();
 	}
-// Конвертирование для кода Representation::STATUS
+// РљРѕРЅРІРµСЂС‚РёСЂРѕРІР°РЅРёРµ РґР»СЏ РєРѕРґР° Representation::STATUS
 	static RI fromRaw(bool &val, const byte *&p, Code c) {
 		if (c != Representation::STATUS)
 			return RI(RI::FromRawNone, 5).toCritical();
-// - NB: Здесь можно было бы также реализовать чтение значений 0 и 1,
-//		 представленных в целых Representation-кодах
+// - NB: Р—РґРµСЃСЊ РјРѕР¶РЅРѕ Р±С‹Р»Рѕ Р±С‹ С‚Р°РєР¶Рµ СЂРµР°Р»РёР·РѕРІР°С‚СЊ С‡С‚РµРЅРёРµ Р·РЅР°С‡РµРЅРёР№ 0 Рё 1,
+//		 РїСЂРµРґСЃС‚Р°РІР»РµРЅРЅС‹С… РІ С†РµР»С‹С… Representation-РєРѕРґР°С…
 		byte b = *p++;
 		if (b > 1) return RI(RI::BadRaw, 2).toCritical();
 		val = (b == 1);
@@ -1571,8 +1571,8 @@ public:
 		return RI();
 	}
 private:
-// Шаблон при точном соответствии типов
-//	 (для целых и вещественных Representation-кодов)
+// РЁР°Р±Р»РѕРЅ РїСЂРё С‚РѕС‡РЅРѕРј СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё С‚РёРїРѕРІ
+//	 (РґР»СЏ С†РµР»С‹С… Рё РІРµС‰РµСЃС‚РІРµРЅРЅС‹С… Representation-РєРѕРґРѕРІ)
 	template <typename T>
 	void static fromRaw(T &v, const byte *&p) {
 		uint sz = sizeof v;
@@ -1595,33 +1595,33 @@ private:
 			writeBytes(out, (byte *)&vcopy, sz);
 		}
 	}
-// Шаблон при статически заданном Representation-коде
+// РЁР°Р±Р»РѕРЅ РїСЂРё СЃС‚Р°С‚РёС‡РµСЃРєРё Р·Р°РґР°РЅРЅРѕРј Representation-РєРѕРґРµ
 	template <Representation::Code c, typename T>
 	static RI fromRawCode(T &val, const byte *&p) {
 			return RI(RI::ProgErr, 2).toCritical();
 	}
-	// - NB: Для конкретизации шаблона fromRawCode в коде fromRawInt нужно
-	//		 определить ее код в общем случае (хотя реально он не вызывается)
-/* - NB: Есть только одна специализация шаблона fromRawCode по первому
-		 аргументу(Representation::UVARI), и ее можно просто выделить
-		 в отдельную функцию и назвать, например, fromUVARI (как для шаблона
-		 toRawCode была выделена функция toUVARI) */
+	// - NB: Р”Р»СЏ РєРѕРЅРєСЂРµС‚РёР·Р°С†РёРё С€Р°Р±Р»РѕРЅР° fromRawCode РІ РєРѕРґРµ fromRawInt РЅСѓР¶РЅРѕ
+	//		 РѕРїСЂРµРґРµР»РёС‚СЊ РµРµ РєРѕРґ РІ РѕР±С‰РµРј СЃР»СѓС‡Р°Рµ (С…РѕС‚СЏ СЂРµР°Р»СЊРЅРѕ РѕРЅ РЅРµ РІС‹Р·С‹РІР°РµС‚СЃСЏ)
+/* - NB: Р•СЃС‚СЊ С‚РѕР»СЊРєРѕ РѕРґРЅР° СЃРїРµС†РёР°Р»РёР·Р°С†РёСЏ С€Р°Р±Р»РѕРЅР° fromRawCode РїРѕ РїРµСЂРІРѕРјСѓ
+		 Р°СЂРіСѓРјРµРЅС‚Сѓ(Representation::UVARI), Рё РµРµ РјРѕР¶РЅРѕ РїСЂРѕСЃС‚Рѕ РІС‹РґРµР»РёС‚СЊ
+		 РІ РѕС‚РґРµР»СЊРЅСѓСЋ С„СѓРЅРєС†РёСЋ Рё РЅР°Р·РІР°С‚СЊ, РЅР°РїСЂРёРјРµСЂ, fromUVARI (РєР°Рє РґР»СЏ С€Р°Р±Р»РѕРЅР°
+		 toRawCode Р±С‹Р»Р° РІС‹РґРµР»РµРЅР° С„СѓРЅРєС†РёСЏ toUVARI) */
 	template <class Out>
 		static RI toUVARI(Out &out, const uint32 &val);
-// Шаблоны для целых типов
-//	 (CodeIntType - тип, соответствующий значению параметра c по умолчанию)
+// РЁР°Р±Р»РѕРЅС‹ РґР»СЏ С†РµР»С‹С… С‚РёРїРѕРІ
+//	 (CodeIntType - С‚РёРї, СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёР№ Р·РЅР°С‡РµРЅРёСЋ РїР°СЂР°РјРµС‚СЂР° c РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ)
 //---------------------------
 //	template <typename CodeIntType, typename CustomIntType>
 //	static RI fromRawInt(CustomIntType &val, const byte *&p,
 //						 Code c = Representation::typeCode<CodeIntType>()) {
-//	// - предполагается, что тип CodeIntType "шире" типа CustomIntType)
+//	// - РїСЂРµРґРїРѕР»Р°РіР°РµС‚СЃСЏ, С‡С‚Рѕ С‚РёРї CodeIntType "С€РёСЂРµ" С‚РёРїР° CustomIntType)
 //		using namespace Representation;
 //		CodeIntType inVal;
 //		RI ri;
 //		if (c == typeCode<CodeIntType>())
-//			fromRaw(inVal, p);		// - точное соответствие типов
+//			fromRaw(inVal, p);		// - С‚РѕС‡РЅРѕРµ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ С‚РёРїРѕРІ
 //		else if (c == UVARI) {
-//			ri = fromRawCode<UVARI>(inVal, p);	// - особый случай
+//			ri = fromRawCode<UVARI>(inVal, p);	// - РѕСЃРѕР±С‹Р№ СЃР»СѓС‡Р°Р№
 //			if (!ri.ok()) return ri;
 //		}
 //			else return RI(RI::ProgErr, 3);
@@ -1642,9 +1642,9 @@ private:
 		CodeIntType  inVal;
 
 		if (c == typeCode<CodeIntType>())
-			fromRaw(inVal, p);		                // - точное соответствие типов
+			fromRaw(inVal, p);		                // - С‚РѕС‡РЅРѕРµ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ С‚РёРїРѕРІ
 		else if (c == UVARI)
-			fromRawCode<UVARI>(inVal, p);	        // - особый случай
+			fromRawCode<UVARI>(inVal, p);	        // - РѕСЃРѕР±С‹Р№ СЃР»СѓС‡Р°Р№
 		else 
             return RI(RI::ProgErr, 3).toCritical();
 
@@ -1666,14 +1666,14 @@ private:
 //		if (outOfRange) return RI(RI::FromRawErr, 3);
 		CodeIntType outVal = val;
 		if (c == typeCode<CodeIntType>()) {
-			toRaw(out, outVal);		// - точное соответствие типов
+			toRaw(out, outVal);		// - С‚РѕС‡РЅРѕРµ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ С‚РёРїРѕРІ
 			return RI();
 		}
 		else if (c == UVARI)
-			return toUVARI(out, outVal);	// - особый случай
+			return toUVARI(out, outVal);	// - РѕСЃРѕР±С‹Р№ СЃР»СѓС‡Р°Р№
 			else return RI(RI::ProgErr, 4).toCritical();
 	}
-// Шаблоны-"диспетчеры" Representation-кодов для целых типов
+// РЁР°Р±Р»РѕРЅС‹-"РґРёСЃРїРµС‚С‡РµСЂС‹" Representation-РєРѕРґРѕРІ РґР»СЏ С†РµР»С‹С… С‚РёРїРѕРІ
 //---------------------------
 //	template <typename CustomIntType>
 //	static RI fromRawIntDisp(CustomIntType &val, const byte *&p, Code c) {
@@ -1705,8 +1705,8 @@ private:
 //			default: return RI(RI::ProgErr, 12).toCritical();
 //		}
 //	}
-// - функция fromRawIntDisp перенесена в public-секцию (т.к. она используется
-//	 в SingleValue::fromRaw)
+// - С„СѓРЅРєС†РёСЏ fromRawIntDisp РїРµСЂРµРЅРµСЃРµРЅР° РІ public-СЃРµРєС†РёСЋ (С‚.Рє. РѕРЅР° РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ
+//	 РІ SingleValue::fromRaw)
 //---------------------------
 	template <class Out, typename CustomIntType>
 	static RI toRawIntDisp(Out &out, const CustomIntType &val, Code c) {
@@ -1722,9 +1722,9 @@ private:
 		case FSINGL:
 			if (abs((double)val) > maxPreciseIntAsFloat)
 				return RI(RI::ToRawPrec);
-/* - NB: Приведение val к типу double пришлось применить из-за того, что
-		 конкретизация шаблона для CustomIntType=uint32 приводила к ошибке
-		 компилятора "'abs' : ambiguous call to overloaded function" */
+/* - NB: РџСЂРёРІРµРґРµРЅРёРµ val Рє С‚РёРїСѓ double РїСЂРёС€Р»РѕСЃСЊ РїСЂРёРјРµРЅРёС‚СЊ РёР·-Р·Р° С‚РѕРіРѕ, С‡С‚Рѕ
+		 РєРѕРЅРєСЂРµС‚РёР·Р°С†РёСЏ С€Р°Р±Р»РѕРЅР° РґР»СЏ CustomIntType=uint32 РїСЂРёРІРѕРґРёР»Р° Рє РѕС€РёР±РєРµ
+		 РєРѕРјРїРёР»СЏС‚РѕСЂР° "'abs' : ambiguous call to overloaded function" */
 			toRaw(out, (ieeeSingle)val);
 			return RI();
 		case FDOUBL:
@@ -1735,11 +1735,11 @@ private:
 	}
 }; // class Value::Convertor
 
-// Специализации при статически заданном Representation-коде
+// РЎРїРµС†РёР°Р»РёР·Р°С†РёРё РїСЂРё СЃС‚Р°С‚РёС‡РµСЃРєРё Р·Р°РґР°РЅРЅРѕРј Representation-РєРѕРґРµ
 template<>
 /*static*/ RI Value::Convertor::fromRawCode<Representation::UVARI>
 				(uint32 &val, const byte *&p) {
-	uint len = getSizeUVARI(*p);	// Длина (число байт) представления UVARI
+	uint len = getSizeUVARI(*p);	// Р”Р»РёРЅР° (С‡РёСЃР»Рѕ Р±Р°Р№С‚) РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ UVARI
 	switch (len) {
 	case 1:
 		val = *p++;
@@ -1749,7 +1749,7 @@ template<>
 		memcpy(&v16, p, len);
 		p += len;
 		if (littleEndian) reverseBytes(v16);
-		v16 &= 0x3fff;		// Обнуляем старшие 2 бита, указывавшие длину
+		v16 &= 0x3fff;		// РћР±РЅСѓР»СЏРµРј СЃС‚Р°СЂС€РёРµ 2 Р±РёС‚Р°, СѓРєР°Р·С‹РІР°РІС€РёРµ РґР»РёРЅСѓ
 		val = v16;
 		break;
 	}
@@ -1757,7 +1757,7 @@ template<>
 		memcpy(&val, p, len);
 		p += len;
 		if (littleEndian) reverseBytes(val);
-		val &= 0x3fffffff;	// Обнуляем старшие 2 бита, указывавшие длину
+		val &= 0x3fffffff;	// РћР±РЅСѓР»СЏРµРј СЃС‚Р°СЂС€РёРµ 2 Р±РёС‚Р°, СѓРєР°Р·С‹РІР°РІС€РёРµ РґР»РёРЅСѓ
 		break;
 	}
 	return RI();
@@ -1765,24 +1765,24 @@ template<>
 
 template<class Out>
 ///*static*/ RI Value::Convertor::toUVARI(Out &out, uint32 val) {
-// - NB: такое объявление параметра val компилятор не принимает - ??????????
+// - NB: С‚Р°РєРѕРµ РѕР±СЉСЏРІР»РµРЅРёРµ РїР°СЂР°РјРµС‚СЂР° val РєРѕРјРїРёР»СЏС‚РѕСЂ РЅРµ РїСЂРёРЅРёРјР°РµС‚ - ??????????
 //		 ("'...::toRawCode': cannot be explicitly specialized")
 /*static*/ RI Value::Convertor::toUVARI(Out &out, const uint32 &val) {
-	uint len = getSizeUVARIof(val);	// Длина (число байт) представления UVARI
+	uint len = getSizeUVARIof(val);	// Р”Р»РёРЅР° (С‡РёСЃР»Рѕ Р±Р°Р№С‚) РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ UVARI
 	switch (len) {
 	case 1:
 		toRaw(out, val, Representation::USHORT);
 		break;
 	case 2: {
 		uint16 v16 = val;
-		v16 |= 0x8000;		// Устанавливаем старший бит 2-байтового числа
+		v16 |= 0x8000;		// РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЃС‚Р°СЂС€РёР№ Р±РёС‚ 2-Р±Р°Р№С‚РѕРІРѕРіРѕ С‡РёСЃР»Р°
 		toRaw(out, v16);
-		// - NB: Изменение порядка байт (вызов reverseBytes) выполняется в toRaw
+		// - NB: РР·РјРµРЅРµРЅРёРµ РїРѕСЂСЏРґРєР° Р±Р°Р№С‚ (РІС‹Р·РѕРІ reverseBytes) РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ РІ toRaw
 		break;
 	}
 	case 4: {
 		uint32 v32 = val;
-		v32 |= 0xC0000000;	// Устанавливаем 2 старших бита 4-байтового числа
+		v32 |= 0xC0000000;	// РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј 2 СЃС‚Р°СЂС€РёС… Р±РёС‚Р° 4-Р±Р°Р№С‚РѕРІРѕРіРѕ С‡РёСЃР»Р°
 		toRaw(out, v32);
 		break;
 	}
@@ -1790,7 +1790,7 @@ template<class Out>
 	return RI();
 }
 
-// Специализации общего шаблона для строковых Representation-кодов
+// РЎРїРµС†РёР°Р»РёР·Р°С†РёРё РѕР±С‰РµРіРѕ С€Р°Р±Р»РѕРЅР° РґР»СЏ СЃС‚СЂРѕРєРѕРІС‹С… Representation-РєРѕРґРѕРІ
 /*static*/ RI Value::Convertor::fromRaw(string &val, const byte *&p, Code c) {
 	using namespace Representation;
 	uint32 len;
@@ -1822,8 +1822,8 @@ template <class Out>
 	writeBytes(out, (byte *)val.data(), len);
 	return RI();
 }
-// - NB: Здесь можно было бы также реализовать чтение и запись целых
-//		 и вещественных чисел в строковом представлении
+// - NB: Р—РґРµСЃСЊ РјРѕР¶РЅРѕ Р±С‹Р»Рѕ Р±С‹ С‚Р°РєР¶Рµ СЂРµР°Р»РёР·РѕРІР°С‚СЊ С‡С‚РµРЅРёРµ Рё Р·Р°РїРёСЃСЊ С†РµР»С‹С…
+//		 Рё РІРµС‰РµСЃС‚РІРµРЅРЅС‹С… С‡РёСЃРµР» РІ СЃС‚СЂРѕРєРѕРІРѕРј РїСЂРµРґСЃС‚Р°РІР»РµРЅРёРё
 // end of class Value::Convertor definitions
 
 /*static*/ void Value::skip(const byte *&p, Code code) {
@@ -1831,7 +1831,7 @@ template <class Out>
 	uint size = getSize(code);
 	if (size != -1)
 		p += size;
-	else {	// Значение переменной длины
+	else {	// Р—РЅР°С‡РµРЅРёРµ РїРµСЂРµРјРµРЅРЅРѕР№ РґР»РёРЅС‹
 		switch (code) {
 		case UVARI: case ORIGIN: {
 			p += Convertor::getSizeUVARI(*p);
@@ -1841,7 +1841,7 @@ template <class Out>
 		case IDENT:	case UNITS: {
 			uint32 strLen;
 			if (code == ASCII) Convertor::fromRaw(strLen, p, UVARI);
-			// - NB: см. примечание в коде readNext
+			// - NB: СЃРј. РїСЂРёРјРµС‡Р°РЅРёРµ РІ РєРѕРґРµ readNext
 			else strLen = *p++;
 			p += strLen;
 			break;
@@ -1861,7 +1861,7 @@ template <class Out>
 			skip(p, IDENT);
 			break;
 		} // switch (code)
-// - NB: Т.к. функция статическая, шаблон processCompound использовать нельзя
+// - NB: Рў.Рє. С„СѓРЅРєС†РёСЏ СЃС‚Р°С‚РёС‡РµСЃРєР°СЏ, С€Р°Р±Р»РѕРЅ processCompound РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РЅРµР»СЊР·СЏ
 	}
 }
 
@@ -1897,8 +1897,8 @@ void Value::readNext(In &input_file, Code code, size_t count)
         return;
 
 	size_t pos = m_raw.size();
-	// - Запоминаем текущее положение, т.к. далее оно будет изменено
-	//	 в прямых и косвенных (через readNext) вызовах функции readBytesNext
+	// - Р—Р°РїРѕРјРёРЅР°РµРј С‚РµРєСѓС‰РµРµ РїРѕР»РѕР¶РµРЅРёРµ, С‚.Рє. РґР°Р»РµРµ РѕРЅРѕ Р±СѓРґРµС‚ РёР·РјРµРЅРµРЅРѕ
+	//	 РІ РїСЂСЏРјС‹С… Рё РєРѕСЃРІРµРЅРЅС‹С… (С‡РµСЂРµР· readNext) РІС‹Р·РѕРІР°С… С„СѓРЅРєС†РёРё readBytesNext
 	int elsize = (int)getSize(code);
 
 	if (elsize > -1) 
@@ -1908,7 +1908,7 @@ void Value::readNext(In &input_file, Code code, size_t count)
 		readBytesNext(input_file, size);
 	}
 	else 
-    {	// Значение переменной длины
+    {	// Р—РЅР°С‡РµРЅРёРµ РїРµСЂРµРјРµРЅРЅРѕР№ РґР»РёРЅС‹
 		if (count > 1)
 			for (uint32 n = 0; n < count; ++n) 
                 readNext(input_file, code);
@@ -1919,7 +1919,7 @@ void Value::readNext(In &input_file, Code code, size_t count)
 			case UVARI: 
             case ORIGIN: 
             {
-				readBytesNext(input_file, 1);		// Первый байт кода UVARI
+				readBytesNext(input_file, 1);		// РџРµСЂРІС‹Р№ Р±Р°Р№С‚ РєРѕРґР° UVARI
 
 				uint len = Convertor::getSizeUVARI(m_raw[pos]);
 
@@ -1940,7 +1940,7 @@ void Value::readNext(In &input_file, Code code, size_t count)
 
 					const byte *p = &m_raw[pos];
 					Convertor::fromRaw(strLen, p, UVARI);
-					// - NB: Не проверяем код возврата, т.к. используется uint32
+					// - NB: РќРµ РїСЂРѕРІРµСЂСЏРµРј РєРѕРґ РІРѕР·РІСЂР°С‚Р°, С‚.Рє. РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ uint32
 				}
 				else 
                 {
@@ -1978,19 +1978,19 @@ void Value::writeNext(Out &out, Code code, size_t count) {
 	using namespace Representation;
 	if (count == 0) return;
 	const byte *p = m_praw;
-	// - см. комментарий к (аналогичному по смыслу) определению pos в readNext
+	// - СЃРј. РєРѕРјРјРµРЅС‚Р°СЂРёР№ Рє (Р°РЅР°Р»РѕРіРёС‡РЅРѕРјСѓ РїРѕ СЃРјС‹СЃР»Сѓ) РѕРїСЂРµРґРµР»РµРЅРёСЋ pos РІ readNext
 	uint elsize = getSize(code);
 	if (elsize != -1) {
 		size_t size = elsize * count;
 		writeBytesNext(out, size);
 	}
-	else {	// Значение переменной длины
+	else {	// Р—РЅР°С‡РµРЅРёРµ РїРµСЂРµРјРµРЅРЅРѕР№ РґР»РёРЅС‹
 		if (count > 1)
 			for (uint32 n = 0; n < count; ++n) writeNext(out, code);
 		else {
 			switch (code) {
 			case UVARI: case ORIGIN: {
-				writeBytesNext(out, 1);		// Первый байт кода UVARI
+				writeBytesNext(out, 1);		// РџРµСЂРІС‹Р№ Р±Р°Р№С‚ РєРѕРґР° UVARI
 				uint len = Convertor::getSizeUVARI(*p);
 				if (len > 1) writeBytesNext(out, len - 1);
 				break;
@@ -2001,7 +2001,7 @@ void Value::writeNext(Out &out, Code code, size_t count) {
 				if (code == ASCII) {
 					writeNext(out, UVARI);
 					Convertor::fromRaw(strLen, p, UVARI);
-					// - NB: Не проверяем код возврата, т.к. используется uint32
+					// - NB: РќРµ РїСЂРѕРІРµСЂСЏРµРј РєРѕРґ РІРѕР·РІСЂР°С‚Р°, С‚.Рє. РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ uint32
 				}
 				else {
 					writeNext(out, USHORT);
@@ -2035,19 +2035,19 @@ template <class Out>
 	using namespace Representation;
 	if (count == 0) return;
 	const byte *pFrom = p;
-	// - см. комментарий к (аналогичному по смыслу) определению pFromos в readNext
+	// - СЃРј. РєРѕРјРјРµРЅС‚Р°СЂРёР№ Рє (Р°РЅР°Р»РѕРіРёС‡РЅРѕРјСѓ РїРѕ СЃРјС‹СЃР»Сѓ) РѕРїСЂРµРґРµР»РµРЅРёСЋ pFromos РІ readNext
 	uint elsize = getSize(code);
 	if (elsize != -1) {
 		long size = elsize * count;
 		writeBytesNext(out, p, size);
 	}
-	else {	// Значение переменной длины
+	else {	// Р—РЅР°С‡РµРЅРёРµ РїРµСЂРµРјРµРЅРЅРѕР№ РґР»РёРЅС‹
 		if (count > 1)
 			for (uint32 n = 0; n < count; ++n) writeNext(out, p, code);
 		else {
 			switch (code) {
 			case UVARI: case ORIGIN: {
-				writeBytesNext(out, p, 1);		// Первый байт кода UVARI
+				writeBytesNext(out, p, 1);		// РџРµСЂРІС‹Р№ Р±Р°Р№С‚ РєРѕРґР° UVARI
 				uint len = Convertor::getSizeUVARI(*pFrom);
 				if (len > 1) writeBytesNext(out, p, len - 1);
 				break;
@@ -2058,7 +2058,7 @@ template <class Out>
 				if (code == ASCII) {
 					writeNext(out, p, UVARI);
 					Convertor::fromRaw(strLen, pFrom, UVARI);
-					// - NB: Не проверяем код возврата, т.к. используется uint32
+					// - NB: РќРµ РїСЂРѕРІРµСЂСЏРµРј РєРѕРґ РІРѕР·РІСЂР°С‚Р°, С‚.Рє. РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ uint32
 				}
 				else {
 					writeNext(out, p, USHORT);
@@ -2088,12 +2088,12 @@ template <class Out>
 
 //template <typename T>
 ///*static*/ RI Value::getNext(T &var, Code code, long index) {
-////	Взять код из SingleValue::get
+////	Р’Р·СЏС‚СЊ РєРѕРґ РёР· SingleValue::get
 //}
 
 //template <class T>
 ///*static*/ RI Value::getNext(vector<T> &vec, Code code, size_t count) {
-////	Взять код из SingleValue::getAll
+////	Р’Р·СЏС‚СЊ РєРѕРґ РёР· SingleValue::getAll
 //}
 
 // end of class Value definitions
@@ -2129,19 +2129,19 @@ public:
 		writeNext(out, p, m_rc, m_cnt);
 	}
 private:
-	struct AnyType {	// - поддержка значений любого типа
+	struct AnyType {	// - РїРѕРґРґРµСЂР¶РєР° Р·РЅР°С‡РµРЅРёР№ Р»СЋР±РѕРіРѕ С‚РёРїР°
 		template <typename T>
 			static bool cannotHoldCode(const T &val, Code c) { return false; }
 		template <typename T>
 			static bool cannotHoldType(Code c, const T &val) { return false; }
 		template <typename T>
 			static bool cannotHoldValue(Code c, const T &val) { return false; }
-		// - NB: Возвращаемое значение false функций cannotHoldXXX класса
-		//		 AnyType имеет смысл "неизвестно"
+		// - NB: Р’РѕР·РІСЂР°С‰Р°РµРјРѕРµ Р·РЅР°С‡РµРЅРёРµ false С„СѓРЅРєС†РёР№ cannotHoldXXX РєР»Р°СЃСЃР°
+		//		 AnyType РёРјРµРµС‚ СЃРјС‹СЃР» "РЅРµРёР·РІРµСЃС‚РЅРѕ"
 		static bool needsPriorCheck() { return false; }
-		/* - возвращает признак необходимости предварительного вызова функции
-			 cannotHoldValue для проверки всех элементов значения перед
-			 циклом их записи (в функции SingleValue::set) */
+		/* - РІРѕР·РІСЂР°С‰Р°РµС‚ РїСЂРёР·РЅР°Рє РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё РїСЂРµРґРІР°СЂРёС‚РµР»СЊРЅРѕРіРѕ РІС‹Р·РѕРІР° С„СѓРЅРєС†РёРё
+			 cannotHoldValue РґР»СЏ РїСЂРѕРІРµСЂРєРё РІСЃРµС… СЌР»РµРјРµРЅС‚РѕРІ Р·РЅР°С‡РµРЅРёСЏ РїРµСЂРµРґ
+			 С†РёРєР»РѕРј РёС… Р·Р°РїРёСЃРё (РІ С„СѓРЅРєС†РёРё SingleValue::set) */
 		template <typename T>
 		static RI fromRaw(T &val, const byte *&p, Code c, bool testInt) {
 			return Convertor::fromRaw(val, p, c);
@@ -2165,7 +2165,7 @@ private:
 				return false;
 			}
 		}
-		// - Проверяет соответствие стандарту DLIS
+		// - РџСЂРѕРІРµСЂСЏРµС‚ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ СЃС‚Р°РЅРґР°СЂС‚Сѓ DLIS
 		static bool needsPriorCheck() { return true; }
 	};
 	struct Singles : public AnyType {
@@ -2173,7 +2173,7 @@ private:
 			return c == Representation::FDOUBL;
 		}
 	};
-	struct IntType : public AnyType {	// - поддержка значений целого типа
+	struct IntType : public AnyType {	// - РїРѕРґРґРµСЂР¶РєР° Р·РЅР°С‡РµРЅРёР№ С†РµР»РѕРіРѕ С‚РёРїР°
 		template <typename T>
 		static bool cannotHoldCode(const T &val, Code c) {
 			return !DlisIntTypes::canHoldCode(val, c);
@@ -2200,7 +2200,7 @@ private:
 	template<> struct Type<int32>  : IntType {};
 	template<> struct Type<string>  : Strings {};
 	template<> struct Type<ieeeSingle>  : Singles {};
-// - NB: Лучше перенести эти функции в класс DlisIntTypes
+// - NB: Р›СѓС‡С€Рµ РїРµСЂРµРЅРµСЃС‚Рё СЌС‚Рё С„СѓРЅРєС†РёРё РІ РєР»Р°СЃСЃ DlisIntTypes
 // ----------------------------------------------------------------------------
 	Code m_rc;
 	uint32 m_cnt;
@@ -2247,13 +2247,13 @@ void SingleValue::setNull(Code code, size_t count) {
 //	if (m_cnt == 0) return RI(RI::NoVal).toCritical();
 //	if (index >= m_cnt) return RI(RI::BigValIndex).toCritical();
 //	const byte *p = cfirstBytePtr();
-//// Пропускаем элементы с индексами, меньшими чем index
+//// РџСЂРѕРїСѓСЃРєР°РµРј СЌР»РµРјРµРЅС‚С‹ СЃ РёРЅРґРµРєСЃР°РјРё, РјРµРЅСЊС€РёРјРё С‡РµРј index
 //	uint sz = Representation::getSize(m_rc);
-//	if (sz != -1)	// - если элементы фиксированного размера
+//	if (sz != -1)	// - РµСЃР»Рё СЌР»РµРјРµРЅС‚С‹ С„РёРєСЃРёСЂРѕРІР°РЅРЅРѕРіРѕ СЂР°Р·РјРµСЂР°
 //		p += index * sz;
 //	else
 //		for (size_t n = 0; n < index; ++n) skip(p, m_rc);
-//// Считываем m_cnt элементов и возвращаем "накопленный" код возврата
+//// РЎС‡РёС‚С‹РІР°РµРј m_cnt СЌР»РµРјРµРЅС‚РѕРІ Рё РІРѕР·РІСЂР°С‰Р°РµРј "РЅР°РєРѕРїР»РµРЅРЅС‹Р№" РєРѕРґ РІРѕР·РІСЂР°С‚Р°
 
 ////	RI ri;
 ////	for (size_t n = 0; n < count; ++n)
@@ -2288,9 +2288,9 @@ RI SingleValue::get(T *pTo, size_t index, size_t count) const
 
 	if (index > 0) 
     {
-	    // Пропускаем элементы с индексами, меньшими чем index
+	    // РџСЂРѕРїСѓСЃРєР°РµРј СЌР»РµРјРµРЅС‚С‹ СЃ РёРЅРґРµРєСЃР°РјРё, РјРµРЅСЊС€РёРјРё С‡РµРј index
 		uint sz = Representation::getSize(m_rc);
-		if (sz != -1)	// - если элементы фиксированного размера
+		if (sz != -1)	// - РµСЃР»Рё СЌР»РµРјРµРЅС‚С‹ С„РёРєСЃРёСЂРѕРІР°РЅРЅРѕРіРѕ СЂР°Р·РјРµСЂР°
 			p += index * sz;
 		else
 			for (size_t n = 0; n < index; ++n) 
@@ -2304,7 +2304,7 @@ RI SingleValue::get(T *pTo, size_t index, size_t count) const
 		if (Type<T>::cannotHoldCode(*pTo, m_rc))
 			return RI(RI::FromRawTypeErr, 4).toCritical();
 
-	    // Считываем m_cnt элементов и возвращаем "накопленный" код возврата
+	    // РЎС‡РёС‚С‹РІР°РµРј m_cnt СЌР»РµРјРµРЅС‚РѕРІ Рё РІРѕР·РІСЂР°С‰Р°РµРј "РЅР°РєРѕРїР»РµРЅРЅС‹Р№" РєРѕРґ РІРѕР·РІСЂР°С‚Р°
 		RI riAll, ri;
 
 		for (size_t n = 0; n < count; ++n) 
@@ -2312,13 +2312,13 @@ RI SingleValue::get(T *pTo, size_t index, size_t count) const
 			ri = Type<T>::fromRaw(*pTo++, p, m_rc, false);
 			if (ri.critical()) 
                 return ri;
-            /* - NB: Условие ri.critical()==true должно выполняться только на первом
-		    элементе значения (n==0), и оно подразумевает невозможность
-		    преобразования любого значения в коде m_rc в тип T (однако логичнее
-		    было бы такую проверку полностью вынести в функции cannotHoldXXX
-		    классов - наследников AnyType, чтобы в этой проверке не было бы
-		    необходимости)
-		    Исключение: Ошибка формата входного значения в Convertor::fromRaw() */
+            /* - NB: РЈСЃР»РѕРІРёРµ ri.critical()==true РґРѕР»Р¶РЅРѕ РІС‹РїРѕР»РЅСЏС‚СЊСЃСЏ С‚РѕР»СЊРєРѕ РЅР° РїРµСЂРІРѕРј
+		    СЌР»РµРјРµРЅС‚Рµ Р·РЅР°С‡РµРЅРёСЏ (n==0), Рё РѕРЅРѕ РїРѕРґСЂР°Р·СѓРјРµРІР°РµС‚ РЅРµРІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ
+		    РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёСЏ Р»СЋР±РѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ РІ РєРѕРґРµ m_rc РІ С‚РёРї T (РѕРґРЅР°РєРѕ Р»РѕРіРёС‡РЅРµРµ
+		    Р±С‹Р»Рѕ Р±С‹ С‚Р°РєСѓСЋ РїСЂРѕРІРµСЂРєСѓ РїРѕР»РЅРѕСЃС‚СЊСЋ РІС‹РЅРµСЃС‚Рё РІ С„СѓРЅРєС†РёРё cannotHoldXXX
+		    РєР»Р°СЃСЃРѕРІ - РЅР°СЃР»РµРґРЅРёРєРѕРІ AnyType, С‡С‚РѕР±С‹ РІ СЌС‚РѕР№ РїСЂРѕРІРµСЂРєРµ РЅРµ Р±С‹Р»Рѕ Р±С‹
+		    РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё)
+		    РСЃРєР»СЋС‡РµРЅРёРµ: РћС€РёР±РєР° С„РѕСЂРјР°С‚Р° РІС…РѕРґРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ РІ Convertor::fromRaw() */
 			riAll.upTo(ri);
 		}
 
@@ -2417,10 +2417,10 @@ class VisibleRecord {
 public:
 	static const uint limitLength = 16384;
 //	static const uint limitDataLength = limitLength - Header::getSize();
-// - NB: Ошибка компиляции
+// - NB: РћС€РёР±РєР° РєРѕРјРїРёР»СЏС†РёРё
 //	const uint limitDataLength = limitLength - Header::getSize();
-// - NB: Нет ошибки компиляции, но тогда limitDataLength будет присутствовать
-//		 в каждом экземпляре VisibleRecord
+// - NB: РќРµС‚ РѕС€РёР±РєРё РєРѕРјРїРёР»СЏС†РёРё, РЅРѕ С‚РѕРіРґР° limitDataLength Р±СѓРґРµС‚ РїСЂРёСЃСѓС‚СЃС‚РІРѕРІР°С‚СЊ
+//		 РІ РєР°Р¶РґРѕРј СЌРєР·РµРјРїР»СЏСЂРµ VisibleRecord
 	static const uint limitDataLength()
 		{ return limitLength - Header::getSize(); }
 	class Header {
@@ -2431,13 +2431,13 @@ public:
 //			m_fmt[0] == 0xff;
 //			m_fmt[1] == 0x01;
 //		}
-		Header() : m_vrl(0) {}	// - для чтения
-		// Конструктор для записи:
+		Header() : m_vrl(0) {}	// - РґР»СЏ С‡С‚РµРЅРёСЏ
+		// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РґР»СЏ Р·Р°РїРёСЃРё:
 		Header(uint16 recordDataLength) : m_vrl(recordDataLength + getSize()) {
 				if (m_vrl > limitLength) throw RI(RI::ProgErr, 5);
 			m_fmt[0] = 0xff;
 			m_fmt[1] = 0x01;
-		}						// - для записи
+		}						// - РґР»СЏ Р·Р°РїРёСЃРё
 		size_t getRecordDataLength() const { return m_vrl - getSize(); }
 		void write(Output &out) const {
 			if (littleEndian) reverseBytes(m_vrl);
@@ -2460,27 +2460,27 @@ public:
 		bool isValid() const {
 			return (m_vrl <= limitLength) &&
 				   (m_fmt[0] == 0xff) && (m_fmt[1] == 0x01);
-			// - NB: Для упрощения сравниваем m_rl с общим ограничением, а не
-			//		 с актуальным значением StorageUnitLabel.getMaxVisRecLen()
+			// - NB: Р”Р»СЏ СѓРїСЂРѕС‰РµРЅРёСЏ СЃСЂР°РІРЅРёРІР°РµРј m_rl СЃ РѕР±С‰РёРј РѕРіСЂР°РЅРёС‡РµРЅРёРµРј, Р° РЅРµ
+			//		 СЃ Р°РєС‚СѓР°Р»СЊРЅС‹Рј Р·РЅР°С‡РµРЅРёРµРј StorageUnitLabel.getMaxVisRecLen()
 		}
 //		size_t getSize() const { return sizeof(*this); }
-// - NB: Проверить на alignment!
+// - NB: РџСЂРѕРІРµСЂРёС‚СЊ РЅР° alignment!
 		uint16 m_vrl;	// Visible Record Length
 		byte m_fmt[2];	// Format Version
 	}; // class Header --------------------------------------------------------
-// Поддержка LogicalFile::Impl::readBuffered
+// РџРѕРґРґРµСЂР¶РєР° LogicalFile::Impl::readBuffered
 	VisibleRecord() : m_pData(NULL), m_dl(0) {}
 	~VisibleRecord() { delete m_pData; }
 	uint16 dataLength() const { return m_dl; }
 	uint16 length() const { return Header::getSize() + m_dl; }
 
-// Функции чтения
+// Р¤СѓРЅРєС†РёРё С‡С‚РµРЅРёСЏ
 	std::istream *pData() 
     { 
         return m_pData; 
     }
 
-	// - Данные видимой записи как входной поток
+	// - Р”Р°РЅРЅС‹Рµ РІРёРґРёРјРѕР№ Р·Р°РїРёСЃРё РєР°Рє РІС…РѕРґРЅРѕР№ РїРѕС‚РѕРє
 	void read(Input &file_DLIS) 
     {
 		Header  vrh;
@@ -2495,13 +2495,13 @@ public:
 
 	}
 
-// Функции записи
+// Р¤СѓРЅРєС†РёРё Р·Р°РїРёСЃРё
 	std::ostream *pOutData() 
     { 
         return m_pData; 
     }
 
-	// - Данные видимой записи как выходной поток
+	// - Р”Р°РЅРЅС‹Рµ РІРёРґРёРјРѕР№ Р·Р°РїРёСЃРё РєР°Рє РІС‹С…РѕРґРЅРѕР№ РїРѕС‚РѕРє
 	size_t outDataLength() 
     { 
         return (*m_pData).tellp(); 
@@ -2517,8 +2517,8 @@ public:
         return limitDataLength() - outDataLength(); 
     }
 
-// - NB: При отсутствии ошибок функция outSpaceLeft должна возвращать
-//		 неотрицательное значение
+// - NB: РџСЂРё РѕС‚СЃСѓС‚СЃС‚РІРёРё РѕС€РёР±РѕРє С„СѓРЅРєС†РёСЏ outSpaceLeft РґРѕР»Р¶РЅР° РІРѕР·РІСЂР°С‰Р°С‚СЊ
+//		 РЅРµРѕС‚СЂРёС†Р°С‚РµР»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ
 	void clear() 
     {
 		delete m_pData;
@@ -2536,27 +2536,27 @@ public:
 	}
 private:
 	std::stringstream *m_pData;
-	uint16 m_dl; // - NB: используется только при чтении
+	uint16 m_dl; // - NB: РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ С‚РѕР»СЊРєРѕ РїСЂРё С‡С‚РµРЅРёРё
 }; // class VisibleRecord
 
 // ============================================================================
 
-// Положение логической записи во входном DLIS-потоке
+// РџРѕР»РѕР¶РµРЅРёРµ Р»РѕРіРёС‡РµСЃРєРѕР№ Р·Р°РїРёСЃРё РІРѕ РІС…РѕРґРЅРѕРј DLIS-РїРѕС‚РѕРєРµ
 class LogicalRecordLocation {
 public:
 //	LogicalRecordLocation(std::streampos visRecPos = 0, std::streamoff ofs = 0)
 //		: visRecPos(visRecPos), ofs(ofs) {}
 	std::streampos visRecPos;
-	// - Позиция видимой записи, содержащей первый сегмент
+	// - РџРѕР·РёС†РёСЏ РІРёРґРёРјРѕР№ Р·Р°РїРёСЃРё, СЃРѕРґРµСЂР¶Р°С‰РµР№ РїРµСЂРІС‹Р№ СЃРµРіРјРµРЅС‚
 	std::streamoff ofs;
-	// - Позиция первого сегмента в этой видимой записи
+	// - РџРѕР·РёС†РёСЏ РїРµСЂРІРѕРіРѕ СЃРµРіРјРµРЅС‚Р° РІ СЌС‚РѕР№ РІРёРґРёРјРѕР№ Р·Р°РїРёСЃРё
 	void clear() {
 		visRecPos = 0;
 		ofs = 0;
 	}
 };
 
-enum EFLRType 		// Типы Explicitly Formatted Logical Record
+enum EFLRType 		// РўРёРїС‹ Explicitly Formatted Logical Record
 {
 	FHLR =	 0,	    // File Header
 	OLR =	 1,	    // Origin
@@ -2571,7 +2571,7 @@ enum EFLRType 		// Типы Explicitly Formatted Logical Record
 
 class LogicalRecord {
 public:
-	enum IFLRType   // Типы of Indirectly Formatted Logical Record
+	enum IFLRType   // РўРёРїС‹ of Indirectly Formatted Logical Record
     {
 		FDATA =	 0,	// Frame Data
 		/*...*/
@@ -2579,9 +2579,9 @@ public:
 
 	struct Type 
     {
-		Type() : isEFLR(false), i(IFLRType(0)) {}	// - для чтения
-		Type(EFLRType e) : isEFLR(true), e(e) {}	// - для записи
-		Type(IFLRType i) : isEFLR(false), i(i) {}	// - для записи
+		Type() : isEFLR(false), i(IFLRType(0)) {}	// - РґР»СЏ С‡С‚РµРЅРёСЏ
+		Type(EFLRType e) : isEFLR(true), e(e) {}	// - РґР»СЏ Р·Р°РїРёСЃРё
+		Type(IFLRType i) : isEFLR(false), i(i) {}	// - РґР»СЏ Р·Р°РїРёСЃРё
 		bool isEFLR;
 		union 
         {
@@ -2589,16 +2589,16 @@ public:
 			IFLRType i;
 		};
 	};
-	LogicalRecord() : m_pBody(NULL) { newRecord(); }	// - для чтения
+	LogicalRecord() : m_pBody(NULL) { newRecord(); }	// - РґР»СЏ С‡С‚РµРЅРёСЏ
 	LogicalRecord(EFLRType e) : m_lrt(e), m_pBody(NULL), m_new(false)
-		{ newOutRecord(); }								// - для записи
+		{ newOutRecord(); }								// - РґР»СЏ Р·Р°РїРёСЃРё
 	LogicalRecord(IFLRType i) : m_lrt(i), m_pBody(NULL), m_new(false)
-		{ newOutRecord(); }								// - для записи
+		{ newOutRecord(); }								// - РґР»СЏ Р·Р°РїРёСЃРё
 	~LogicalRecord() { delete m_pBody; }
 	Type getType() const { return m_lrt; }
 	bool isEFLR() const { return m_lrt.isEFLR; }
 	bool isFileHeader() const { return isEFLR() && m_lrt.e == FHLR; }
-// - NB: Функции isXXX доступны уже после чтения первого сегмента
+// - NB: Р¤СѓРЅРєС†РёРё isXXX РґРѕСЃС‚СѓРїРЅС‹ СѓР¶Рµ РїРѕСЃР»Рµ С‡С‚РµРЅРёСЏ РїРµСЂРІРѕРіРѕ СЃРµРіРјРµРЅС‚Р°
 	bool encrypted() const { return m_lrsh1.lrsa[Encrypt]; }
 //	std::istream *pBody() { return m_pBody; }
 	std::istream &body() { return *m_pBody; }
@@ -2607,8 +2607,8 @@ public:
 		m_pBody = NULL;
 		return pb;
 	}
-	// - Возвращает извлеченное тело логической записи как входной поток
-// Функции чтения
+	// - Р’РѕР·РІСЂР°С‰Р°РµС‚ РёР·РІР»РµС‡РµРЅРЅРѕРµ С‚РµР»Рѕ Р»РѕРіРёС‡РµСЃРєРѕР№ Р·Р°РїРёСЃРё РєР°Рє РІС…РѕРґРЅРѕР№ РїРѕС‚РѕРє
+// Р¤СѓРЅРєС†РёРё С‡С‚РµРЅРёСЏ
 	void newRecord(bool toReadBody = true) 
     {
 		delete m_pBody;
@@ -2617,31 +2617,31 @@ public:
 			m_pBody = new std::stringstream(modeStreamBinInOut);
 		m_new = true;
 	}
-	/* - Используется перед чтением первого сегмента каждой последующей
-		 логической записи; о параметре toReadBody - см. ниже комментарий
-		 к readSegment() */
+	/* - РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РїРµСЂРµРґ С‡С‚РµРЅРёРµРј РїРµСЂРІРѕРіРѕ СЃРµРіРјРµРЅС‚Р° РєР°Р¶РґРѕР№ РїРѕСЃР»РµРґСѓСЋС‰РµР№
+		 Р»РѕРіРёС‡РµСЃРєРѕР№ Р·Р°РїРёСЃРё; Рѕ РїР°СЂР°РјРµС‚СЂРµ toReadBody - СЃРј. РЅРёР¶Рµ РєРѕРјРјРµРЅС‚Р°СЂРёР№
+		 Рє readSegment() */
 	void readSegment(Input &input_file, bool &wasLast);
-	/* - Считывает из in очередной сегмент логической записи, извлекает его
-		 тело (Logical Record Body) и записывает его в собственный поток
-		 (см. функцию pBody); если функция newRecord() перед этим была вызвана
-		 с параметром false, считывается только заголовок сегмента,
-		 тело пропускается и поток устанавливается на конец сегмента;
-		 выходной параметр wasLast содержит признак того, что был прочитан
-		 последний сегмент записи */
-// Функции записи
+	/* - РЎС‡РёС‚С‹РІР°РµС‚ РёР· in РѕС‡РµСЂРµРґРЅРѕР№ СЃРµРіРјРµРЅС‚ Р»РѕРіРёС‡РµСЃРєРѕР№ Р·Р°РїРёСЃРё, РёР·РІР»РµРєР°РµС‚ РµРіРѕ
+		 С‚РµР»Рѕ (Logical Record Body) Рё Р·Р°РїРёСЃС‹РІР°РµС‚ РµРіРѕ РІ СЃРѕР±СЃС‚РІРµРЅРЅС‹Р№ РїРѕС‚РѕРє
+		 (СЃРј. С„СѓРЅРєС†РёСЋ pBody); РµСЃР»Рё С„СѓРЅРєС†РёСЏ newRecord() РїРµСЂРµРґ СЌС‚РёРј Р±С‹Р»Р° РІС‹Р·РІР°РЅР°
+		 СЃ РїР°СЂР°РјРµС‚СЂРѕРј false, СЃС‡РёС‚С‹РІР°РµС‚СЃСЏ С‚РѕР»СЊРєРѕ Р·Р°РіРѕР»РѕРІРѕРє СЃРµРіРјРµРЅС‚Р°,
+		 С‚РµР»Рѕ РїСЂРѕРїСѓСЃРєР°РµС‚СЃСЏ Рё РїРѕС‚РѕРє СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚СЃСЏ РЅР° РєРѕРЅРµС† СЃРµРіРјРµРЅС‚Р°;
+		 РІС‹С…РѕРґРЅРѕР№ РїР°СЂР°РјРµС‚СЂ wasLast СЃРѕРґРµСЂР¶РёС‚ РїСЂРёР·РЅР°Рє С‚РѕРіРѕ, С‡С‚Рѕ Р±С‹Р» РїСЂРѕС‡РёС‚Р°РЅ
+		 РїРѕСЃР»РµРґРЅРёР№ СЃРµРіРјРµРЅС‚ Р·Р°РїРёСЃРё */
+// Р¤СѓРЅРєС†РёРё Р·Р°РїРёСЃРё
 	void newOutRecord() {
 		delete m_pBody;
 		m_pBody = new std::stringstream(modeStreamBinInOut);
 	}
-	/* - Используется перед записью первого сегмента каждой последующей
-		 логической записи */
+	/* - РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РїРµСЂРµРґ Р·Р°РїРёСЃСЊСЋ РїРµСЂРІРѕРіРѕ СЃРµРіРјРµРЅС‚Р° РєР°Р¶РґРѕР№ РїРѕСЃР»РµРґСѓСЋС‰РµР№
+		 Р»РѕРіРёС‡РµСЃРєРѕР№ Р·Р°РїРёСЃРё */
 	std::ostream *pOutBody() { return m_pBody; }
 	uint writeSegments(Output &out, uint spaceLeft, bool &wereLast);
-	/* - Формирует и записывает в out очередную порцию сегментов логической
-		 записи, общим размером не более spaceLeft, и возвращает их количество;
-		 выходной параметр wereLast содержит признак того, что были записаны
-		 последние сегменты записи */
-		// Поле, заполняемое и используемое только из LogicalFile::Impl
+	/* - Р¤РѕСЂРјРёСЂСѓРµС‚ Рё Р·Р°РїРёСЃС‹РІР°РµС‚ РІ out РѕС‡РµСЂРµРґРЅСѓСЋ РїРѕСЂС†РёСЋ СЃРµРіРјРµРЅС‚РѕРІ Р»РѕРіРёС‡РµСЃРєРѕР№
+		 Р·Р°РїРёСЃРё, РѕР±С‰РёРј СЂР°Р·РјРµСЂРѕРј РЅРµ Р±РѕР»РµРµ spaceLeft, Рё РІРѕР·РІСЂР°С‰Р°РµС‚ РёС… РєРѕР»РёС‡РµСЃС‚РІРѕ;
+		 РІС‹С…РѕРґРЅРѕР№ РїР°СЂР°РјРµС‚СЂ wereLast СЃРѕРґРµСЂР¶РёС‚ РїСЂРёР·РЅР°Рє С‚РѕРіРѕ, С‡С‚Рѕ Р±С‹Р»Рё Р·Р°РїРёСЃР°РЅС‹
+		 РїРѕСЃР»РµРґРЅРёРµ СЃРµРіРјРµРЅС‚С‹ Р·Р°РїРёСЃРё */
+		// РџРѕР»Рµ, Р·Р°РїРѕР»РЅСЏРµРјРѕРµ Рё РёСЃРїРѕР»СЊР·СѓРµРјРѕРµ С‚РѕР»СЊРєРѕ РёР· LogicalFile::Impl
 		LogicalRecordLocation location;
 
 private:
@@ -2657,8 +2657,8 @@ private:
 		EFLR	   = 7
 	};
 
-	// - Значения элементов перечисления SegmentAttributeBitPos задают
-	//	 нoмера бит в SegmentHeader.hdr.lrsab
+	// - Р—РЅР°С‡РµРЅРёСЏ СЌР»РµРјРµРЅС‚РѕРІ РїРµСЂРµС‡РёСЃР»РµРЅРёСЏ SegmentAttributeBitPos Р·Р°РґР°СЋС‚
+	//	 РЅoРјРµСЂР° Р±РёС‚ РІ SegmentHeader.hdr.lrsab
 	static const uint lowlimitSegmentLength = 16;
 	struct SegmentHeader 
     {
@@ -2676,12 +2676,12 @@ private:
             return 4; 
         }
 
-		SegmentHeader() {}					    // - для чтения
-//		SegmentHeader(uint16 segDataLen) {		// - для записи
+		SegmentHeader() {}					    // - РґР»СЏ С‡С‚РµРЅРёСЏ
+//		SegmentHeader(uint16 segDataLen) {		// - РґР»СЏ Р·Р°РїРёСЃРё
 //			hdr.lrsl = segDataLen + getSize();
 //		}
-// - исправлено:
-		SegmentHeader(uint16 segLen)    // - для записи
+// - РёСЃРїСЂР°РІР»РµРЅРѕ:
+		SegmentHeader(uint16 segLen)    // - РґР»СЏ Р·Р°РїРёСЃРё
         { 
             hdr.lrsl = segLen; 
         }	
@@ -2724,13 +2724,13 @@ private:
 	}; // struct SegmentHeader ------------------------------------------------
 //	void writeSegment(Output &out, uint segBodyLen, bool isFirst, bool isLast);
 	uint writeSegment(Output &out, uint segBodyLen, bool isFirst, bool isLast);
-	// - Записывает в out очередной сегмент с длиной тела segBodyLen
-	//	 и возвращает полную длину записанного сегмента
+	// - Р—Р°РїРёСЃС‹РІР°РµС‚ РІ out РѕС‡РµСЂРµРґРЅРѕР№ СЃРµРіРјРµРЅС‚ СЃ РґР»РёРЅРѕР№ С‚РµР»Р° segBodyLen
+	//	 Рё РІРѕР·РІСЂР°С‰Р°РµС‚ РїРѕР»РЅСѓСЋ РґР»РёРЅСѓ Р·Р°РїРёСЃР°РЅРЅРѕРіРѕ СЃРµРіРјРµРЅС‚Р°
 // Data -----------------------------------------------------------------------
 	Type m_lrt;
 	std::stringstream *m_pBody;
-// Только для чтения
-	SegmentHeader m_lrsh1;	// Заголовок первого сегмента
+// РўРѕР»СЊРєРѕ РґР»СЏ С‡С‚РµРЅРёСЏ
+	SegmentHeader m_lrsh1;	// Р—Р°РіРѕР»РѕРІРѕРє РїРµСЂРІРѕРіРѕ СЃРµРіРјРµРЅС‚Р°
 	bool m_new;
 //	RI riLRB;
 }; // class LogicalRecord
@@ -2751,7 +2751,7 @@ void LogicalRecord::readSegment(Input &input_file, bool &was_last)
         int     trailer;
 	};
 
-	SegmentHeader lrsh2;	     // Заголовок не первого сегмента
+	SegmentHeader lrsh2;	     // Р—Р°РіРѕР»РѕРІРѕРє РЅРµ РїРµСЂРІРѕРіРѕ СЃРµРіРјРµРЅС‚Р°
 	SegmentHeader &lrsh = m_new ? m_lrsh1 : lrsh2;
 
 	lrsh.read(input_file);
@@ -2770,9 +2770,9 @@ void LogicalRecord::readSegment(Input &input_file, bool &was_last)
             m_lrt.i = IFLRType(lrsh.hdr.lrtb);
 
 		/* 
-        NB: Использовать присваивание вида
+        NB: РСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РїСЂРёСЃРІР°РёРІР°РЅРёРµ РІРёРґР°
 		reinterpret_cast<byte &>(m_lrt.e) = lrsh.m_lrt;
-		нельзя, т.к. размер m_lrt.e не обязательно 1 байт 
+		РЅРµР»СЊР·СЏ, С‚.Рє. СЂР°Р·РјРµСЂ m_lrt.e РЅРµ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ 1 Р±Р°Р№С‚ 
         */
 	}
 	else 
@@ -2780,13 +2780,13 @@ void LogicalRecord::readSegment(Input &input_file, bool &was_last)
 		bool ok = (lrsh.lrsa[EFLR] == m_lrsh1.lrsa[EFLR]) && (lrsh.hdr.lrtb == m_lrsh1.hdr.lrtb);
 		if (!ok) 
             throw RI(RI::BadLRSH, 3);
-		// - NB: Проверка правильности установки битов Encrypt и EncryptPkt
-		//		 не выполняется
+		// - NB: РџСЂРѕРІРµСЂРєР° РїСЂР°РІРёР»СЊРЅРѕСЃС‚Рё СѓСЃС‚Р°РЅРѕРІРєРё Р±РёС‚РѕРІ Encrypt Рё EncryptPkt
+		//		 РЅРµ РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ
 	}
 
 	SegmentSize ss(lrsh.getSegmentDataLength());
 
-	if (!m_pBody || lrsh.lrsa[Encrypt])    // Пропускаем сегмент
+	if (!m_pBody || lrsh.lrsa[Encrypt])    // РџСЂРѕРїСѓСЃРєР°РµРј СЃРµРіРјРµРЅС‚
 		input_file.offset(ss.body);	
 	else 
     {
@@ -2806,7 +2806,7 @@ void LogicalRecord::readSegment(Input &input_file, bool &was_last)
 			if (padCnt == 0) 
                 throw RI(RI::BadLRSH, 4);
 
-			// - т.к. счетчик в байте padCnt включает в себя сам этот байт
+			// - С‚.Рє. СЃС‡РµС‚С‡РёРє РІ Р±Р°Р№С‚Рµ padCnt РІРєР»СЋС‡Р°РµС‚ РІ СЃРµР±СЏ СЃР°Рј СЌС‚РѕС‚ Р±Р°Р№С‚
 			ss.decreaseBody(padCnt);
 			if (ss.body < 0) 
                 throw RI(RI::BadLRSH, 5);
@@ -2815,7 +2815,7 @@ void LogicalRecord::readSegment(Input &input_file, bool &was_last)
 		}
 		input_file.read(*m_pBody, ss.body);
 
-		// - Добавляем в *m_pBody тело очередного сегмента
+		// - Р”РѕР±Р°РІР»СЏРµРј РІ *m_pBody С‚РµР»Рѕ РѕС‡РµСЂРµРґРЅРѕРіРѕ СЃРµРіРјРµРЅС‚Р°
 		if (ss.trailer > 0) 
             input_file.offset(ss.trailer);
 	}
@@ -2838,18 +2838,18 @@ void LogicalRecord::readSegment(Input &input_file, bool &was_last)
 //	out.write(*m_pBody, segBodyLen);
 //	if (padToEven) out.write((byte)1);
 //}
-// - исправлено:
+// - РёСЃРїСЂР°РІР»РµРЅРѕ:
 
 uint LogicalRecord::writeSegment(Output &out, uint segBodyLen, bool isFirst, bool isLast) 
 {
 	uint segLen  = segBodyLen + SegmentHeader::getSize();
-	byte padding = segLen % 2;	// Дополнение (сначала до четной длины)
+	byte padding = segLen % 2;	// Р”РѕРїРѕР»РЅРµРЅРёРµ (СЃРЅР°С‡Р°Р»Р° РґРѕ С‡РµС‚РЅРѕР№ РґР»РёРЅС‹)
 
 	segLen += padding;
 	if (segLen < lowlimitSegmentLength)
     {
 		uint paddingToMinSegLen = lowlimitSegmentLength - segLen;
-		// - дополнение до минимальной длины сегмента
+		// - РґРѕРїРѕР»РЅРµРЅРёРµ РґРѕ РјРёРЅРёРјР°Р»СЊРЅРѕР№ РґР»РёРЅС‹ СЃРµРіРјРµРЅС‚Р°
 		padding += paddingToMinSegLen;
 		segLen += paddingToMinSegLen;
 	}
@@ -2883,14 +2883,14 @@ uint LogicalRecord::writeSegment(Output &out, uint segBodyLen, bool isFirst, boo
 //			wereLast = true;
 //			return 0;
 //		}
-//		// - на случай избыточного повторного вызова
+//		// - РЅР° СЃР»СѓС‡Р°Р№ РёР·Р±С‹С‚РѕС‡РЅРѕРіРѕ РїРѕРІС‚РѕСЂРЅРѕРіРѕ РІС‹Р·РѕРІР°
 //	wereLast = false;
 //	uint segCnt = 0;
 //	do {
 //			if (bytesLeft < 0) throw RI(RI::ProgErr, 6);
 
 //		int maxSegBodyLen = (int)spaceLeft - SegmentHeader::getSize();
-//		// - NB: предполагая, что spaceLeft и SegmentHeader::getSize() четные
+//		// - NB: РїСЂРµРґРїРѕР»Р°РіР°СЏ, С‡С‚Рѕ spaceLeft Рё SegmentHeader::getSize() С‡РµС‚РЅС‹Рµ
 //		if (maxSegBodyLen < 0) break;
 ////			if (maxSegBodyLen < (int)lowlimitSegmentLength - SegmentHeader::getSize()) break;
 //		uint segBodyLen = std::min(bytesLeft, (long)maxSegBodyLen);
@@ -2908,7 +2908,7 @@ uint LogicalRecord::writeSegment(Output &out, uint segBodyLen, bool isFirst, boo
 //	} while (spaceLeft >= lowlimitSegmentLength && !wereLast);
 //	return segCnt;
 //}
-// - исправлено:
+// - РёСЃРїСЂР°РІР»РµРЅРѕ:
 uint LogicalRecord::writeSegments(Output &out, uint spaceLeft,
 								  bool &wereLast) {
 	long bytesLeft = m_pBody->tellp() - m_pBody->tellg();
@@ -2916,13 +2916,13 @@ uint LogicalRecord::writeSegments(Output &out, uint spaceLeft,
 			wereLast = true;
 			return 0;
 		}
-		// - на случай избыточного повторного вызова
+		// - РЅР° СЃР»СѓС‡Р°Р№ РёР·Р±С‹С‚РѕС‡РЅРѕРіРѕ РїРѕРІС‚РѕСЂРЅРѕРіРѕ РІС‹Р·РѕРІР°
 	wereLast = false;
 	uint segCnt = 0;
 	while (spaceLeft >= lowlimitSegmentLength && !wereLast) {
 			if (bytesLeft < 0) throw RI(RI::ProgErr, 6);
 		int maxSegBodyLen = (int)spaceLeft - SegmentHeader::getSize();
-		// - NB: предполагая, что spaceLeft и SegmentHeader::getSize() четные
+		// - NB: РїСЂРµРґРїРѕР»Р°РіР°СЏ, С‡С‚Рѕ spaceLeft Рё SegmentHeader::getSize() С‡РµС‚РЅС‹Рµ
 		if (maxSegBodyLen < 0) break;
 		uint segBodyLen = min(bytesLeft, (long)maxSegBodyLen);
 		bool isFirst = m_pBody->tellg() == (std::streampos)0;
@@ -2956,10 +2956,10 @@ public:
 		if (rc2 != rNone)
 			restricted.representationCodes.push_back(rc2);
 	}
-/* - NB: Параметр rc2 в перегруженном конструкторе
-		 AttributeDefinition(bool , RCode, RCode) нужен хотя бы потому, что
-		 без него при вызове AttributeDefinition(bool, RCode, RCode) выполнится
-		 первый конструктор, что неправильно */
+/* - NB: РџР°СЂР°РјРµС‚СЂ rc2 РІ РїРµСЂРµРіСЂСѓР¶РµРЅРЅРѕРј РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂРµ
+		 AttributeDefinition(bool , RCode, RCode) РЅСѓР¶РµРЅ С…РѕС‚СЏ Р±С‹ РїРѕС‚РѕРјСѓ, С‡С‚Рѕ
+		 Р±РµР· РЅРµРіРѕ РїСЂРё РІС‹Р·РѕРІРµ AttributeDefinition(bool, RCode, RCode) РІС‹РїРѕР»РЅРёС‚СЃСЏ
+		 РїРµСЂРІС‹Р№ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ, С‡С‚Рѕ РЅРµРїСЂР°РІРёР»СЊРЅРѕ */
 	bool validCount(uint32 cnt) const {
 		uint vcnt = restricted.valueCount;
 		return vcnt == -1 || cnt == vcnt;
@@ -2973,17 +2973,17 @@ public:
 	}
 // Data
 	bool tagged;
-	/* - Признак автоматически добавляемых атрибутов; в классах - наследниках
-		 Object к ним можно обращаться также через выделенные функции
-		 (с помощью тегов) */
+	/* - РџСЂРёР·РЅР°Рє Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё РґРѕР±Р°РІР»СЏРµРјС‹С… Р°С‚СЂРёР±СѓС‚РѕРІ; РІ РєР»Р°СЃСЃР°С… - РЅР°СЃР»РµРґРЅРёРєР°С…
+		 Object Рє РЅРёРј РјРѕР¶РЅРѕ РѕР±СЂР°С‰Р°С‚СЊСЃСЏ С‚Р°РєР¶Рµ С‡РµСЂРµР· РІС‹РґРµР»РµРЅРЅС‹Рµ С„СѓРЅРєС†РёРё
+		 (СЃ РїРѕРјРѕС‰СЊСЋ С‚РµРіРѕРІ) */
 	struct Restrictions {
 		Restrictions(uint cnt = -1) : valueCount(cnt) {}
-		uint valueCount;	// -1 означает отсутствие ограничений
+		uint valueCount;	// -1 РѕР·РЅР°С‡Р°РµС‚ РѕС‚СЃСѓС‚СЃС‚РІРёРµ РѕРіСЂР°РЅРёС‡РµРЅРёР№
 		vector<RCode> representationCodes;
 	} restricted;
 };
 
-// Таблица определений атрибутов
+// РўР°Р±Р»РёС†Р° РѕРїСЂРµРґРµР»РµРЅРёР№ Р°С‚СЂРёР±СѓС‚РѕРІ
 class AttributeMap {
 public:
 	typedef Representation::Code RCode;
@@ -2996,7 +2996,7 @@ public:
 	}
 	const DefinitionPair &definitionPair(uint index) const
 		{ return *mvr_defs.at(index); }
-// - NB: Здесь выполняется разыменование итератора, а не указателя
+// - NB: Р—РґРµСЃСЊ РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ СЂР°Р·С‹РјРµРЅРѕРІР°РЅРёРµ РёС‚РµСЂР°С‚РѕСЂР°, Р° РЅРµ СѓРєР°Р·Р°С‚РµР»СЏ
 	void add(const string &attrLabel, const AttributeDefinition &ad) {
 		std::pair<Map::iterator, bool> insertInfo =
 				mm_defs.insert(std::make_pair(attrLabel, ad));
@@ -3026,21 +3026,21 @@ public:
 		add(attrLabel, AttributeDefinition(tagged, rc));
 	}
 	bool tagged;
-	// - Признак AttributeDefinition::tagged для следующего добавляемого
-	//	 определения
+	// - РџСЂРёР·РЅР°Рє AttributeDefinition::tagged РґР»СЏ СЃР»РµРґСѓСЋС‰РµРіРѕ РґРѕР±Р°РІР»СЏРµРјРѕРіРѕ
+	//	 РѕРїСЂРµРґРµР»РµРЅРёСЏ
 private:
 	typedef std::map<const string, const AttributeDefinition> Map;
 	Map mm_defs;
-	// - Ассоциативная таблица определений, сортированная по Attribute::label
+	// - РђСЃСЃРѕС†РёР°С‚РёРІРЅР°СЏ С‚Р°Р±Р»РёС†Р° РѕРїСЂРµРґРµР»РµРЅРёР№, СЃРѕСЂС‚РёСЂРѕРІР°РЅРЅР°СЏ РїРѕ Attribute::label
 	vector<Map::iterator> mvr_defs;
-	// - Ссылки на эти определения в исходном порядке их добавления
-	// - NB: этот список нужен только в "эстетических" целях: для того, чтобы
-	//		 обязательные атрибуты добавлялись в указанном порядке
+	// - РЎСЃС‹Р»РєРё РЅР° СЌС‚Рё РѕРїСЂРµРґРµР»РµРЅРёСЏ РІ РёСЃС…РѕРґРЅРѕРј РїРѕСЂСЏРґРєРµ РёС… РґРѕР±Р°РІР»РµРЅРёСЏ
+	// - NB: СЌС‚РѕС‚ СЃРїРёСЃРѕРє РЅСѓР¶РµРЅ С‚РѕР»СЊРєРѕ РІ "СЌСЃС‚РµС‚РёС‡РµСЃРєРёС…" С†РµР»СЏС…: РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹
+	//		 РѕР±СЏР·Р°С‚РµР»СЊРЅС‹Рµ Р°С‚СЂРёР±СѓС‚С‹ РґРѕР±Р°РІР»СЏР»РёСЃСЊ РІ СѓРєР°Р·Р°РЅРЅРѕРј РїРѕСЂСЏРґРєРµ
 };
 
 // ============================================================================
 
-class Component {		// Базовый класс для всех типов компонент
+class Component {		// Р‘Р°Р·РѕРІС‹Р№ РєР»Р°СЃСЃ РґР»СЏ РІСЃРµС… С‚РёРїРѕРІ РєРѕРјРїРѕРЅРµРЅС‚
 public:
 	enum Role {					// Component Role
 		rAbsentAttr = 0,	// Absent Attribute
@@ -3066,8 +3066,8 @@ public:
 
 			input_file.read(db);
 
-			role = Role(db >> 5);     // 3 старших бита из байта m_db
-			fmt  = db;                // 5 младших битов из байта m_db
+			role = Role(db >> 5);     // 3 СЃС‚Р°СЂС€РёС… Р±РёС‚Р° РёР· Р±Р°Р№С‚Р° m_db
+			fmt  = db;                // 5 РјР»Р°РґС€РёС… Р±РёС‚РѕРІ РёР· Р±Р°Р№С‚Р° m_db
 		}
 
 		void write(Output &out) const 
@@ -3149,9 +3149,9 @@ public:
 
 protected:
 	virtual void reset() = 0;
-// - NB: В C++ виртуальные функции при вызове из конструктора не являются
-//		 виртуальными, поэтому инициализирующую функцию reset() нужно вызывать
-//		 из конструкторов каждого производного класса
+// - NB: Р’ C++ РІРёСЂС‚СѓР°Р»СЊРЅС‹Рµ С„СѓРЅРєС†РёРё РїСЂРё РІС‹Р·РѕРІРµ РёР· РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР° РЅРµ СЏРІР»СЏСЋС‚СЃСЏ
+//		 РІРёСЂС‚СѓР°Р»СЊРЅС‹РјРё, РїРѕСЌС‚РѕРјСѓ РёРЅРёС†РёР°Р»РёР·РёСЂСѓСЋС‰СѓСЋ С„СѓРЅРєС†РёСЋ reset() РЅСѓР¶РЅРѕ РІС‹Р·С‹РІР°С‚СЊ
+//		 РёР· РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂРѕРІ РєР°Р¶РґРѕРіРѕ РїСЂРѕРёР·РІРѕРґРЅРѕРіРѕ РєР»Р°СЃСЃР°
 	virtual void readCharacteristics(Input &input_file) = 0;
 	virtual void writeCharacteristics(Output &out) const = 0;
 // Data -------------------------------------------------------------------
@@ -3169,9 +3169,9 @@ public:
 //		RI getValue(T &value, size_t index = -1) const;
 //	template <class T>
 //		RI getValue(vector<T> &value) const;
-//// - NB: Функции getValue можно попробовать объединить, по аналогии с setValue
-////		 (т.к. они являются шаблонами, это было бы полезно и с точки зрения
-////		 уменьшения размера кода)
+//// - NB: Р¤СѓРЅРєС†РёРё getValue РјРѕР¶РЅРѕ РїРѕРїСЂРѕР±РѕРІР°С‚СЊ РѕР±СЉРµРґРёРЅРёС‚СЊ, РїРѕ Р°РЅР°Р»РѕРіРёРё СЃ setValue
+////		 (С‚.Рє. РѕРЅРё СЏРІР»СЏСЋС‚СЃСЏ С€Р°Р±Р»РѕРЅР°РјРё, СЌС‚Рѕ Р±С‹Р»Рѕ Р±С‹ РїРѕР»РµР·РЅРѕ Рё СЃ С‚РѕС‡РєРё Р·СЂРµРЅРёСЏ
+////		 СѓРјРµРЅСЊС€РµРЅРёСЏ СЂР°Р·РјРµСЂР° РєРѕРґР°)
 	template <class T>
 		RI getValue(T *p, size_t index, size_t count) const;
 	template <class T>
@@ -3210,30 +3210,30 @@ RI ValueInterface::Dispatcher::setValue(const T *p, size_t count,
 		else {
 			Attribute::Impl &a = *m_ra->pim;
 			const AttributeDefinition *pad = a.definition();
-			if (!pad) {	// - если ограничений нет
+			if (!pad) {	// - РµСЃР»Рё РѕРіСЂР°РЅРёС‡РµРЅРёР№ РЅРµС‚
 				if (!codeAuto) return a.setValue(p, count, code);
-			} else {	// - если ограничения есть
+			} else {	// - РµСЃР»Рё РѕРіСЂР°РЅРёС‡РµРЅРёСЏ РµСЃС‚СЊ
 				if (!pad->validCount(count)) throw RI(RI::WrongCount);
 				if (codeAuto) {
 					vector<RCode> codes = pad->restricted.representationCodes;
 					if (codes.size() != 0) {
-					// Перебираем коды из списка ограничений
+					// РџРµСЂРµР±РёСЂР°РµРј РєРѕРґС‹ РёР· СЃРїРёСЃРєР° РѕРіСЂР°РЅРёС‡РµРЅРёР№
 						for (uint n = 0; n < codes.size(); ++n) {
 							RI ri = a.setValue(p, count, codes[n]);
 							if (!ri.critical()) return ri;
 						}
 						throw RI (RI::WrongValType, 1);
-						// - если ни один код не подошел, это считается ошибкой
+						// - РµСЃР»Рё РЅРё РѕРґРёРЅ РєРѕРґ РЅРµ РїРѕРґРѕС€РµР», СЌС‚Рѕ СЃС‡РёС‚Р°РµС‚СЃСЏ РѕС€РёР±РєРѕР№
 					}
-					// - Если codes.size()==0, код будет определен далее
-					//	 по входному значению
+					// - Р•СЃР»Рё codes.size()==0, РєРѕРґ Р±СѓРґРµС‚ РѕРїСЂРµРґРµР»РµРЅ РґР°Р»РµРµ
+					//	 РїРѕ РІС…РѕРґРЅРѕРјСѓ Р·РЅР°С‡РµРЅРёСЋ
 				} else {
 					if (!pad->validReprCode(code)) throw RI(RI::WrongCode);
 					return a.setValue(p, count, code);
 				} // if (codeAuto...)
 			} // if (pad...)
 				assert(codeAuto);
-		// Определяем код на основе типа входного значения
+		// РћРїСЂРµРґРµР»СЏРµРј РєРѕРґ РЅР° РѕСЃРЅРѕРІРµ С‚РёРїР° РІС…РѕРґРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
 				code = DlisIntTypes::Type<T>::valueBestCode(*p);
 				if (code == rAuto) {
 			code = Representation::typeBestCode<T>();
@@ -3301,17 +3301,17 @@ public:
 		Units m_units;
 		SingleValue m_value;
 	};
-/* - NB: Вспомогательный промежуточный класс Comp_Interim, в который перенесены
-		 члены-данные класса Component  введен только потому, что компилятор
-		 MSVC 2013 не принимает в качестве аргумента шаблона вложенного класса
-		 (Component::Tag) указатель на функцию-член внешнего класса (Component)
-		 (т.е. фактически класса, объявление которого не завершено */
+/* - NB: Р’СЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Р№ РїСЂРѕРјРµР¶СѓС‚РѕС‡РЅС‹Р№ РєР»Р°СЃСЃ Comp_Interim, РІ РєРѕС‚РѕСЂС‹Р№ РїРµСЂРµРЅРµСЃРµРЅС‹
+		 С‡Р»РµРЅС‹-РґР°РЅРЅС‹Рµ РєР»Р°СЃСЃР° Component  РІРІРµРґРµРЅ С‚РѕР»СЊРєРѕ РїРѕС‚РѕРјСѓ, С‡С‚Рѕ РєРѕРјРїРёР»СЏС‚РѕСЂ
+		 MSVC 2013 РЅРµ РїСЂРёРЅРёРјР°РµС‚ РІ РєР°С‡РµСЃС‚РІРµ Р°СЂРіСѓРјРµРЅС‚Р° С€Р°Р±Р»РѕРЅР° РІР»РѕР¶РµРЅРЅРѕРіРѕ РєР»Р°СЃСЃР°
+		 (Component::Tag) СѓРєР°Р·Р°С‚РµР»СЊ РЅР° С„СѓРЅРєС†РёСЋ-С‡Р»РµРЅ РІРЅРµС€РЅРµРіРѕ РєР»Р°СЃСЃР° (Component)
+		 (С‚.Рµ. С„Р°РєС‚РёС‡РµСЃРєРё РєР»Р°СЃСЃР°, РѕР±СЉСЏРІР»РµРЅРёРµ РєРѕС‚РѕСЂРѕРіРѕ РЅРµ Р·Р°РІРµСЂС€РµРЅРѕ */
 //	class Component : public Dlis::Component {		// Attribute Component
 
 	class Component : public Comp_Interim    // Attribute Component 
     {		
-// - NB: Класс Component описывается здесь, т.к. он нужен для задания типа
-//		 поля m_c, которое (в целях эффективности) не является указателем
+// - NB: РљР»Р°СЃСЃ Component РѕРїРёСЃС‹РІР°РµС‚СЃСЏ Р·РґРµСЃСЊ, С‚.Рє. РѕРЅ РЅСѓР¶РµРЅ РґР»СЏ Р·Р°РґР°РЅРёСЏ С‚РёРїР°
+//		 РїРѕР»СЏ m_c, РєРѕС‚РѕСЂРѕРµ (РІ С†РµР»СЏС… СЌС„С„РµРєС‚РёРІРЅРѕСЃС‚Рё) РЅРµ СЏРІР»СЏРµС‚СЃСЏ СѓРєР°Р·Р°С‚РµР»РµРј
 	public:
 		template <typename T, T Comp_Interim:: *pm_,
 				  uint fmtBitPos_, T (*getDefVal)() = NULL>
@@ -3322,20 +3322,20 @@ public:
 				{ if (getDefVal) m_defVal = getDefVal(); }
 			const uint fmtBitPos = fmtBitPos_;
 			const T &defVal;
-/* - NB: Ссылка здесь используется как удобная альтернатива функции (размер
-		 структуры Tag не имеет значения, т.к. ее экземпляры статические) */
+/* - NB: РЎСЃС‹Р»РєР° Р·РґРµСЃСЊ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РєР°Рє СѓРґРѕР±РЅР°СЏ Р°Р»СЊС‚РµСЂРЅР°С‚РёРІР° С„СѓРЅРєС†РёРё (СЂР°Р·РјРµСЂ
+		 СЃС‚СЂСѓРєС‚СѓСЂС‹ Tag РЅРµ РёРјРµРµС‚ Р·РЅР°С‡РµРЅРёСЏ, С‚.Рє. РµРµ СЌРєР·РµРјРїР»СЏСЂС‹ СЃС‚Р°С‚РёС‡РµСЃРєРёРµ) */
 		private:
 			friend class Component;
 			T Comp_Interim:: *const pm;
 			T m_defVal;
-/* - NB: Неконстантное поле m_defVal (и константная ссылка на него) введено
-		 для того, чтобы его можно было устанавливать в коде конструктора
-		 (в списке инициализации конструктора не удалось бы использовать
-		 указатель на функцию getDefault со значением по умолчанию NULL) */
+/* - NB: РќРµРєРѕРЅСЃС‚Р°РЅС‚РЅРѕРµ РїРѕР»Рµ m_defVal (Рё РєРѕРЅСЃС‚Р°РЅС‚РЅР°СЏ СЃСЃС‹Р»РєР° РЅР° РЅРµРіРѕ) РІРІРµРґРµРЅРѕ
+		 РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ РµРіРѕ РјРѕР¶РЅРѕ Р±С‹Р»Рѕ СѓСЃС‚Р°РЅР°РІР»РёРІР°С‚СЊ РІ РєРѕРґРµ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°
+		 (РІ СЃРїРёСЃРєРµ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР° РЅРµ СѓРґР°Р»РѕСЃСЊ Р±С‹ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ
+		 СѓРєР°Р·Р°С‚РµР»СЊ РЅР° С„СѓРЅРєС†РёСЋ getDefault СЃРѕ Р·РЅР°С‡РµРЅРёРµРј РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ NULL) */
 		};
-/* - NB: Чтобы избавиться от промежуточного класса Comp_Interim, нужно
-		 передавать указатель pm_ на функцию-член не через параметр шаблона,
-		 а через конструктор (как в Channel::Impl::Tag) */
+/* - NB: Р§С‚РѕР±С‹ РёР·Р±Р°РІРёС‚СЊСЃСЏ РѕС‚ РїСЂРѕРјРµР¶СѓС‚РѕС‡РЅРѕРіРѕ РєР»Р°СЃСЃР° Comp_Interim, РЅСѓР¶РЅРѕ
+		 РїРµСЂРµРґР°РІР°С‚СЊ СѓРєР°Р·Р°С‚РµР»СЊ pm_ РЅР° С„СѓРЅРєС†РёСЋ-С‡Р»РµРЅ РЅРµ С‡РµСЂРµР· РїР°СЂР°РјРµС‚СЂ С€Р°Р±Р»РѕРЅР°,
+		 Р° С‡РµСЂРµР· РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ (РєР°Рє РІ Channel::Impl::Tag) */
 		static uint32 getDefCount()
 			{ return 1; }
 		static Representation::Code getDefReprCode()
@@ -3357,10 +3357,10 @@ public:
 		TagUnits &tUnits() { static TagUnits t; return t; }
 		static const
 		TagValue &tValue() { static TagValue t; return t; }
-		// - Функции tXXX() возвращают (статические) теги доступа к полям
-		//	 для использования их в шаблонных функциях
-// - NB: Если сделать теги статическими полями, возникает ошибка линковщика
-// - NB: В C++11 теги, вероятно, можно заменить с помощью кортежей (tuples)
+		// - Р¤СѓРЅРєС†РёРё tXXX() РІРѕР·РІСЂР°С‰Р°СЋС‚ (СЃС‚Р°С‚РёС‡РµСЃРєРёРµ) С‚РµРіРё РґРѕСЃС‚СѓРїР° Рє РїРѕР»СЏРј
+		//	 РґР»СЏ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ РёС… РІ С€Р°Р±Р»РѕРЅРЅС‹С… С„СѓРЅРєС†РёСЏС…
+// - NB: Р•СЃР»Рё СЃРґРµР»Р°С‚СЊ С‚РµРіРё СЃС‚Р°С‚РёС‡РµСЃРєРёРјРё РїРѕР»СЏРјРё, РІРѕР·РЅРёРєР°РµС‚ РѕС€РёР±РєР° Р»РёРЅРєРѕРІС‰РёРєР°
+// - NB: Р’ C++11 С‚РµРіРё, РІРµСЂРѕСЏС‚РЅРѕ, РјРѕР¶РЅРѕ Р·Р°РјРµРЅРёС‚СЊ СЃ РїРѕРјРѕС‰СЊСЋ РєРѕСЂС‚РµР¶РµР№ (tuples)
 		enum FormatBitPos 
         {
 			bValue	  = 0,
@@ -3369,8 +3369,8 @@ public:
 			bCount	  = 3,
 			bLabel	  = 4
 		};
-		// - Значения элементов перечисления FormatBitPos задают нoмера бит
-		//	 в ComponentDescriptor.cf
+		// - Р—РЅР°С‡РµРЅРёСЏ СЌР»РµРјРµРЅС‚РѕРІ РїРµСЂРµС‡РёСЃР»РµРЅРёСЏ FormatBitPos Р·Р°РґР°СЋС‚ РЅoРјРµСЂР° Р±РёС‚
+		//	 РІ ComponentDescriptor.cf
 		Component(const Ident &label) : m_rtplc(NULL) {
 			m_d.role = rAttr;
 			reset();
@@ -3378,13 +3378,13 @@ public:
 				m_label = label;
 				m_d.fmt[bLabel] = true;
 			}
-			/* - NB: Используем пустую метку как признак ее отсутствия
-					 (по стандарту DLIS метка атрибута не может быть пустой) */
+			/* - NB: РСЃРїРѕР»СЊР·СѓРµРј РїСѓСЃС‚СѓСЋ РјРµС‚РєСѓ РєР°Рє РїСЂРёР·РЅР°Рє РµРµ РѕС‚СЃСѓС‚СЃС‚РІРёСЏ
+					 (РїРѕ СЃС‚Р°РЅРґР°СЂС‚Сѓ DLIS РјРµС‚РєР° Р°С‚СЂРёР±СѓС‚Р° РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РїСѓСЃС‚РѕР№) */
 		}
-		/* - NB: Предполагается, что конструктор будет вызываться с непустым
-				 параметром label для атрибутов в Set Template и с пустым -
-				 для атрибутов объектов */
-		// Шаблонная функция чтения характеристики компонента по ее тегу t:
+		/* - NB: РџСЂРµРґРїРѕР»Р°РіР°РµС‚СЃСЏ, С‡С‚Рѕ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ Р±СѓРґРµС‚ РІС‹Р·С‹РІР°С‚СЊСЃСЏ СЃ РЅРµРїСѓСЃС‚С‹Рј
+				 РїР°СЂР°РјРµС‚СЂРѕРј label РґР»СЏ Р°С‚СЂРёР±СѓС‚РѕРІ РІ Set Template Рё СЃ РїСѓСЃС‚С‹Рј -
+				 РґР»СЏ Р°С‚СЂРёР±СѓС‚РѕРІ РѕР±СЉРµРєС‚РѕРІ */
+		// РЁР°Р±Р»РѕРЅРЅР°СЏ С„СѓРЅРєС†РёСЏ С‡С‚РµРЅРёСЏ С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєРё РєРѕРјРїРѕРЅРµРЅС‚Р° РїРѕ РµРµ С‚РµРіСѓ t:
 		template <class Tag>
 		const typename Tag::Type &charc(const Tag &t) const {
 			const Component *c = !m_rtplc || m_d.fmt[t.fmtBitPos] ?
@@ -3397,8 +3397,8 @@ public:
 		const Units &units() const			  { return charc(tUnits()); }
 		const SingleValue &cvalue() const	  { return charc(tValue()); }
 		void linkTemplate(const Component *pc) { m_rtplc = pc; }
-	// Функции записи
-		// Шаблонная функция изменения характеристики компонента по ее тегу t:
+	// Р¤СѓРЅРєС†РёРё Р·Р°РїРёСЃРё
+		// РЁР°Р±Р»РѕРЅРЅР°СЏ С„СѓРЅРєС†РёСЏ РёР·РјРµРЅРµРЅРёСЏ С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєРё РєРѕРјРїРѕРЅРµРЅС‚Р° РїРѕ РµРµ С‚РµРіСѓ t:
 		template <class Tag>
 		void setCharc(const Tag &t, const typename Tag::Type &val) {
 			const typename Tag::Type &defVal = m_rtplc ?
@@ -3406,9 +3406,9 @@ public:
 			bool isDef = val == defVal;
 			this->*t.pm = isDef ? t.defVal : val;
 			m_d.fmt[t.fmtBitPos] = !isDef;
-			// - Значение val устанавливается при совпадении со значением по
-			//	 умолчанию в *m_rtplc (в Set Template) или с "global default",
-			//	 в противном случае - сбрасывается
+			// - Р—РЅР°С‡РµРЅРёРµ val СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚СЃСЏ РїСЂРё СЃРѕРІРїР°РґРµРЅРёРё СЃРѕ Р·РЅР°С‡РµРЅРёРµРј РїРѕ
+			//	 СѓРјРѕР»С‡Р°РЅРёСЋ РІ *m_rtplc (РІ Set Template) РёР»Рё СЃ "global default",
+			//	 РІ РїСЂРѕС‚РёРІРЅРѕРј СЃР»СѓС‡Р°Рµ - СЃР±СЂР°СЃС‹РІР°РµС‚СЃСЏ
 		}
 //		template <class T>
 //		RI setValue(const T &value) {
@@ -3424,11 +3424,11 @@ public:
 			m_d.fmt[bValue] = true;
 			return m_value.set(p, count, reprCode());
 		}
-		/* - NB: Для простоты сброс флага m_d.fmt[bValue] при присвоении
-				 значений по умолчанию (например, пустых строк)
-				 не поддерживается (кроме того, жесткий формат File Header)
-				 требует установки этого флага у атрибута 'ID' даже при пустых
-				 значениях) */
+		/* - NB: Р”Р»СЏ РїСЂРѕСЃС‚РѕС‚С‹ СЃР±СЂРѕСЃ С„Р»Р°РіР° m_d.fmt[bValue] РїСЂРё РїСЂРёСЃРІРѕРµРЅРёРё
+				 Р·РЅР°С‡РµРЅРёР№ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ (РЅР°РїСЂРёРјРµСЂ, РїСѓСЃС‚С‹С… СЃС‚СЂРѕРє)
+				 РЅРµ РїРѕРґРґРµСЂР¶РёРІР°РµС‚СЃСЏ (РєСЂРѕРјРµ С‚РѕРіРѕ, Р¶РµСЃС‚РєРёР№ С„РѕСЂРјР°С‚ File Header)
+				 С‚СЂРµР±СѓРµС‚ СѓСЃС‚Р°РЅРѕРІРєРё СЌС‚РѕРіРѕ С„Р»Р°РіР° Сѓ Р°С‚СЂРёР±СѓС‚Р° 'ID' РґР°Р¶Рµ РїСЂРё РїСѓСЃС‚С‹С…
+				 Р·РЅР°С‡РµРЅРёСЏС…) */
 	protected:
 			RoleGroup roleGroup() { return rgAttr; }
 		void reset();
@@ -3441,11 +3441,11 @@ public:
 //		Units m_units;
 //		SingleValue m_value;
 		const Component *m_rtplc;
-		// - Ссылка на компонент соответствующего атрибута из Set Template
-		//	 (или NULL, если атрибут сам принадлежит Set Template)
+		// - РЎСЃС‹Р»РєР° РЅР° РєРѕРјРїРѕРЅРµРЅС‚ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРіРѕ Р°С‚СЂРёР±СѓС‚Р° РёР· Set Template
+		//	 (РёР»Рё NULL, РµСЃР»Рё Р°С‚СЂРёР±СѓС‚ СЃР°Рј РїСЂРёРЅР°РґР»РµР¶РёС‚ Set Template)
 	}; // class Component -----------------------------------------------------
 	const AttributeDefinition *definition() const { return m_rdef; }
-// Функции чтения
+// Р¤СѓРЅРєС†РёРё С‡С‚РµРЅРёСЏ
 //	template <class T>
 //	RI getValue(T &value, size_t index) const {
 //		return component().cvalue().get(value, index);
@@ -3488,7 +3488,7 @@ public:
 	void linkTemplate(const Attribute *pa) {
 		m_c.linkTemplate(&pa->pim->component());
 	}
-// Функции записи
+// Р¤СѓРЅРєС†РёРё Р·Р°РїРёСЃРё
 	void setUnits(const Units &units) {
 		m_c.setCharc(m_c.tUnits(), units);
 	}
@@ -3498,17 +3498,17 @@ public:
 	void setRepresentationCode(Representation::Code code) {
 		m_c.setCharc(m_c.tReprCode(), code);
 	}
-// - NB: Функции setCount и setRepresentationCode предназначены для атрибутов
-//		 Set Template, для объектов следует пользоваться функцией setValue
+// - NB: Р¤СѓРЅРєС†РёРё setCount Рё setRepresentationCode РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅС‹ РґР»СЏ Р°С‚СЂРёР±СѓС‚РѕРІ
+//		 Set Template, РґР»СЏ РѕР±СЉРµРєС‚РѕРІ СЃР»РµРґСѓРµС‚ РїРѕР»СЊР·РѕРІР°С‚СЊСЃСЏ С„СѓРЅРєС†РёРµР№ setValue
 	template <class T>
 	RI setValue(const T &value, Representation::Code code = Representation::Auto) 
     {
 	    return setValue(&value, 1, code);
 	}
 
-	// - NB: При задании значения value в виде литеральной строчной
-	//		 константы, видимо, будет ошибка компиляции
-	//		 (в шаблоне функции ValueInterface::set эта проблема решена )
+	// - NB: РџСЂРё Р·Р°РґР°РЅРёРё Р·РЅР°С‡РµРЅРёСЏ value РІ РІРёРґРµ Р»РёС‚РµСЂР°Р»СЊРЅРѕР№ СЃС‚СЂРѕС‡РЅРѕР№
+	//		 РєРѕРЅСЃС‚Р°РЅС‚С‹, РІРёРґРёРјРѕ, Р±СѓРґРµС‚ РѕС€РёР±РєР° РєРѕРјРїРёР»СЏС†РёРё
+	//		 (РІ С€Р°Р±Р»РѕРЅРµ С„СѓРЅРєС†РёРё ValueInterface::set СЌС‚Р° РїСЂРѕР±Р»РµРјР° СЂРµС€РµРЅР° )
 	template <class T>
 	RI setValue(const vector<T> &value, Representation::Code code = Representation::Auto) 
     {
@@ -3549,8 +3549,8 @@ private:
 		m_valIntf(new ValueInterface::Dispatcher(pIntf)),
 		m_wrong(false) {}
 	~Impl() {}
-/* - NB: В деструкторе здесь вроде нет необходимости, но без него компилятор
-		 выдает предупреждение:
+/* - NB: Р’ РґРµСЃС‚СЂСѓРєС‚РѕСЂРµ Р·РґРµСЃСЊ РІСЂРѕРґРµ РЅРµС‚ РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё, РЅРѕ Р±РµР· РЅРµРіРѕ РєРѕРјРїРёР»СЏС‚РѕСЂ
+		 РІС‹РґР°РµС‚ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ:
 			 "destructor could not be generated because a base class destructor
 			 is inaccessible or deleted" */
 	AttributeParent *const m_rparent;
@@ -3558,7 +3558,7 @@ private:
 	const AttributeDefinition *m_rdef;
 	ValueInterface m_valIntf;
 	bool m_wrong;
-	// - Признак ошибки в атрибуте (только у атрибутов объектов в режиме чтения)
+	// - РџСЂРёР·РЅР°Рє РѕС€РёР±РєРё РІ Р°С‚СЂРёР±СѓС‚Рµ (С‚РѕР»СЊРєРѕ Сѓ Р°С‚СЂРёР±СѓС‚РѕРІ РѕР±СЉРµРєС‚РѕРІ РІ СЂРµР¶РёРјРµ С‡С‚РµРЅРёСЏ)
 }; // class Attribute::Impl ===================================================
 
 void Attribute::Impl::Component::reset() 
@@ -3693,14 +3693,14 @@ public:
 		{ return const_cast<Attribute *>(findAttribute(labelStr)); }
 protected:
 	const Attribute *findAttribute(const string &labelStr) const;
-/* - NB: Класс BaseObjectImpl фактически является владельцем экземпляров
-		 Attribute, доступных через контейнер mvp_attrs, и, чтобы не допустить
-		 возможности их изменения, у возвращаемого значения установлен атрибут
-		 const, хотя с формальной точки зрения можно было этого не делать */
-// Функции для чтения
+/* - NB: РљР»Р°СЃСЃ BaseObjectImpl С„Р°РєС‚РёС‡РµСЃРєРё СЏРІР»СЏРµС‚СЃСЏ РІР»Р°РґРµР»СЊС†РµРј СЌРєР·РµРјРїР»СЏСЂРѕРІ
+		 Attribute, РґРѕСЃС‚СѓРїРЅС‹С… С‡РµСЂРµР· РєРѕРЅС‚РµР№РЅРµСЂ mvp_attrs, Рё, С‡С‚РѕР±С‹ РЅРµ РґРѕРїСѓСЃС‚РёС‚СЊ
+		 РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё РёС… РёР·РјРµРЅРµРЅРёСЏ, Сѓ РІРѕР·РІСЂР°С‰Р°РµРјРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ СѓСЃС‚Р°РЅРѕРІР»РµРЅ Р°С‚СЂРёР±СѓС‚
+		 const, С…РѕС‚СЏ СЃ С„РѕСЂРјР°Р»СЊРЅРѕР№ С‚РѕС‡РєРё Р·СЂРµРЅРёСЏ РјРѕР¶РЅРѕ Р±С‹Р»Рѕ СЌС‚РѕРіРѕ РЅРµ РґРµР»Р°С‚СЊ */
+// Р¤СѓРЅРєС†РёРё РґР»СЏ С‡С‚РµРЅРёСЏ
 	virtual void readNextAttribute(Input &input_file, Attribute *pa, uint nAttr) = 0;
 	virtual void checkAttributesOnRead() = 0;
-// Функции для записи
+// Р¤СѓРЅРєС†РёРё РґР»СЏ Р·Р°РїРёСЃРё
 	Attribute *addNewAttribute(const string &labelStr,
 							   const AttributeDefinition *ad) {
 		Attribute *pa = new Attribute(this, labelStr, ad);
@@ -3722,8 +3722,8 @@ private:
 const Attribute *BaseObjectImpl::findAttribute(const string &labelStr) const {
 	vector <Attribute *>::const_iterator ita;
 //		vector <Attribute *>::iterator ita;
-// - NB: Попытка присвоения результата findByKey неконстантному итератору
-//		 почему-то вызывает ошибку компиляции
+// - NB: РџРѕРїС‹С‚РєР° РїСЂРёСЃРІРѕРµРЅРёСЏ СЂРµР·СѓР»СЊС‚Р°С‚Р° findByKey РЅРµРєРѕРЅСЃС‚Р°РЅС‚РЅРѕРјСѓ РёС‚РµСЂР°С‚РѕСЂСѓ
+//		 РїРѕС‡РµРјСѓ-С‚Рѕ РІС‹Р·С‹РІР°РµС‚ РѕС€РёР±РєСѓ РєРѕРјРїРёР»СЏС†РёРё
 	ita = findByKey(mvp_attrs.begin(), mvp_attrs.end(),
 					Attribute::labelStrOf, labelStr);
 //	ita = findPtrByKey(mvp_attrs.begin(), mvp_attrs.end(),
@@ -3742,9 +3742,9 @@ void BaseObjectImpl::read(Input &input_file)
 	while (!input_file.atEnd()) 
     {
 		std::streampos p = input_file.getPos();
-		// Считываем далее идущий дескриптор для определения Component Role:
+		// РЎС‡РёС‚С‹РІР°РµРј РґР°Р»РµРµ РёРґСѓС‰РёР№ РґРµСЃРєСЂРёРїС‚РѕСЂ РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ Component Role:
 		d.read(input_file);
-		// Возращаемся на позицию перед дескриптором:
+		// Р’РѕР·СЂР°С‰Р°РµРјСЃСЏ РЅР° РїРѕР·РёС†РёСЋ РїРµСЂРµРґ РґРµСЃРєСЂРёРїС‚РѕСЂРѕРј:
 		input_file.setPos(p);
 
 		Component::RoleGroup rg = Component::roleGroupOf(d.role);
@@ -3786,18 +3786,18 @@ public:
 		BaseObjectImpl(parent),
 		mm_rAttrDefs(NULL), m_nonInvAttrCnt(0) {}
 	uint getNonInvariantAttributeCount() const { return m_nonInvAttrCnt; }
-	/* - NB: Предполагается, что инвариантные атрибуты расположены в конце
-			 списка атрибутов: в режиме чтения они переносятся в конец списка
-			 по окончании чтения Set Template (см. функцию read), а в режиме
-			 записи должны сразу добавляться в конец списка (не реализовано,
-			 т.к. инвариантные атрибуты в режиме записи пока
-			 не поддерживаются) */
+	/* - NB: РџСЂРµРґРїРѕР»Р°РіР°РµС‚СЃСЏ, С‡С‚Рѕ РёРЅРІР°СЂРёР°РЅС‚РЅС‹Рµ Р°С‚СЂРёР±СѓС‚С‹ СЂР°СЃРїРѕР»РѕР¶РµРЅС‹ РІ РєРѕРЅС†Рµ
+			 СЃРїРёСЃРєР° Р°С‚СЂРёР±СѓС‚РѕРІ: РІ СЂРµР¶РёРјРµ С‡С‚РµРЅРёСЏ РѕРЅРё РїРµСЂРµРЅРѕСЃСЏС‚СЃСЏ РІ РєРѕРЅРµС† СЃРїРёСЃРєР°
+			 РїРѕ РѕРєРѕРЅС‡Р°РЅРёРё С‡С‚РµРЅРёСЏ Set Template (СЃРј. С„СѓРЅРєС†РёСЋ read), Р° РІ СЂРµР¶РёРјРµ
+			 Р·Р°РїРёСЃРё РґРѕР»Р¶РЅС‹ СЃСЂР°Р·Сѓ РґРѕР±Р°РІР»СЏС‚СЊСЃСЏ РІ РєРѕРЅРµС† СЃРїРёСЃРєР° (РЅРµ СЂРµР°Р»РёР·РѕРІР°РЅРѕ,
+			 С‚.Рє. РёРЅРІР°СЂРёР°РЅС‚РЅС‹Рµ Р°С‚СЂРёР±СѓС‚С‹ РІ СЂРµР¶РёРјРµ Р·Р°РїРёСЃРё РїРѕРєР°
+			 РЅРµ РїРѕРґРґРµСЂР¶РёРІР°СЋС‚СЃСЏ) */
 	void initAttributes(const AttributeMap *am);
-/* - NB: Если считать, что определения атрибутов (am) нужны и для
-		 режима чтения (хотя пока не используются), то, с учетом этого,
-		 их затруднительно передавать через конструктор */
+/* - NB: Р•СЃР»Рё СЃС‡РёС‚Р°С‚СЊ, С‡С‚Рѕ РѕРїСЂРµРґРµР»РµРЅРёСЏ Р°С‚СЂРёР±СѓС‚РѕРІ (am) РЅСѓР¶РЅС‹ Рё РґР»СЏ
+		 СЂРµР¶РёРјР° С‡С‚РµРЅРёСЏ (С…РѕС‚СЏ РїРѕРєР° РЅРµ РёСЃРїРѕР»СЊР·СѓСЋС‚СЃСЏ), С‚Рѕ, СЃ СѓС‡РµС‚РѕРј СЌС‚РѕРіРѕ,
+		 РёС… Р·Р°С‚СЂСѓРґРЅРёС‚РµР»СЊРЅРѕ РїРµСЂРµРґР°РІР°С‚СЊ С‡РµСЂРµР· РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ */
 	void read(Input &input_file);
-// Функции для записи
+// Р¤СѓРЅРєС†РёРё РґР»СЏ Р·Р°РїРёСЃРё
 	Attribute *addNewAttribute(const string &labelStr);
 
 protected:
@@ -3806,20 +3806,20 @@ protected:
 
 private:
 	const AttributeMap *mm_rAttrDefs;
-	uint m_nonInvAttrCnt;	// Количество неинвариантных атрибутов
+	uint m_nonInvAttrCnt;	// РљРѕР»РёС‡РµСЃС‚РІРѕ РЅРµРёРЅРІР°СЂРёР°РЅС‚РЅС‹С… Р°С‚СЂРёР±СѓС‚РѕРІ
 
 }; // class Template
-/* - NB: Наследованная от BaseObjectImpl неконстантная функция pAttribute
-		 в классе Template оставлена с protected-доступом, т.к. поддержка
-		 возможности изменения атрибутов Set Template (которые выполняют роль
-		 атрибутов по умолчанию для атрибутов объектов) значительно
-		 усложнила бы программу */
+/* - NB: РќР°СЃР»РµРґРѕРІР°РЅРЅР°СЏ РѕС‚ BaseObjectImpl РЅРµРєРѕРЅСЃС‚Р°РЅС‚РЅР°СЏ С„СѓРЅРєС†РёСЏ pAttribute
+		 РІ РєР»Р°СЃСЃРµ Template РѕСЃС‚Р°РІР»РµРЅР° СЃ protected-РґРѕСЃС‚СѓРїРѕРј, С‚.Рє. РїРѕРґРґРµСЂР¶РєР°
+		 РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё РёР·РјРµРЅРµРЅРёСЏ Р°С‚СЂРёР±СѓС‚РѕРІ Set Template (РєРѕС‚РѕСЂС‹Рµ РІС‹РїРѕР»РЅСЏСЋС‚ СЂРѕР»СЊ
+		 Р°С‚СЂРёР±СѓС‚РѕРІ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ РґР»СЏ Р°С‚СЂРёР±СѓС‚РѕРІ РѕР±СЉРµРєС‚РѕРІ) Р·РЅР°С‡РёС‚РµР»СЊРЅРѕ
+		 СѓСЃР»РѕР¶РЅРёР»Р° Р±С‹ РїСЂРѕРіСЂР°РјРјСѓ */
 
 void Template::read(Input &input_file) 
 {
 	BaseObjectImpl::read(input_file);
 
-// Переносим инвариантные атрибуты в конец списка
+// РџРµСЂРµРЅРѕСЃРёРј РёРЅРІР°СЂРёР°РЅС‚РЅС‹Рµ Р°С‚СЂРёР±СѓС‚С‹ РІ РєРѕРЅРµС† СЃРїРёСЃРєР°
 	uint attrCnt = mvp_attrs.size();
 
 	m_nonInvAttrCnt = attrCnt;
@@ -3827,8 +3827,8 @@ void Template::read(Input &input_file)
 
 	while (n < attrCnt) 
     {
-	// - NB: Для простого переноса элементов достаточно условия n<attrCnt-1,
-	//		 однако для определения m_nonInvAttrCnt нужно пройти все элементы
+	// - NB: Р”Р»СЏ РїСЂРѕСЃС‚РѕРіРѕ РїРµСЂРµРЅРѕСЃР° СЌР»РµРјРµРЅС‚РѕРІ РґРѕСЃС‚Р°С‚РѕС‡РЅРѕ СѓСЃР»РѕРІРёСЏ n<attrCnt-1,
+	//		 РѕРґРЅР°РєРѕ РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ m_nonInvAttrCnt РЅСѓР¶РЅРѕ РїСЂРѕР№С‚Рё РІСЃРµ СЌР»РµРјРµРЅС‚С‹
 		Attribute::Impl::Component ac = attributeComponent(n);
 		if (ac.role() == Component::rInvarAttr) 
         {
@@ -3847,7 +3847,7 @@ void Template::initAttributes(const AttributeMap *am) {
 	if (!am) return;
 		if (mm_rAttrDefs) throw RI(RI::ProgErr, 8);
 	mm_rAttrDefs = am;
-// Добавляем обязательные атрибуты в Set Template
+// Р”РѕР±Р°РІР»СЏРµРј РѕР±СЏР·Р°С‚РµР»СЊРЅС‹Рµ Р°С‚СЂРёР±СѓС‚С‹ РІ Set Template
 	for (uint n = 0; n < am->count(); ++n) {
 		const AttributeMap::DefinitionPair &adp = am->definitionPair(n);
 		if (adp.second.tagged) addNewAttribute(adp.first);
@@ -3856,8 +3856,8 @@ void Template::initAttributes(const AttributeMap *am) {
 
 void Template::readNextAttribute(Input &input_file, Attribute *pa, uint nAttr) {
 	pa->pim->read(input_file);
-	// - NB: Проверяется только формат, а "содержательный" контроль
-	//		 введенных атрибутов выполняется в checkAttributesOnRead()
+	// - NB: РџСЂРѕРІРµСЂСЏРµС‚СЃСЏ С‚РѕР»СЊРєРѕ С„РѕСЂРјР°С‚, Р° "СЃРѕРґРµСЂР¶Р°С‚РµР»СЊРЅС‹Р№" РєРѕРЅС‚СЂРѕР»СЊ
+	//		 РІРІРµРґРµРЅРЅС‹С… Р°С‚СЂРёР±СѓС‚РѕРІ РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ РІ checkAttributesOnRead()
 }
 
 void Template::checkAttributesOnRead() {
@@ -3869,8 +3869,8 @@ void Template::checkAttributesOnRead() {
 	if (mvp_attrs.size() > 1) {
 		bool attrsUnique = allUniqueKeys(mvp_attrs.begin(), mvp_attrs.end(),
 										 Attribute::labelStrOf);
-// - NB: В C++11 Attribute::Impl::labelStrOf можно было бы заменить
-//		 на лямбда-функцию
+// - NB: Р’ C++11 Attribute::Impl::labelStrOf РјРѕР¶РЅРѕ Р±С‹Р»Рѕ Р±С‹ Р·Р°РјРµРЅРёС‚СЊ
+//		 РЅР° Р»СЏРјР±РґР°-С„СѓРЅРєС†РёСЋ
 		if (!attrsUnique) throw RI(RI::BadTpl, 2);
 	}
 }
@@ -3878,7 +3878,7 @@ void Template::checkAttributesOnRead() {
 Attribute *Template::addNewAttribute(const string &labelStr) {
 		assert(!labelStr.empty());
 	if (pAttribute(labelStr))
-		return NULL;	// - атрибут уже присутствует в Set Template
+		return NULL;	// - Р°С‚СЂРёР±СѓС‚ СѓР¶Рµ РїСЂРёСЃСѓС‚СЃС‚РІСѓРµС‚ РІ Set Template
 	const AttributeDefinition *pad =
 			mm_rAttrDefs ? mm_rAttrDefs->definition(labelStr) : NULL;
 	Attribute *pa = BaseObjectImpl::addNewAttribute(labelStr, pad);
@@ -3936,23 +3936,23 @@ public:
 			bName = 4
 		};
 
-		// - см. примечание к классу Attribute::Impl::Component
+		// - СЃРј. РїСЂРёРјРµС‡Р°РЅРёРµ Рє РєР»Р°СЃСЃСѓ Attribute::Impl::Component
 		ObjectName m_n;
 	}; // class Component
 // ----------------------------------------------------------------------------
 	static const AttributeMap *pAttributeMap(Object::Type type);
-	// - Таблицы атрибутов тех DLIS-объектов (типа type), которые
-	//	 не представлены собственными классами
+	// - РўР°Р±Р»РёС†С‹ Р°С‚СЂРёР±СѓС‚РѕРІ С‚РµС… DLIS-РѕР±СЉРµРєС‚РѕРІ (С‚РёРїР° type), РєРѕС‚РѕСЂС‹Рµ
+	//	 РЅРµ РїСЂРµРґСЃС‚Р°РІР»РµРЅС‹ СЃРѕР±СЃС‚РІРµРЅРЅС‹РјРё РєР»Р°СЃСЃР°РјРё
 	static Object::Type type(const string &typeId)
 		{ return getTypeTable().type(typeId); }
 	static const string &typeId(Object::Type type)
 		{ return getTypeTable().typeId(type); }
 	static bool typeIsCertain(Object::Type type)
 		{ return type >= Object::FILE_HEADER && type < Object::TypeOther; }
-/* - NB: Здесь учитывается возможность появления новых (вспомогательных)
-		 элементов в начале списка значений перечислимого типа Object::Type
-		 и добавления элементов перед TypeOther для еще не внесенных типов
-		 DLIS-объектов  */
+/* - NB: Р—РґРµСЃСЊ СѓС‡РёС‚С‹РІР°РµС‚СЃСЏ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РїРѕСЏРІР»РµРЅРёСЏ РЅРѕРІС‹С… (РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹С…)
+		 СЌР»РµРјРµРЅС‚РѕРІ РІ РЅР°С‡Р°Р»Рµ СЃРїРёСЃРєР° Р·РЅР°С‡РµРЅРёР№ РїРµСЂРµС‡РёСЃР»РёРјРѕРіРѕ С‚РёРїР° Object::Type
+		 Рё РґРѕР±Р°РІР»РµРЅРёСЏ СЌР»РµРјРµРЅС‚РѕРІ РїРµСЂРµРґ TypeOther РґР»СЏ РµС‰Рµ РЅРµ РІРЅРµСЃРµРЅРЅС‹С… С‚РёРїРѕРІ
+		 DLIS-РѕР±СЉРµРєС‚РѕРІ  */
 //	static const AttributeDefinitions &attributeDefinitions(Object::Type &type);
 // ----------------------------------------------------------------------------
 //	Impl() :
@@ -3964,13 +3964,13 @@ public:
 		m_c(name), m_rtypeid(NULL), m_rtpl(NULL) {}
 	void initialize(const string *objectTypeId, const Template *tpl,
 					bool createAttributes);
-	// - Предполагается, что initialize вызывается сразу после конструктора
-// Функции для чтения
+	// - РџСЂРµРґРїРѕР»Р°РіР°РµС‚СЃСЏ, С‡С‚Рѕ initialize РІС‹Р·С‹РІР°РµС‚СЃСЏ СЃСЂР°Р·Сѓ РїРѕСЃР»Рµ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°
+// Р¤СѓРЅРєС†РёРё РґР»СЏ С‡С‚РµРЅРёСЏ
 	void read(Input &input_file);
-// Функции для записи
+// Р¤СѓРЅРєС†РёРё РґР»СЏ Р·Р°РїРёСЃРё
 	void completeAttributes();
-	// - Синхронизирует список атрибутов с Set Template (в *m_rtpl), добавляя
-	//	 отсутствующие атрибуты,
+	// - РЎРёРЅС…СЂРѕРЅРёР·РёСЂСѓРµС‚ СЃРїРёСЃРѕРє Р°С‚СЂРёР±СѓС‚РѕРІ СЃ Set Template (РІ *m_rtpl), РґРѕР±Р°РІР»СЏСЏ
+	//	 РѕС‚СЃСѓС‚СЃС‚РІСѓСЋС‰РёРµ Р°С‚СЂРёР±СѓС‚С‹,
 	template <class Tag>
 	void setAttribute(typename Tag::Owner *owner,
 					  const Tag &t, const typename Tag::Type &value) {
@@ -3978,8 +3978,8 @@ public:
 		storeAttribute(owner, t);
 //		if (t.afterRestore) (owner->*t.afterRestore)();
 			restoreAttribute(owner, t);
-// - NB: Хотя здесь достаточно было бы вызова afterRestore, выполняем
-//		 для надежности restoreAttribute (DEBUG)
+// - NB: РҐРѕС‚СЏ Р·РґРµСЃСЊ РґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Р±С‹Р»Рѕ Р±С‹ РІС‹Р·РѕРІР° afterRestore, РІС‹РїРѕР»РЅСЏРµРј
+//		 РґР»СЏ РЅР°РґРµР¶РЅРѕСЃС‚Рё restoreAttribute (DEBUG)
 	}
 	void write(Output &out) const;
 	using BaseObjectImpl::pAttribute;
@@ -4000,10 +4000,10 @@ protected:
 		void (Owner:: *const afterRestore)();
 	private:
 //		friend Owner;
-/* - NB: Это объявление не сработало так, как ожидалось, поэтому поля
-		 pm и afterRestore пришлось объявить как public.
-		 Но теперь экземпляры AttributeTag нельзя использовать за пределами
-		 ветви классов Object (даже с атрибутом const) */
+/* - NB: Р­С‚Рѕ РѕР±СЉСЏРІР»РµРЅРёРµ РЅРµ СЃСЂР°Р±РѕС‚Р°Р»Рѕ С‚Р°Рє, РєР°Рє РѕР¶РёРґР°Р»РѕСЃСЊ, РїРѕСЌС‚РѕРјСѓ РїРѕР»СЏ
+		 pm Рё afterRestore РїСЂРёС€Р»РѕСЃСЊ РѕР±СЉСЏРІРёС‚СЊ РєР°Рє public.
+		 РќРѕ С‚РµРїРµСЂСЊ СЌРєР·РµРјРїР»СЏСЂС‹ AttributeTag РЅРµР»СЊР·СЏ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ Р·Р° РїСЂРµРґРµР»Р°РјРё
+		 РІРµС‚РІРё РєР»Р°СЃСЃРѕРІ Object (РґР°Р¶Рµ СЃ Р°С‚СЂРёР±СѓС‚РѕРј const) */
 		const AttributeMap::DefinitionPair *m_padp;
 	}; // template class AttributeTag
 // ----------------------------------------------------------------------------
@@ -4045,8 +4045,8 @@ private:
 	RI adjustToTemplate();
 // Data -----------------------------------------------------------------------
 	Component m_c;
-	const string *m_rtypeid;  // Ссылка на идентификатор типа объекта (в Set)
-	const Template *m_rtpl;	  // Ссылка на Set Template
+	const string *m_rtypeid;  // РЎСЃС‹Р»РєР° РЅР° РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ С‚РёРїР° РѕР±СЉРµРєС‚Р° (РІ Set)
+	const Template *m_rtpl;	  // РЎСЃС‹Р»РєР° РЅР° Set Template
 }; // class Object::Impl ======================================================
 
 
@@ -4075,7 +4075,7 @@ const string Object::Impl::TypeTable::m_ids[] = {
 //	"UPDATE",			//  ...
 	""					// Object::TypeOther
 };
-// - NB: В C++11 проинициализировать typeIds можно внутри определения класса
+// - NB: Р’ C++11 РїСЂРѕРёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°С‚СЊ typeIds РјРѕР¶РЅРѕ РІРЅСѓС‚СЂРё РѕРїСЂРµРґРµР»РµРЅРёСЏ РєР»Р°СЃСЃР°
 
 /*static*/ const AttributeMap *Object::Impl::pAttributeMap(Object::Type type) {
 	using namespace Representation;
@@ -4316,20 +4316,20 @@ bool Object::Impl::restoreAttribute(typename TagX::Owner *owner,
 									const TagX &t) {
 	const Attribute *pa = pcAttribute(t.label());
 	if (!pa) return true;
-	// - NB: Наличие обязательных атрибутов проверяется в других местах
-	//		 (в основном в функции parse)
+	// - NB: РќР°Р»РёС‡РёРµ РѕР±СЏР·Р°С‚РµР»СЊРЅС‹С… Р°С‚СЂРёР±СѓС‚РѕРІ РїСЂРѕРІРµСЂСЏРµС‚СЃСЏ РІ РґСЂСѓРіРёС… РјРµСЃС‚Р°С…
+	//		 (РІ РѕСЃРЅРѕРІРЅРѕРј РІ С„СѓРЅРєС†РёРё parse)
 	const AttributeDefinition *pad = pa->pim->definition();
-	// - pad!=NULL только при записи
+	// - pad!=NULL С‚РѕР»СЊРєРѕ РїСЂРё Р·Р°РїРёСЃРё
 	if (!pad) pad = owner->pAttributeMap()->definition(t.label());
-	// - в режиме чтения обращаемся непосредственно к таблице определений
-	//	 атрибутов (это медленнее, т.к. выполняется поиск)
+	// - РІ СЂРµР¶РёРјРµ С‡С‚РµРЅРёСЏ РѕР±СЂР°С‰Р°РµРјСЃСЏ РЅРµРїРѕСЃСЂРµРґСЃС‚РІРµРЅРЅРѕ Рє С‚Р°Р±Р»РёС†Рµ РѕРїСЂРµРґРµР»РµРЅРёР№
+	//	 Р°С‚СЂРёР±СѓС‚РѕРІ (СЌС‚Рѕ РјРµРґР»РµРЅРЅРµРµ, С‚.Рє. РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ РїРѕРёСЃРє)
 	bool ok = pad->validCount(pa->count()) &&
 			  pad->validReprCode(pa->representationCode()) &&
 //			  pa->pim->getValue(this->*t.pm).ok();
 				  pa->cvalue().get(owner->*t.pm).ok();
-/* - NB: Вместо более короткого пути чтения значения атрибута через функцию
-		 Attribute::Impl::getValue используем функцию ValueInterface::get из
-		 внешнего интерфейса модуля в целях ее дополнительного тестирования
+/* - NB: Р’РјРµСЃС‚Рѕ Р±РѕР»РµРµ РєРѕСЂРѕС‚РєРѕРіРѕ РїСѓС‚Рё С‡С‚РµРЅРёСЏ Р·РЅР°С‡РµРЅРёСЏ Р°С‚СЂРёР±СѓС‚Р° С‡РµСЂРµР· С„СѓРЅРєС†РёСЋ
+		 Attribute::Impl::getValue РёСЃРїРѕР»СЊР·СѓРµРј С„СѓРЅРєС†РёСЋ ValueInterface::get РёР·
+		 РІРЅРµС€РЅРµРіРѕ РёРЅС‚РµСЂС„РµР№СЃР° РјРѕРґСѓР»СЏ РІ С†РµР»СЏС… РµРµ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕРіРѕ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ
 		 (DEBUG) */
 	if (!ok) return false;
 	if (t.afterRestore) (owner->*t.afterRestore)();
@@ -4341,16 +4341,16 @@ void Object::Impl::storeAttribute(typename TagX::Owner *owner, const TagX &t)
 {
 	pAttribute(t.label())->pim->setValue(owner->*t.pm);
 }
-// - NB: Использование идентификатора Tag в качестве параметра шаблона функции
-//		 (в точном соответствии с его объявлением) вызывало ошибку компиляции
+// - NB: РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂР° Tag РІ РєР°С‡РµСЃС‚РІРµ РїР°СЂР°РјРµС‚СЂР° С€Р°Р±Р»РѕРЅР° С„СѓРЅРєС†РёРё
+//		 (РІ С‚РѕС‡РЅРѕРј СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РµРіРѕ РѕР±СЉСЏРІР»РµРЅРёРµРј) РІС‹Р·С‹РІР°Р»Рѕ РѕС€РёР±РєСѓ РєРѕРјРїРёР»СЏС†РёРё
 
 
 void Object::Impl::read(Input &input_file) 
 {
 	m_c.read(input_file);
-	// - NB: Первой во входном потоке здесь должна оказаться
-	//		 Object-компонента, т.к. чтение в предшествующей операции
-	//		  (Template::read) заканчивается именно ее обнаружением
+	// - NB: РџРµСЂРІРѕР№ РІРѕ РІС…РѕРґРЅРѕРј РїРѕС‚РѕРєРµ Р·РґРµСЃСЊ РґРѕР»Р¶РЅР° РѕРєР°Р·Р°С‚СЊСЃСЏ
+	//		 Object-РєРѕРјРїРѕРЅРµРЅС‚Р°, С‚.Рє. С‡С‚РµРЅРёРµ РІ РїСЂРµРґС€РµСЃС‚РІСѓСЋС‰РµР№ РѕРїРµСЂР°С†РёРё
+	//		  (Template::read) Р·Р°РєР°РЅС‡РёРІР°РµС‚СЃСЏ РёРјРµРЅРЅРѕ РµРµ РѕР±РЅР°СЂСѓР¶РµРЅРёРµРј
 	BaseObjectImpl::read(input_file);
 
 	RI ri = adjustToTemplate();
@@ -4358,7 +4358,7 @@ void Object::Impl::read(Input &input_file)
 	if (!ri.ok()) 
         input_file.addIssue(ri);
 
-    // Удаляем Absent-атрибуты, а также атрибуты, отмеченные как некорректные
+    // РЈРґР°Р»СЏРµРј Absent-Р°С‚СЂРёР±СѓС‚С‹, Р° С‚Р°РєР¶Рµ Р°С‚СЂРёР±СѓС‚С‹, РѕС‚РјРµС‡РµРЅРЅС‹Рµ РєР°Рє РЅРµРєРѕСЂСЂРµРєС‚РЅС‹Рµ
 	for (int n = mvp_attrs.size() - 1; n >= 0; --n) 
     {
 		Attribute *pa = mvp_attrs[n];
@@ -4368,8 +4368,8 @@ void Object::Impl::read(Input &input_file)
 		if (absent || pa->pim->wrong()) 
             mvp_attrs.erase(mvp_attrs.begin() + n);
 	}
-         /* - NB: С этого момента индексы атрибутов в Set Template и самом объекте могут
-		 отличаться (поэтому следует пользоваться исключительно ссылками
+         /* - NB: РЎ СЌС‚РѕРіРѕ РјРѕРјРµРЅС‚Р° РёРЅРґРµРєСЃС‹ Р°С‚СЂРёР±СѓС‚РѕРІ РІ Set Template Рё СЃР°РјРѕРј РѕР±СЉРµРєС‚Рµ РјРѕРіСѓС‚
+		 РѕС‚Р»РёС‡Р°С‚СЊСЃСЏ (РїРѕСЌС‚РѕРјСѓ СЃР»РµРґСѓРµС‚ РїРѕР»СЊР·РѕРІР°С‚СЊСЃСЏ РёСЃРєР»СЋС‡РёС‚РµР»СЊРЅРѕ СЃСЃС‹Р»РєР°РјРё
 		 Attribute::Impl::Component::m_rtplc) */
 }
 
@@ -4377,13 +4377,13 @@ void Object::Impl::readNextAttribute(Input &input_file, Attribute *pa, uint nAtt
 	try {
 		pa->pim->linkTemplate(m_rtpl->pcAttribute(nAttr));
 		pa->pim->read(input_file);
-		// - см. комментарий в Template::readNextAttribute()
+		// - СЃРј. РєРѕРјРјРµРЅС‚Р°СЂРёР№ РІ Template::readNextAttribute()
 	}
 	catch(RI ri) {
-// - NB: переменная ri нужна только для контроля при отладке
+// - NB: РїРµСЂРµРјРµРЅРЅР°СЏ ri РЅСѓР¶РЅР° С‚РѕР»СЊРєРѕ РґР»СЏ РєРѕРЅС‚СЂРѕР»СЏ РїСЂРё РѕС‚Р»Р°РґРєРµ
 		input_file.addIssue(RI::WrongAttr);
 		pa->pim->markWrong();
-		/* - NB: Некорректные атрибуты помечаются и затем будут удалены */
+		/* - NB: РќРµРєРѕСЂСЂРµРєС‚РЅС‹Рµ Р°С‚СЂРёР±СѓС‚С‹ РїРѕРјРµС‡Р°СЋС‚СЃСЏ Рё Р·Р°С‚РµРј Р±СѓРґСѓС‚ СѓРґР°Р»РµРЅС‹ */
 	}
 }
 
@@ -4404,10 +4404,10 @@ RI Object::Impl::adjustToTemplate()
     {
 		ri = RI(RI::ManyObjAttrs);
 		erasePtrContainer(mvp_attrs, mvp_attrs.end() - nonInvAttrCnt, mvp_attrs.end());
-		// - Удаляем лишние атрибуты
+		// - РЈРґР°Р»СЏРµРј Р»РёС€РЅРёРµ Р°С‚СЂРёР±СѓС‚С‹
 	}
-	// - NB: Не выполняем проверку mvp_attrs.size() < nonInvAttrCnt,
-	//		 т.к. последние атрибуты в списке могут быть опущены
+	// - NB: РќРµ РІС‹РїРѕР»РЅСЏРµРј РїСЂРѕРІРµСЂРєСѓ mvp_attrs.size() < nonInvAttrCnt,
+	//		 С‚.Рє. РїРѕСЃР»РµРґРЅРёРµ Р°С‚СЂРёР±СѓС‚С‹ РІ СЃРїРёСЃРєРµ РјРѕРіСѓС‚ Р±С‹С‚СЊ РѕРїСѓС‰РµРЅС‹
 	for (uint n = mvp_attrs.size(); n < m_rtpl->attributeCount(); ++n) 
     {
 		Attribute *pa = new Attribute(this);
@@ -4415,11 +4415,11 @@ RI Object::Impl::adjustToTemplate()
 		pa->pim->linkTemplate(m_rtpl->pcAttribute(n));
 		mvp_attrs.push_back(pa);
 	}
-	/* - Для удобства, чтобы объект имел полный комплект атрибутов, как
-		 в Set Template (за исключением Absent-атрибутов), добавляем к списку
-		 атрибутов объекта пустые атрибуты (c характеристиками по умолчанию) -
-		 как на месте опущенных, так и соответствующие инвариантным атрибутам
-		 из Set Template */
+	/* - Р”Р»СЏ СѓРґРѕР±СЃС‚РІР°, С‡С‚РѕР±С‹ РѕР±СЉРµРєС‚ РёРјРµР» РїРѕР»РЅС‹Р№ РєРѕРјРїР»РµРєС‚ Р°С‚СЂРёР±СѓС‚РѕРІ, РєР°Рє
+		 РІ Set Template (Р·Р° РёСЃРєР»СЋС‡РµРЅРёРµРј Absent-Р°С‚СЂРёР±СѓС‚РѕРІ), РґРѕР±Р°РІР»СЏРµРј Рє СЃРїРёСЃРєСѓ
+		 Р°С‚СЂРёР±СѓС‚РѕРІ РѕР±СЉРµРєС‚Р° РїСѓСЃС‚С‹Рµ Р°С‚СЂРёР±СѓС‚С‹ (c С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєР°РјРё РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ) -
+		 РєР°Рє РЅР° РјРµСЃС‚Рµ РѕРїСѓС‰РµРЅРЅС‹С…, С‚Р°Рє Рё СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРµ РёРЅРІР°СЂРёР°РЅС‚РЅС‹Рј Р°С‚СЂРёР±СѓС‚Р°Рј
+		 РёР· Set Template */
 	return ri;
 }
 
@@ -4436,7 +4436,7 @@ Object::Object(ObjectParent *parent, const ObjectName &name) :
 
 Object::~Object() {
 	delete pim;
-// - NB: Надо проанализировать предупреждение компилятора на эту инструкцию
+// - NB: РќР°РґРѕ РїСЂРѕР°РЅР°Р»РёР·РёСЂРѕРІР°С‚СЊ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ РєРѕРјРїРёР»СЏС‚РѕСЂР° РЅР° СЌС‚Сѓ РёРЅСЃС‚СЂСѓРєС†РёСЋ
 }
 
 /*static*/ const string &Object::typeId(Object::Type type)
@@ -4478,7 +4478,7 @@ Attribute *Object::attribute(const string &labelStr) {
 
 Attribute *Object::stdAttribute(const string &labelStr) {
 	if (pim->m_rparent->addStdAttribute(labelStr))
-	// - Запрашиваем добавление атрибута
+	// - Р—Р°РїСЂР°С€РёРІР°РµРј РґРѕР±Р°РІР»РµРЅРёРµ Р°С‚СЂРёР±СѓС‚Р°
 		return attribute(labelStr);
 	else
 		return NULL;
@@ -4489,10 +4489,10 @@ Attribute *Object::stdAttribute(const string &labelStr) {
 class FileHeader : public Object {
 public:
 	static Object::Type type() { return Object::FILE_HEADER; }
-// Фиксированные значения длины атрибутов
-	static const uint seqNumLength = 10;	// - атрибут "SEQUENCE-NUMBER"
-	static const uint idLength = 65;		// - атрибут "ID"
-// Таблица атрибутов
+// Р¤РёРєСЃРёСЂРѕРІР°РЅРЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ РґР»РёРЅС‹ Р°С‚СЂРёР±СѓС‚РѕРІ
+	static const uint seqNumLength = 10;	// - Р°С‚СЂРёР±СѓС‚ "SEQUENCE-NUMBER"
+	static const uint idLength = 65;		// - Р°С‚СЂРёР±СѓС‚ "ID"
+// РўР°Р±Р»РёС†Р° Р°С‚СЂРёР±СѓС‚РѕРІ
 	static const AttributeMap *pAttributeMap();
 // ----------------------------------------------------------------------------
 	FileHeader(ObjectParent *parent, const ObjectName &name) :
@@ -4546,7 +4546,7 @@ void FileHeader::setId(const string &id) {
 //	if (id.length() != idLength) ri = RI(RI::NonStdFH, 2);
 //	eraseTrailingSpaces(id);
 //	if (pim->pcAttribute(1)->label().str() != "ID") ri = RI(RI::NonStdFH, 3);
-//	// - проверка стандартного порядка атрибутов
+//	// - РїСЂРѕРІРµСЂРєР° СЃС‚Р°РЅРґР°СЂС‚РЅРѕРіРѕ РїРѕСЂСЏРґРєР° Р°С‚СЂРёР±СѓС‚РѕРІ
 //	return ri;
 //}
 
@@ -4582,12 +4582,12 @@ RI FileHeader::parse(uint32 &seqNum, string &id) const {
 	if (id.length() != idLength) ri = RI(RI::NonStdFH, 2);
 	eraseTrailingSpaces(id);
 	if (pim->pcAttribute(1)->label().str() != "ID") ri = RI(RI::NonStdFH, 3);
-	// - проверка стандартного порядка атрибутов
+	// - РїСЂРѕРІРµСЂРєР° СЃС‚Р°РЅРґР°СЂС‚РЅРѕРіРѕ РїРѕСЂСЏРґРєР° Р°С‚СЂРёР±СѓС‚РѕРІ
 	return ri;
 }
-/* - NB: Правильнее было бы реализовать parse() в этом классе по общей схеме,
-		 в т.ч. с учетом описания AttributeDefinition
-		 (см. например, реализацию функции Channel::Impl::parse) */
+/* - NB: РџСЂР°РІРёР»СЊРЅРµРµ Р±С‹Р»Рѕ Р±С‹ СЂРµР°Р»РёР·РѕРІР°С‚СЊ parse() РІ СЌС‚РѕРј РєР»Р°СЃСЃРµ РїРѕ РѕР±С‰РµР№ СЃС…РµРјРµ,
+		 РІ С‚.С‡. СЃ СѓС‡РµС‚РѕРј РѕРїРёСЃР°РЅРёСЏ AttributeDefinition
+		 (СЃРј. РЅР°РїСЂРёРјРµСЂ, СЂРµР°Р»РёР·Р°С†РёСЋ С„СѓРЅРєС†РёРё Channel::Impl::parse) */
 
 const Attribute
 *FileHeader::getValidAttr(const string &attrLabelStr) const {
@@ -4611,14 +4611,14 @@ Origin::Origin(ObjectParent *parent, const ObjectName &name) :
 class Channel::Impl : public Object::Impl {
 public:
 	static const AttributeMap *pAttributeMap();
-	long valueSize() const {	// Размер значения в байтах
+	long valueSize() const {	// Р Р°Р·РјРµСЂ Р·РЅР°С‡РµРЅРёСЏ РІ Р±Р°Р№С‚Р°С…
 		uint elsz = Representation::getSize(m_rc);
 		return elsz == -1 ? -1 : m_flatCnt * elsz;
 	}
 	bool frameable() const;
-	// - Проверка готовности данного CHANNEL-объекта для его использования
-	//	 в FRAME-объекте (наличие атрибутов REPRESENTATION-CODE, DIMENSION
-	//	 и ELEMENT-LIMIT
+	// - РџСЂРѕРІРµСЂРєР° РіРѕС‚РѕРІРЅРѕСЃС‚Рё РґР°РЅРЅРѕРіРѕ CHANNEL-РѕР±СЉРµРєС‚Р° РґР»СЏ РµРіРѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ
+	//	 РІ FRAME-РѕР±СЉРµРєС‚Рµ (РЅР°Р»РёС‡РёРµ Р°С‚СЂРёР±СѓС‚РѕРІ REPRESENTATION-CODE, DIMENSION
+	//	 Рё ELEMENT-LIMIT
 	void setNullCurrentValue() { m_val.setNull(m_rc, m_flatCnt); }
 //	template <class T>
 //		RI getCurrentValue(T &value, size_t flatIndex) const;
@@ -4631,7 +4631,7 @@ public:
 	template <class T>
 		RI setCurrentValue(const T *p);
 	void read(Input &input_file);
-//	void readCurrentValue(const byte *&p);	// - пока не нужно
+//	void readCurrentValue(const byte *&p);	// - РїРѕРєР° РЅРµ РЅСѓР¶РЅРѕ
 	void readCurrentValue(Input &input_file);
 	void writeCurrentValue(Output &out) const;
 private:
@@ -4663,13 +4663,13 @@ private:
 		m_valIntf(new ValueInterface::Dispatcher(pIntf)),
 		m_flatCnt(0) {}
 	~Impl() {}
-// - см. примечание к Attribute::Impl::~Impl
+// - СЃРј. РїСЂРёРјРµС‡Р°РЅРёРµ Рє Attribute::Impl::~Impl
 	RI parse();
 	bool dimensionWithinLimits();
-	// - Сравнивает значение атрибута DIMENSION с ограничениями в ELEMENT-LIMIT
-	//	 (функция должна вызываться не ранее, чем значение атрибута
-	//	  ELEMENT-LIMIT будет прочитано или установлено)
-	void afterRestoreDimension();	// - вычисляет m_flatCnt
+	// - РЎСЂР°РІРЅРёРІР°РµС‚ Р·РЅР°С‡РµРЅРёРµ Р°С‚СЂРёР±СѓС‚Р° DIMENSION СЃ РѕРіСЂР°РЅРёС‡РµРЅРёСЏРјРё РІ ELEMENT-LIMIT
+	//	 (С„СѓРЅРєС†РёСЏ РґРѕР»Р¶РЅР° РІС‹Р·С‹РІР°С‚СЊСЃСЏ РЅРµ СЂР°РЅРµРµ, С‡РµРј Р·РЅР°С‡РµРЅРёРµ Р°С‚СЂРёР±СѓС‚Р°
+	//	  ELEMENT-LIMIT Р±СѓРґРµС‚ РїСЂРѕС‡РёС‚Р°РЅРѕ РёР»Рё СѓСЃС‚Р°РЅРѕРІР»РµРЅРѕ)
+	void afterRestoreDimension();	// - РІС‹С‡РёСЃР»СЏРµС‚ m_flatCnt
 	void notifyChanged(Item *i) {
 		const Attribute::Impl *pai = dynamic_cast<const Attribute::Impl *>(i);
 		if (!pai) return;
@@ -4694,8 +4694,8 @@ private:
 		vector<uint32> mv_ellim;
 	SingleValue m_val;
 	ValueInterface m_valIntf;
-	size_t m_flatCnt;	// - только для оптимизации
-	// - NB: Поле m_flatCnt избыточно, т.к. определяется полем m_dim
+	size_t m_flatCnt;	// - С‚РѕР»СЊРєРѕ РґР»СЏ РѕРїС‚РёРјРёР·Р°С†РёРё
+	// - NB: РџРѕР»Рµ m_flatCnt РёР·Р±С‹С‚РѕС‡РЅРѕ, С‚.Рє. РѕРїСЂРµРґРµР»СЏРµС‚СЃСЏ РїРѕР»РµРј m_dim
 }; // Channel::Impl
 
 /*static*/ const AttributeMap *Channel::Impl::pAttributeMap() {
@@ -4706,7 +4706,7 @@ private:
 	am.add("UNITS",				  1, UNITS);
 	am.add("DIMENSION",				 UVARI);
 	am.add("ELEMENT-LIMIT",			 UVARI);
-	// - NB: Порядок tagged-определений используется в тегах TagXXX
+	// - NB: РџРѕСЂСЏРґРѕРє tagged-РѕРїСЂРµРґРµР»РµРЅРёР№ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ С‚РµРіР°С… TagXXX
 	am.tagged = false;
 	am.add("LONG-NAME",	 1, OBNAME, ASCII);
 	am.add("PROPERTIES",	IDENT		 );
@@ -4881,26 +4881,26 @@ public:
 		m_pIflr = NULL;
 	}
 
-// Функции чтения
+// Р¤СѓРЅРєС†РёРё С‡С‚РµРЅРёСЏ
 	uint32 number() const { return m_num; }
 	bool slotsEmpty() { return m_pIflr == NULL; }
 	RI fillChannelValues(Channels &chans) const;
 	RI assign(std::istream *isIFLRBody);
 	void assignSlots(std::istream *isIFLRBody);
-// Функции записи
+// Р¤СѓРЅРєС†РёРё Р·Р°РїРёСЃРё
 	void increaseNumber() { ++m_num; }
-	// Поле, заполняемое и используемое только из LogicalFile::Impl
+	// РџРѕР»Рµ, Р·Р°РїРѕР»РЅСЏРµРјРѕРµ Рё РёСЃРїРѕР»СЊР·СѓРµРјРѕРµ С‚РѕР»СЊРєРѕ РёР· LogicalFile::Impl
 	void write(Output &out, ConstChannels &chans);
 	LogicalRecordLocation location;
 private:
 	uint32 m_num;
-// Поля только для режима чтения
-	std::istream *m_pIflr;	// Логическая запись (IFLR), содержащая фрейм
-	std::streampos m_pSlots;	// Позиция данных каналов в логической записи
+// РџРѕР»СЏ С‚РѕР»СЊРєРѕ РґР»СЏ СЂРµР¶РёРјР° С‡С‚РµРЅРёСЏ
+	std::istream *m_pIflr;	// Р›РѕРіРёС‡РµСЃРєР°СЏ Р·Р°РїРёСЃСЊ (IFLR), СЃРѕРґРµСЂР¶Р°С‰Р°СЏ С„СЂРµР№Рј
+	std::streampos m_pSlots;	// РџРѕР·РёС†РёСЏ РґР°РЅРЅС‹С… РєР°РЅР°Р»РѕРІ РІ Р»РѕРіРёС‡РµСЃРєРѕР№ Р·Р°РїРёСЃРё
 };
-// - Время чтения RST.dlis:
-//	для старого варианта Frame (хранение Value) - 0.29 с
-//	для нового варианта Frame (хранение stream) - 0.27 с
+// - Р’СЂРµРјСЏ С‡С‚РµРЅРёСЏ RST.dlis:
+//	РґР»СЏ СЃС‚Р°СЂРѕРіРѕ РІР°СЂРёР°РЅС‚Р° Frame (С…СЂР°РЅРµРЅРёРµ Value) - 0.29 СЃ
+//	РґР»СЏ РЅРѕРІРѕРіРѕ РІР°СЂРёР°РЅС‚Р° Frame (С…СЂР°РЅРµРЅРёРµ stream) - 0.27 СЃ
 
 RI Frame::assign(std::istream *isIFLRBody) 
 {
@@ -4908,7 +4908,7 @@ RI Frame::assign(std::istream *isIFLRBody)
     
 	Input    input_file(m_pIflr);
 	SingleValue::read(m_num, input_file, Representation::UVARI);
-// - NB: Здесь возможна единственная ошибка: DataTrunc, генерирующая исключение
+// - NB: Р—РґРµСЃСЊ РІРѕР·РјРѕР¶РЅР° РµРґРёРЅСЃС‚РІРµРЅРЅР°СЏ РѕС€РёР±РєР°: DataTrunc, РіРµРЅРµСЂРёСЂСѓСЋС‰Р°СЏ РёСЃРєР»СЋС‡РµРЅРёРµ
 	m_pSlots = input_file.getPos();
 
 	if (m_num == 0) 
@@ -4967,7 +4967,7 @@ public:
 	}
 	RI linkChannels(LogicalFile::ObjectIt beginChannel,
 					LogicalFile::ObjectIt endChannel);
-// Функции чтения
+// Р¤СѓРЅРєС†РёРё С‡С‚РµРЅРёСЏ
 	ConstChannels &cchannels() const { return (ConstChannels &)mvr_chans; }
 	uint32 frameCount() const { return mvp_frames.size(); }
 	bool frameLoaded(uint32 index) { return !mvp_frames[index]->slotsEmpty();}
@@ -4978,30 +4978,30 @@ public:
 	void read(Input &input_file);
 //	RI makeNextFrame(std::istream *isIFLRBody,
 //					 const LogicalRecordLocation *loc = NULL);
-//	// - Создает экземпляр Frame для очередного фрейма и передает ему
-//	//	 в *isIFLRBody тело логической записи, содержащей фрейм.
-//	/*   *loc задает положение IFLR-записи с фреймом во входном потоке (чтобы
-//		 фрейм мог быть загружен позже).
-//		 В созданный экземпляр Frame:
-//		 - если loc==NULL, сохраняется IFLR-запись с фреймом,
-//		 - если loc!=NULL, записывается loc и положение данных каналов (Slots)
-//		   в IFLR-записи */
+//	// - РЎРѕР·РґР°РµС‚ СЌРєР·РµРјРїР»СЏСЂ Frame РґР»СЏ РѕС‡РµСЂРµРґРЅРѕРіРѕ С„СЂРµР№РјР° Рё РїРµСЂРµРґР°РµС‚ РµРјСѓ
+//	//	 РІ *isIFLRBody С‚РµР»Рѕ Р»РѕРіРёС‡РµСЃРєРѕР№ Р·Р°РїРёСЃРё, СЃРѕРґРµСЂР¶Р°С‰РµР№ С„СЂРµР№Рј.
+//	/*   *loc Р·Р°РґР°РµС‚ РїРѕР»РѕР¶РµРЅРёРµ IFLR-Р·Р°РїРёСЃРё СЃ С„СЂРµР№РјРѕРј РІРѕ РІС…РѕРґРЅРѕРј РїРѕС‚РѕРєРµ (С‡С‚РѕР±С‹
+//		 С„СЂРµР№Рј РјРѕРі Р±С‹С‚СЊ Р·Р°РіСЂСѓР¶РµРЅ РїРѕР·Р¶Рµ).
+//		 Р’ СЃРѕР·РґР°РЅРЅС‹Р№ СЌРєР·РµРјРїР»СЏСЂ Frame:
+//		 - РµСЃР»Рё loc==NULL, СЃРѕС…СЂР°РЅСЏРµС‚СЃСЏ IFLR-Р·Р°РїРёСЃСЊ СЃ С„СЂРµР№РјРѕРј,
+//		 - РµСЃР»Рё loc!=NULL, Р·Р°РїРёСЃС‹РІР°РµС‚СЃСЏ loc Рё РїРѕР»РѕР¶РµРЅРёРµ РґР°РЅРЅС‹С… РєР°РЅР°Р»РѕРІ (Slots)
+//		   РІ IFLR-Р·Р°РїРёСЃРё */
 	RI makeNextFrame(std::istream *isIFLRBody,
 					 const LogicalRecordLocation &loc);
-	// - Создает экземпляр Frame для очередного фрейма.
-	/* - Параметр isIFLRBody - указатель на поток, содержащий тело логической
-		 записи с фреймом;
-		 при loadFrames()==false экземпляр Frame становится владельцем потока,
-		 при loadFrames()==true поток уничтожается.
-		 Параметр loc - положение IFLR-записи с фреймом во входном потоке
-		 (чтобы фрейм мог быть загружен позже);
-		 при loadFrames()==true) не используется */
+	// - РЎРѕР·РґР°РµС‚ СЌРєР·РµРјРїР»СЏСЂ Frame РґР»СЏ РѕС‡РµСЂРµРґРЅРѕРіРѕ С„СЂРµР№РјР°.
+	/* - РџР°СЂР°РјРµС‚СЂ isIFLRBody - СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РїРѕС‚РѕРє, СЃРѕРґРµСЂР¶Р°С‰РёР№ С‚РµР»Рѕ Р»РѕРіРёС‡РµСЃРєРѕР№
+		 Р·Р°РїРёСЃРё СЃ С„СЂРµР№РјРѕРј;
+		 РїСЂРё loadFrames()==false СЌРєР·РµРјРїР»СЏСЂ Frame СЃС‚Р°РЅРѕРІРёС‚СЃСЏ РІР»Р°РґРµР»СЊС†РµРј РїРѕС‚РѕРєР°,
+		 РїСЂРё loadFrames()==true РїРѕС‚РѕРє СѓРЅРёС‡С‚РѕР¶Р°РµС‚СЃСЏ.
+		 РџР°СЂР°РјРµС‚СЂ loc - РїРѕР»РѕР¶РµРЅРёРµ IFLR-Р·Р°РїРёСЃРё СЃ С„СЂРµР№РјРѕРј РІРѕ РІС…РѕРґРЅРѕРј РїРѕС‚РѕРєРµ
+		 (С‡С‚РѕР±С‹ С„СЂРµР№Рј РјРѕРі Р±С‹С‚СЊ Р·Р°РіСЂСѓР¶РµРЅ РїРѕР·Р¶Рµ);
+		 РїСЂРё loadFrames()==true) РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ */
 	void assignSlots(uint32 frameIndex, std::istream *isIFLRBody);
-	// - Передает логическую запись *isIFLRBody с фреймом экземпляру Frame
-	//	 с индексом frameIndex (только для режима loadFrames()==false)
+	// - РџРµСЂРµРґР°РµС‚ Р»РѕРіРёС‡РµСЃРєСѓСЋ Р·Р°РїРёСЃСЊ *isIFLRBody СЃ С„СЂРµР№РјРѕРј СЌРєР·РµРјРїР»СЏСЂСѓ Frame
+	//	 СЃ РёРЅРґРµРєСЃРѕРј frameIndex (С‚РѕР»СЊРєРѕ РґР»СЏ СЂРµР¶РёРјР° loadFrames()==false)
 //	void clearSlots(uint32 frameIndex);
-//	// - Очищает данные каналов фрейма
-// Функции записи
+//	// - РћС‡РёС‰Р°РµС‚ РґР°РЅРЅС‹Рµ РєР°РЅР°Р»РѕРІ С„СЂРµР№РјР°
+// Р¤СѓРЅРєС†РёРё Р·Р°РїРёСЃРё
 	Channels &channels() const { return (Channels &)mvr_chans; }
 	void writeNextOutFrame(Output &out);
 private:
@@ -5027,14 +5027,14 @@ private:
 	void freeMem() {
 		clearPtrContainer(mvp_frames);
 	}
-// Функции чтения
+// Р¤СѓРЅРєС†РёРё С‡С‚РµРЅРёСЏ
 	RI parse();
 	bool loadFrames() const 
     { 
         return m_rparent->loadFramesToMemory(); 
     }
 
-// Функции записи
+// Р¤СѓРЅРєС†РёРё Р·Р°РїРёСЃРё
 	void notifyChanged(Item *i) {
 		const Attribute::Impl *pa = dynamic_cast<const Attribute::Impl *>(i);
 		if (!pa) return;
@@ -5045,16 +5045,16 @@ private:
 	vector<ObjectName> mv_chnms;
 	vector<Channel *> mvr_chans;
 	vector<Frame *> mvp_frames;
-// Поля для режима чтения
+// РџРѕР»СЏ РґР»СЏ СЂРµР¶РёРјР° С‡С‚РµРЅРёСЏ
 	uint32 m_frix;
-	// - Индекс текущего загруженного фрейма при loadFrames()==false
-// Поля для режима записи
+	// - РРЅРґРµРєСЃ С‚РµРєСѓС‰РµРіРѕ Р·Р°РіСЂСѓР¶РµРЅРЅРѕРіРѕ С„СЂРµР№РјР° РїСЂРё loadFrames()==false
+// РџРѕР»СЏ РґР»СЏ СЂРµР¶РёРјР° Р·Р°РїРёСЃРё
 	Frame m_frout;
 }; // class FrameType::Impl
-//TODO: Полезно сделать для FRAME-объектов свой итератор
-//		(в частности, для того, чтобы не приходилось применять dynamic_cast)
-//TODO: В интерфейсе FrameType лучше возвращать ссылки на каналы
-//		как ссылку на константный вектор
+//TODO: РџРѕР»РµР·РЅРѕ СЃРґРµР»Р°С‚СЊ РґР»СЏ FRAME-РѕР±СЉРµРєС‚РѕРІ СЃРІРѕР№ РёС‚РµСЂР°С‚РѕСЂ
+//		(РІ С‡Р°СЃС‚РЅРѕСЃС‚Рё, РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ РЅРµ РїСЂРёС…РѕРґРёР»РѕСЃСЊ РїСЂРёРјРµРЅСЏС‚СЊ dynamic_cast)
+//TODO: Р’ РёРЅС‚РµСЂС„РµР№СЃРµ FrameType Р»СѓС‡С€Рµ РІРѕР·РІСЂР°С‰Р°С‚СЊ СЃСЃС‹Р»РєРё РЅР° РєР°РЅР°Р»С‹
+//		РєР°Рє СЃСЃС‹Р»РєСѓ РЅР° РєРѕРЅСЃС‚Р°РЅС‚РЅС‹Р№ РІРµРєС‚РѕСЂ
 
 /*static*/ const AttributeMap *FrameType::Impl::pAttributeMap() {
 	using namespace Representation;
@@ -5078,7 +5078,7 @@ void FrameType::Impl::read(Input &input_file) {
 	RI ri = parse();
 	if (ri.retCode() == RI::BadFrameObj) throw ri;
 }
-// - NB: Код практически идентичен коду Channel::Impl::read
+// - NB: РљРѕРґ РїСЂР°РєС‚РёС‡РµСЃРєРё РёРґРµРЅС‚РёС‡РµРЅ РєРѕРґСѓ Channel::Impl::read
 
 //RI FrameType::Impl::parse() {
 //	const Attribute *pa;
@@ -5105,16 +5105,16 @@ RI FrameType::Impl::linkChannels(LogicalFile::ObjectIt beginChannel,
 											  Object::nameOf, mv_chnms[n]);
 //		if (ito == endChannel) return RI(RI::NoChan);
 			if (ito == endChannel) continue;
-/* - NB: Хотя отсутствие канала является критической ошибкой в режиме чтения
-		 (т.к. в этом случае невозможно читать данные из фреймов), в режиме
-		 это может быть промежуточным состоянием (проверка наличия всех каналов
-		 будет выполняться непосредственно перед записью первого фрейма путем
-		 простого сравнения числа элементов в mv_chnms и mvr_chans) */
+/* - NB: РҐРѕС‚СЏ РѕС‚СЃСѓС‚СЃС‚РІРёРµ РєР°РЅР°Р»Р° СЏРІР»СЏРµС‚СЃСЏ РєСЂРёС‚РёС‡РµСЃРєРѕР№ РѕС€РёР±РєРѕР№ РІ СЂРµР¶РёРјРµ С‡С‚РµРЅРёСЏ
+		 (С‚.Рє. РІ СЌС‚РѕРј СЃР»СѓС‡Р°Рµ РЅРµРІРѕР·РјРѕР¶РЅРѕ С‡РёС‚Р°С‚СЊ РґР°РЅРЅС‹Рµ РёР· С„СЂРµР№РјРѕРІ), РІ СЂРµР¶РёРјРµ
+		 СЌС‚Рѕ РјРѕР¶РµС‚ Р±С‹С‚СЊ РїСЂРѕРјРµР¶СѓС‚РѕС‡РЅС‹Рј СЃРѕСЃС‚РѕСЏРЅРёРµРј (РїСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ РІСЃРµС… РєР°РЅР°Р»РѕРІ
+		 Р±СѓРґРµС‚ РІС‹РїРѕР»РЅСЏС‚СЊСЃСЏ РЅРµРїРѕСЃСЂРµРґСЃС‚РІРµРЅРЅРѕ РїРµСЂРµРґ Р·Р°РїРёСЃСЊСЋ РїРµСЂРІРѕРіРѕ С„СЂРµР№РјР° РїСѓС‚РµРј
+		 РїСЂРѕСЃС‚РѕРіРѕ СЃСЂР°РІРЅРµРЅРёСЏ С‡РёСЃР»Р° СЌР»РµРјРµРЅС‚РѕРІ РІ mv_chnms Рё mvr_chans) */
 		Channel *po = dynamic_cast<Channel *>(*ito);
 		if (!po->pim->frameable()) ri.upTo(RI(RI::BadChan, 3));
-		/* - NB: фактически только на случай отсутствия у канала атрибута
-				 ELEMENT_LIMIT при чтении (т.к. каналы с другими отсутствующими
-				 нужными атрибутами были удалены ранее) */
+		/* - NB: С„Р°РєС‚РёС‡РµСЃРєРё С‚РѕР»СЊРєРѕ РЅР° СЃР»СѓС‡Р°Р№ РѕС‚СЃСѓС‚СЃС‚РІРёСЏ Сѓ РєР°РЅР°Р»Р° Р°С‚СЂРёР±СѓС‚Р°
+				 ELEMENT_LIMIT РїСЂРё С‡С‚РµРЅРёРё (С‚.Рє. РєР°РЅР°Р»С‹ СЃ РґСЂСѓРіРёРјРё РѕС‚СЃСѓС‚СЃС‚РІСѓСЋС‰РёРјРё
+				 РЅСѓР¶РЅС‹РјРё Р°С‚СЂРёР±СѓС‚Р°РјРё Р±С‹Р»Рё СѓРґР°Р»РµРЅС‹ СЂР°РЅРµРµ) */
 		mvr_chans.push_back(po);
 	}
 	return ri;
@@ -5246,8 +5246,8 @@ public:
 	static const AttributeMap *pAttributeMap(Object::Type type);
 // ----------------------------------------------------------------------------
 	Set(SetParent *parent, EFLRType e) :
-		m_rparent(parent), m_eflrType(e), m_tpl(this) {}	// - для чтения
-	Set(SetParent *parent, Object::Type type);				// - для записи
+		m_rparent(parent), m_eflrType(e), m_tpl(this) {}	// - РґР»СЏ С‡С‚РµРЅРёСЏ
+	Set(SetParent *parent, Object::Type type);				// - РґР»СЏ Р·Р°РїРёСЃРё
 	~Set() {
 		freeMem();
 	}
@@ -5263,25 +5263,25 @@ public:
 	void read(Input &input_file);
 //	const vector<Object *> &objects() const { return mvp_objs; }
 	void eraseObject(uint index) { mvp_objs.erase(mvp_objs.begin() + index); }
-// Функции для записи
+// Р¤СѓРЅРєС†РёРё РґР»СЏ Р·Р°РїРёСЃРё
 	void write(Output &out) const;
 	Attribute *addNewAttribute(const string &labelStr);
 	bool addStdAttribute(const string &labelStr) {
 		if (!pAttributeMap(objectType())->definition(labelStr))
-			return false; // - labelStr не является меткой стандартного атрибута
+			return false; // - labelStr РЅРµ СЏРІР»СЏРµС‚СЃСЏ РјРµС‚РєРѕР№ СЃС‚Р°РЅРґР°СЂС‚РЅРѕРіРѕ Р°С‚СЂРёР±СѓС‚Р°
 		addNewAttribute(labelStr);
 		return true;
-	}	// - для запроса из дочернего Object
+	}	// - РґР»СЏ Р·Р°РїСЂРѕСЃР° РёР· РґРѕС‡РµСЂРЅРµРіРѕ Object
 //	bool defineNewAttribute(const Ident &label) {
 //		if (!m_tpl.addNewAttribute(label)) return false;
 //		/**/
 //		return true;
 //	}
 	Object *addNewObject(const ObjectName &name, bool createAttributes = true);
-	/* - NB: Параметр createAttributes введен только для некоторой оптимизации
-			 (и повышения надежности); его значение false используется только
-			 в режиме чтения (см. Set::readNextObject), хотя в начале вызова
-			 Object::read объект очищается */
+	/* - NB: РџР°СЂР°РјРµС‚СЂ createAttributes РІРІРµРґРµРЅ С‚РѕР»СЊРєРѕ РґР»СЏ РЅРµРєРѕС‚РѕСЂРѕР№ РѕРїС‚РёРјРёР·Р°С†РёРё
+			 (Рё РїРѕРІС‹С€РµРЅРёСЏ РЅР°РґРµР¶РЅРѕСЃС‚Рё); РµРіРѕ Р·РЅР°С‡РµРЅРёРµ false РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ С‚РѕР»СЊРєРѕ
+			 РІ СЂРµР¶РёРјРµ С‡С‚РµРЅРёСЏ (СЃРј. Set::readNextObject), С…РѕС‚СЏ РІ РЅР°С‡Р°Р»Рµ РІС‹Р·РѕРІР°
+			 Object::read РѕР±СЉРµРєС‚ РѕС‡РёС‰Р°РµС‚СЃСЏ */
 private:
 	class Component : public Dlis::Component {
 	public:
@@ -5300,7 +5300,7 @@ private:
 			bName = 3,
 			bType = 4
 		};
-		// - см. примечание к классу Attribute::Impl::Component
+		// - СЃРј. РїСЂРёРјРµС‡Р°РЅРёРµ Рє РєР»Р°СЃСЃСѓ Attribute::Impl::Component
 		Ident m_n;
 		Ident m_t;
 	}; // class Component
@@ -5310,15 +5310,15 @@ private:
 		m_tpl.clear();
 	}
 	void freeMem() { clearPtrContainer(mvp_objs, &Object::deletePtr); }
-// Функции для чтения
+// Р¤СѓРЅРєС†РёРё РґР»СЏ С‡С‚РµРЅРёСЏ
 	bool loadFramesToMemory() const { return m_rparent->loadFramesToMemory(); }
 	void readSetComponent(Input &input_file);
 	void readTemplate(Input &input_file);
 	void readNextObject(Input &input_file);
-// Функции для записи
+// Р¤СѓРЅРєС†РёРё РґР»СЏ Р·Р°РїРёСЃРё
 	void defineAttributes(const AttributeMap *map);
 
-	// - NB: вызывается только из конструктора
+	// - NB: РІС‹Р·С‹РІР°РµС‚СЃСЏ С‚РѕР»СЊРєРѕ РёР· РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°
 	void notifyChanged(Item *i) 
     {
 		FrameType::Impl *pfoi = dynamic_cast<FrameType::Impl *>(i);
@@ -5336,8 +5336,8 @@ private:
 }; // class Set
 
 Set::Component::Component(Object::Type t, const Ident &name) {
-// - NB: Параметр name на данный момент не используется
-//		 (согласно стандарту, Set может не иметь имени)
+// - NB: РџР°СЂР°РјРµС‚СЂ name РЅР° РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚ РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ
+//		 (СЃРѕРіР»Р°СЃРЅРѕ СЃС‚Р°РЅРґР°СЂС‚Сѓ, Set РјРѕР¶РµС‚ РЅРµ РёРјРµС‚СЊ РёРјРµРЅРё)
 	m_d.role = rSet;
 	m_t = Object::typeId(t);
 	m_d.fmt[bType] = true;
@@ -5444,11 +5444,11 @@ void Set::read(Input &input_file)
 
 	}
 
-	// - Обработка ошибок будет выполнена вызывающей функцией
+	// - РћР±СЂР°Р±РѕС‚РєР° РѕС€РёР±РѕРє Р±СѓРґРµС‚ РІС‹РїРѕР»РЅРµРЅР° РІС‹Р·С‹РІР°СЋС‰РµР№ С„СѓРЅРєС†РёРµР№
 	readTemplate(input_file);
 
 	if (input_file.atEnd())
-		input_file.addIssue(RI::NonStdSet);       // - Set не содержит ни одного Object
+		input_file.addIssue(RI::NonStdSet);       // - Set РЅРµ СЃРѕРґРµСЂР¶РёС‚ РЅРё РѕРґРЅРѕРіРѕ Object
 
 	while (!input_file.atEnd()) 
         readNextObject(input_file);
@@ -5481,10 +5481,10 @@ void Set::readNextObject(Input &input_file)
 
 	if (m_eflrType == FHLR && objectType() != Object::FILE_HEADER)
 		input_file.addIssue(RI::NonStdFHLR);
-	// - NB: Проверка соответствия типа объекта типу EFLR пока
-	//		 поддерживается только для FHLR
-	// - NB: Объект *po в этом случае можно не создавать,
-	//		 т.к. все равно он не будет доступен пользователю
+	// - NB: РџСЂРѕРІРµСЂРєР° СЃРѕРѕС‚РІРµС‚СЃС‚РІРёСЏ С‚РёРїР° РѕР±СЉРµРєС‚Р° С‚РёРїСѓ EFLR РїРѕРєР°
+	//		 РїРѕРґРґРµСЂР¶РёРІР°РµС‚СЃСЏ С‚РѕР»СЊРєРѕ РґР»СЏ FHLR
+	// - NB: РћР±СЉРµРєС‚ *po РІ СЌС‚РѕРј СЃР»СѓС‡Р°Рµ РјРѕР¶РЅРѕ РЅРµ СЃРѕР·РґР°РІР°С‚СЊ,
+	//		 С‚.Рє. РІСЃРµ СЂР°РІРЅРѕ РѕРЅ РЅРµ Р±СѓРґРµС‚ РґРѕСЃС‚СѓРїРµРЅ РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ
 	try 
     {
 		po->pim->read(input_file);
@@ -5549,8 +5549,8 @@ Object *Set::addNewObject(const ObjectName &name, bool createAttributes)
 	po->pim->initialize(&objectTypeId(), &m_tpl, createAttributes);
 	return po;
 }
-// - NB: Проверка уникальности имени выполняется на уровне LogicalFile
-//		 (см. LogicalFile::addNewObject)
+// - NB: РџСЂРѕРІРµСЂРєР° СѓРЅРёРєР°Р»СЊРЅРѕСЃС‚Рё РёРјРµРЅРё РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ РЅР° СѓСЂРѕРІРЅРµ LogicalFile
+//		 (СЃРј. LogicalFile::addNewObject)
 
 //=============================================================================
 
@@ -5564,17 +5564,17 @@ public:
 //		indexSet = other.indexSet;
 //		indexObject = other.indexObject;
 //	}
-// - NB: Конструктор копирования генерируется по умолчанию
+// - NB: РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ РіРµРЅРµСЂРёСЂСѓРµС‚СЃСЏ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 	Object::Type type() const { return m_type; }
 	bool samePosition(const ObjectIteratorData &other) const {
 		return indexSet == other.indexSet && indexObject == other.indexObject;
 	}
 	int indexSet, indexObject;
-	// - Текущий индекс экземпляра Set в контейнере m_sets
-	//	 и текущий индекс экземпляра Object в контейнере m_objs текущего Set
-	//	 (поля indexXXX изменяются в функции LogicalFile::iterateObject)
-// - NB: Использовать тип uint для полей, с которыми постоянно выполняются
-//		 операции сложения/вычитания (здесь это поля indexXXX), рискованно
+	// - РўРµРєСѓС‰РёР№ РёРЅРґРµРєСЃ СЌРєР·РµРјРїР»СЏСЂР° Set РІ РєРѕРЅС‚РµР№РЅРµСЂРµ m_sets
+	//	 Рё С‚РµРєСѓС‰РёР№ РёРЅРґРµРєСЃ СЌРєР·РµРјРїР»СЏСЂР° Object РІ РєРѕРЅС‚РµР№РЅРµСЂРµ m_objs С‚РµРєСѓС‰РµРіРѕ Set
+	//	 (РїРѕР»СЏ indexXXX РёР·РјРµРЅСЏСЋС‚СЃСЏ РІ С„СѓРЅРєС†РёРё LogicalFile::iterateObject)
+// - NB: РСЃРїРѕР»СЊР·РѕРІР°С‚СЊ С‚РёРї uint РґР»СЏ РїРѕР»РµР№, СЃ РєРѕС‚РѕСЂС‹РјРё РїРѕСЃС‚РѕСЏРЅРЅРѕ РІС‹РїРѕР»РЅСЏСЋС‚СЃСЏ
+//		 РѕРїРµСЂР°С†РёРё СЃР»РѕР¶РµРЅРёСЏ/РІС‹С‡РёС‚Р°РЅРёСЏ (Р·РґРµСЃСЊ СЌС‚Рѕ РїРѕР»СЏ indexXXX), СЂРёСЃРєРѕРІР°РЅРЅРѕ
 private:
 	Object::Type m_type;
 };
@@ -5596,22 +5596,22 @@ public:
 	uint indexOfSetBwd(Object::Type type, uint indexFrom) const;
 //	int indexOfSet(Object::Type type, int indexFrom,
 //				   bool backwards = false) const;
-// - объединенный вариант (пока  не работает)
-// Функции для чтения
+// - РѕР±СЉРµРґРёРЅРµРЅРЅС‹Р№ РІР°СЂРёР°РЅС‚ (РїРѕРєР°  РЅРµ СЂР°Р±РѕС‚Р°РµС‚)
+// Р¤СѓРЅРєС†РёРё РґР»СЏ С‡С‚РµРЅРёСЏ
 	void read(Input &inDlis, bool &wasLast);
-	// - Чтение логического файла из входного DLIS-потока inDlis
-	/* - wasLast - признак того, был ли прочитанный логический файл последним */
-	/* - Для ускорения чтения из файла используется промежуточный буфер на одну
-		 видимую запись (при чтении из потока в памяти эта буферизация является
-		 избыточной, но не должна значительно замедлять чтение) */
+	// - Р§С‚РµРЅРёРµ Р»РѕРіРёС‡РµСЃРєРѕРіРѕ С„Р°Р№Р»Р° РёР· РІС…РѕРґРЅРѕРіРѕ DLIS-РїРѕС‚РѕРєР° inDlis
+	/* - wasLast - РїСЂРёР·РЅР°Рє С‚РѕРіРѕ, Р±С‹Р» Р»Рё РїСЂРѕС‡РёС‚Р°РЅРЅС‹Р№ Р»РѕРіРёС‡РµСЃРєРёР№ С„Р°Р№Р» РїРѕСЃР»РµРґРЅРёРј */
+	/* - Р”Р»СЏ СѓСЃРєРѕСЂРµРЅРёСЏ С‡С‚РµРЅРёСЏ РёР· С„Р°Р№Р»Р° РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РїСЂРѕРјРµР¶СѓС‚РѕС‡РЅС‹Р№ Р±СѓС„РµСЂ РЅР° РѕРґРЅСѓ
+		 РІРёРґРёРјСѓСЋ Р·Р°РїРёСЃСЊ (РїСЂРё С‡С‚РµРЅРёРё РёР· РїРѕС‚РѕРєР° РІ РїР°РјСЏС‚Рё СЌС‚Р° Р±СѓС„РµСЂРёР·Р°С†РёСЏ СЏРІР»СЏРµС‚СЃСЏ
+		 РёР·Р±С‹С‚РѕС‡РЅРѕР№, РЅРѕ РЅРµ РґРѕР»Р¶РЅР° Р·РЅР°С‡РёС‚РµР»СЊРЅРѕ Р·Р°РјРµРґР»СЏС‚СЊ С‡С‚РµРЅРёРµ) */
 	void loadFrame(Input &inDlis,
 				   const FrameType *frameType, uint32 frameIndex);
-/* - NB: Возможно, логичнее было бы сделать функции loadIFLR и readIFLR
-		 статическими, т.к. они используют только поля m_vr (буфер на одну
-		 видимую запись) и m_vrpos (положение буфера), которые по сути должны
-		 быть общими для всех логических файлов.
-		 Тогда не понадобилась бы функция logicalFileOf, но m_vr и m_vrpos
-		 пришлось бы передавать через параметры функций */
+/* - NB: Р’РѕР·РјРѕР¶РЅРѕ, Р»РѕРіРёС‡РЅРµРµ Р±С‹Р»Рѕ Р±С‹ СЃРґРµР»Р°С‚СЊ С„СѓРЅРєС†РёРё loadIFLR Рё readIFLR
+		 СЃС‚Р°С‚РёС‡РµСЃРєРёРјРё, С‚.Рє. РѕРЅРё РёСЃРїРѕР»СЊР·СѓСЋС‚ С‚РѕР»СЊРєРѕ РїРѕР»СЏ m_vr (Р±СѓС„РµСЂ РЅР° РѕРґРЅСѓ
+		 РІРёРґРёРјСѓСЋ Р·Р°РїРёСЃСЊ) Рё m_vrpos (РїРѕР»РѕР¶РµРЅРёРµ Р±СѓС„РµСЂР°), РєРѕС‚РѕСЂС‹Рµ РїРѕ СЃСѓС‚Рё РґРѕР»Р¶РЅС‹
+		 Р±С‹С‚СЊ РѕР±С‰РёРјРё РґР»СЏ РІСЃРµС… Р»РѕРіРёС‡РµСЃРєРёС… С„Р°Р№Р»РѕРІ.
+		 РўРѕРіРґР° РЅРµ РїРѕРЅР°РґРѕР±РёР»Р°СЃСЊ Р±С‹ С„СѓРЅРєС†РёСЏ logicalFileOf, РЅРѕ m_vr Рё m_vrpos
+		 РїСЂРёС€Р»РѕСЃСЊ Р±С‹ РїРµСЂРµРґР°РІР°С‚СЊ С‡РµСЂРµР· РїР°СЂР°РјРµС‚СЂС‹ С„СѓРЅРєС†РёР№ */
 //		void ShowStat(std::ostream &os) {
 //			Stat &s = m_stat;
 //			os << "  Record Statistics" << "\n";
@@ -5620,7 +5620,7 @@ public:
 //				  " (" << s.eflrCnt << " EFLRs + " << s.iflrCnt << " IFLRs)\n";
 //			os << "    Logical Record Segments: " << s.lrsCnt << "\n";
 //		}
-// Функции для записи
+// Р¤СѓРЅРєС†РёРё РґР»СЏ Р·Р°РїРёСЃРё
 	void notifyChanged(Item *i) {
 		FrameType::Impl *pfti = dynamic_cast<FrameType::Impl *>(i);
 		if (!pfti) return;
@@ -5641,36 +5641,36 @@ private:
 		uint32 seqNum() const { return m_sn; }
 		const string &id() const { return m_id; }
 		void clear() { m_rfh = NULL; m_sn = 0; m_id = ""; }
-		void link(FileHeader *pfh) { m_rfh = pfh; }	// - для чтения
-		void link(FileHeader *pfh, uint32 seqNum) {	// - для записи
+		void link(FileHeader *pfh) { m_rfh = pfh; }	// - РґР»СЏ С‡С‚РµРЅРёСЏ
+		void link(FileHeader *pfh, uint32 seqNum) {	// - РґР»СЏ Р·Р°РїРёСЃРё
 			m_rfh = pfh;
 			m_rfh->setSeqNum(seqNum);
 			setId(m_id);
-			// - только для того, чтобы, согласно стандарту, установить флаг
-			//	 Value у Атрибута 'ID' (хотя строка m_id еще пустая)
+			// - С‚РѕР»СЊРєРѕ РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹, СЃРѕРіР»Р°СЃРЅРѕ СЃС‚Р°РЅРґР°СЂС‚Сѓ, СѓСЃС‚Р°РЅРѕРІРёС‚СЊ С„Р»Р°Рі
+			//	 Value Сѓ РђС‚СЂРёР±СѓС‚Р° 'ID' (С…РѕС‚СЏ СЃС‚СЂРѕРєР° m_id РµС‰Рµ РїСѓСЃС‚Р°СЏ)
 		}
-	// Функции для чтения
+	// Р¤СѓРЅРєС†РёРё РґР»СЏ С‡С‚РµРЅРёСЏ
 		RI parse() {
 				if (!m_rfh) return RI(RI::ProgErr, 14).toCritical();
 			return m_rfh->parse(m_sn, m_id);
 		}
-	// Функции для записи
+	// Р¤СѓРЅРєС†РёРё РґР»СЏ Р·Р°РїРёСЃРё
 		void setId(const string &id) {
 			m_rfh->setId(id);
 			RI ri = m_rfh->parse(m_sn, m_id);
 				if (!ri.ok()) throw RI(RI::ProgErr, 10).toCritical();
 		}
 	private:
-		FileHeader *m_rfh;	// Ссылка на объект в FHLR
+		FileHeader *m_rfh;	// РЎСЃС‹Р»РєР° РЅР° РѕР±СЉРµРєС‚ РІ FHLR
 		uint32 m_sn;
 		string m_id;
 	}; // class Header
 // ----------------------------------------------------------------------------
 	Impl(LogicalFile *pIntf, LogicalFileParent *parent);
-	// - для чтения
+	// - РґР»СЏ С‡С‚РµРЅРёСЏ
 	Impl(LogicalFile *pIntf, LogicalFileParent *parent,
 		 uint32 seqNum, const ObjectName &defOri);
-	// - для записи
+	// - РґР»СЏ Р·Р°РїРёСЃРё
 	~Impl() {
 		freeMem();
 	}
@@ -5687,37 +5687,37 @@ private:
 //		ObjectIt iteFr = pin->endObject(Object::FRAME);
 //		ObjectIt ito = findByKey(pin->beginObject(Object::FRAME), iteFr,
 //								 Object::nameOf, obn);
-///* - NB: Поиск можно оптимизировать, запоминая последний найденный тип фрейма
-//		 (Frame Object), но это имеет смысл, если разных типов много */
+///* - NB: РџРѕРёСЃРє РјРѕР¶РЅРѕ РѕРїС‚РёРјРёР·РёСЂРѕРІР°С‚СЊ, Р·Р°РїРѕРјРёРЅР°СЏ РїРѕСЃР»РµРґРЅРёР№ РЅР°Р№РґРµРЅРЅС‹Р№ С‚РёРї С„СЂРµР№РјР°
+//		 (Frame Object), РЅРѕ СЌС‚Рѕ РёРјРµРµС‚ СЃРјС‹СЃР», РµСЃР»Рё СЂР°Р·РЅС‹С… С‚РёРїРѕРІ РјРЅРѕРіРѕ */
 //		if (ito != iteFr) return dynamic_cast<FrameType *>(*ito);
 //		else return NULL;
-//	} // - пока нет необходимости
-// Функции для чтения
+//	} // - РїРѕРєР° РЅРµС‚ РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё
+// Р¤СѓРЅРєС†РёРё РґР»СЏ С‡С‚РµРЅРёСЏ
 	bool loadFramesToMemory() const { return m_rparent->loadFramesToMemory(); }
 	void readLogicalRecordBody(LogicalRecord &lr,
 							   const LogicalRecordLocation &lrloc,
 							   ErrorLogImpl *err);
 	void makeNextSet(Input &inEFLRBody, EFLRType e);
-	// - Читает содержимое EFLR и создает новый элемент Set
+	// - Р§РёС‚Р°РµС‚ СЃРѕРґРµСЂР¶РёРјРѕРµ EFLR Рё СЃРѕР·РґР°РµС‚ РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚ Set
 	void makeNextFrame(std::istream *isIFLRBody,
 					   const LogicalRecordLocation &lrloc, ErrorLogImpl *err);
-	// - Создает новый экземпляр Frame и передает ему (делает его владельцем)
-	//	 поток *isIFLRBody, содержащий очередной фрейм;
-	/* - lrloc - положение фрейма во входном DLIS-потоке, передаваемое
-		 на хранение и далее используемое только из LogicalFile::Impl */
+	// - РЎРѕР·РґР°РµС‚ РЅРѕРІС‹Р№ СЌРєР·РµРјРїР»СЏСЂ Frame Рё РїРµСЂРµРґР°РµС‚ РµРјСѓ (РґРµР»Р°РµС‚ РµРіРѕ РІР»Р°РґРµР»СЊС†РµРј)
+	//	 РїРѕС‚РѕРє *isIFLRBody, СЃРѕРґРµСЂР¶Р°С‰РёР№ РѕС‡РµСЂРµРґРЅРѕР№ С„СЂРµР№Рј;
+	/* - lrloc - РїРѕР»РѕР¶РµРЅРёРµ С„СЂРµР№РјР° РІРѕ РІС…РѕРґРЅРѕРј DLIS-РїРѕС‚РѕРєРµ, РїРµСЂРµРґР°РІР°РµРјРѕРµ
+		 РЅР° С…СЂР°РЅРµРЅРёРµ Рё РґР°Р»РµРµ РёСЃРїРѕР»СЊР·СѓРµРјРѕРµ С‚РѕР»СЊРєРѕ РёР· LogicalFile::Impl */
 	void addSet(Set *ps);
 	void eraseObject(LogicalFile::ObjectIt it);
 	RI parseObjects();
 	void readIFLR(LogicalRecord &iflr, Input &inDlis,
 				  const LogicalRecordLocation &loc);
-	// - Чтение IFLR-записи по ее положению loc во входном DLIS-потоке
-// Функции для записи
+	// - Р§С‚РµРЅРёРµ IFLR-Р·Р°РїРёСЃРё РїРѕ РµРµ РїРѕР»РѕР¶РµРЅРёСЋ loc РІРѕ РІС…РѕРґРЅРѕРј DLIS-РїРѕС‚РѕРєРµ
+// Р¤СѓРЅРєС†РёРё РґР»СЏ Р·Р°РїРёСЃРё
 	Set *addNewSet(Object::Type type);
 	Set &set(Object::Type type) {
 		uint i = indexOfSet(type, 0);
 		return i == -1 ? *addNewSet(type) : *mvp_sets[i];
 	}
-	// - Возвращает первый Set типа type, при отсутствии создавая его
+	// - Р’РѕР·РІСЂР°С‰Р°РµС‚ РїРµСЂРІС‹Р№ Set С‚РёРїР° type, РїСЂРё РѕС‚СЃСѓС‚СЃС‚РІРёРё СЃРѕР·РґР°РІР°СЏ РµРіРѕ
 	void writeLogicalRecordBody(Output &outDlis, LogicalRecord &lr);
 // Data -----------------------------------------------------------------------
 	LogicalFile *const pin;
@@ -5726,14 +5726,14 @@ private:
 	byte m_ori;
 	vector <Set *> mvp_sets;
 	VisibleRecord m_vr;
-	// - Текущая видимая запись.
-	/* - Используется:
-		 - в режиме записи,
-		 - в режиме чтения при loadFramesToMemory()==false */
-// Поля для режима чтения
-	std::streampos m_vrpos;	// Позиция (прочитанной) видимой записи m_vr
+	// - РўРµРєСѓС‰Р°СЏ РІРёРґРёРјР°СЏ Р·Р°РїРёСЃСЊ.
+	/* - РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ:
+		 - РІ СЂРµР¶РёРјРµ Р·Р°РїРёСЃРё,
+		 - РІ СЂРµР¶РёРјРµ С‡С‚РµРЅРёСЏ РїСЂРё loadFramesToMemory()==false */
+// РџРѕР»СЏ РґР»СЏ СЂРµР¶РёРјР° С‡С‚РµРЅРёСЏ
+	std::streampos m_vrpos;	// РџРѕР·РёС†РёСЏ (РїСЂРѕС‡РёС‚Р°РЅРЅРѕР№) РІРёРґРёРјРѕР№ Р·Р°РїРёСЃРё m_vr
 	bool m_crypt;
-	bool m_parsed;	// - устанавливается в parseObjects
+	bool m_parsed;	// - СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚СЃСЏ РІ parseObjects
 		struct Stat {
 			Stat() { clear(); }
 			void clear() { vrCnt = 0; lrsCnt = 0; eflrCnt = 0; iflrCnt = 0; }
@@ -5789,8 +5789,8 @@ uint LogicalFile::Impl::indexOfSetBwd(Object::Type type, uint indexFrom) const {
 //		}
 //		return -1;
 //	}
-// - NB: Использование объединенного варианта приводит к ошибке;
-//		 причину пока установить не удалось
+// - NB: РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РѕР±СЉРµРґРёРЅРµРЅРЅРѕРіРѕ РІР°СЂРёР°РЅС‚Р° РїСЂРёРІРѕРґРёС‚ Рє РѕС€РёР±РєРµ;
+//		 РїСЂРёС‡РёРЅСѓ РїРѕРєР° СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РЅРµ СѓРґР°Р»РѕСЃСЊ
 
 void LogicalFile::Impl::clear() {
 	m_h.clear();
@@ -5816,14 +5816,14 @@ void LogicalFile::Impl::read(Input &file_DLIS, bool &was_last)
 	clear();
 
 	bool                  log_file_start = true;
-	VisibleRecord         visible_rcd;              // Текущая видимая запись
-	LogicalRecord         logical_rcd;              // Текущая логическая запись
+	VisibleRecord         visible_rcd;              // РўРµРєСѓС‰Р°СЏ РІРёРґРёРјР°СЏ Р·Р°РїРёСЃСЊ
+	LogicalRecord         logical_rcd;              // РўРµРєСѓС‰Р°СЏ Р»РѕРіРёС‡РµСЃРєР°СЏ Р·Р°РїРёСЃСЊ
 	LogicalRecordLocation logical_rcd_location;
 
-	// - Положение текущей логической записи
+	// - РџРѕР»РѕР¶РµРЅРёРµ С‚РµРєСѓС‰РµР№ Р»РѕРіРёС‡РµСЃРєРѕР№ Р·Р°РїРёСЃРё
 	/*
-     - (нужно только при loadFramesToMemory()==false, но для простоты
-	вычисляется всегда 
+     - (РЅСѓР¶РЅРѕ С‚РѕР»СЊРєРѕ РїСЂРё loadFramesToMemory()==false, РЅРѕ РґР»СЏ РїСЂРѕСЃС‚РѕС‚С‹
+	РІС‹С‡РёСЃР»СЏРµС‚СЃСЏ РІСЃРµРіРґР° 
     */
 
 	bool first_segment  = true;
@@ -5831,7 +5831,7 @@ void LogicalFile::Impl::read(Input &file_DLIS, bool &was_last)
 
 	while (true) 
     {
-	    // Читаем очередную видимую запись
+	    // Р§РёС‚Р°РµРј РѕС‡РµСЂРµРґРЅСѓСЋ РІРёРґРёРјСѓСЋ Р·Р°РїРёСЃСЊ
 		std::streampos vsbl_rcd_start = file_DLIS.getPos();
 
 		visible_rcd.read(file_DLIS);
@@ -5840,41 +5840,41 @@ void LogicalFile::Impl::read(Input &file_DLIS, bool &was_last)
 
 		if (log_rcd_ended)
         {
-		    // - Закончилась ли предыдущая видимая запись последним сегментом
-		    //	 логической записи?
-		    //   Проверяем, не начинает ли текущая видимая запись новый логический
-		    //	 файл
+		    // - Р—Р°РєРѕРЅС‡РёР»Р°СЃСЊ Р»Рё РїСЂРµРґС‹РґСѓС‰Р°СЏ РІРёРґРёРјР°СЏ Р·Р°РїРёСЃСЊ РїРѕСЃР»РµРґРЅРёРј СЃРµРіРјРµРЅС‚РѕРј
+		    //	 Р»РѕРіРёС‡РµСЃРєРѕР№ Р·Р°РїРёСЃРё?
+		    //   РџСЂРѕРІРµСЂСЏРµРј, РЅРµ РЅР°С‡РёРЅР°РµС‚ Р»Рё С‚РµРєСѓС‰Р°СЏ РІРёРґРёРјР°СЏ Р·Р°РїРёСЃСЊ РЅРѕРІС‹Р№ Р»РѕРіРёС‡РµСЃРєРёР№
+		    //	 С„Р°Р№Р»
 			logical_rcd.newRecord(false);
 
 			bool    log_rcd_ended;
 
 			logical_rcd.readSegment(input_visible_rcd, log_rcd_ended);
-			// - Считываем заголовок первого сегмента текущей видимой записи
-			//	 для проверки, не начинает ли она новый логический файл
-			// - NB: признак lrEnded здесь не используется
+			// - РЎС‡РёС‚С‹РІР°РµРј Р·Р°РіРѕР»РѕРІРѕРє РїРµСЂРІРѕРіРѕ СЃРµРіРјРµРЅС‚Р° С‚РµРєСѓС‰РµР№ РІРёРґРёРјРѕР№ Р·Р°РїРёСЃРё
+			//	 РґР»СЏ РїСЂРѕРІРµСЂРєРё, РЅРµ РЅР°С‡РёРЅР°РµС‚ Р»Рё РѕРЅР° РЅРѕРІС‹Р№ Р»РѕРіРёС‡РµСЃРєРёР№ С„Р°Р№Р»
+			// - NB: РїСЂРёР·РЅР°Рє lrEnded Р·РґРµСЃСЊ РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ
 			if (logical_rcd.isFileHeader())
             {
 				file_DLIS.setPos(vsbl_rcd_start);
-				// - Восстанавливаем позицию потока на начале текущей видимой
-				//	 записи (т.е. начале нового логического файла)
-                // - NB: Прочитанные данные первой видимой записи нового логического файла
-                //		 далее не используются (будут прочитаны заново);
-                //		 это некритично, т.к. число логических файлов обычно мало
+				// - Р’РѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј РїРѕР·РёС†РёСЋ РїРѕС‚РѕРєР° РЅР° РЅР°С‡Р°Р»Рµ С‚РµРєСѓС‰РµР№ РІРёРґРёРјРѕР№
+				//	 Р·Р°РїРёСЃРё (С‚.Рµ. РЅР°С‡Р°Р»Рµ РЅРѕРІРѕРіРѕ Р»РѕРіРёС‡РµСЃРєРѕРіРѕ С„Р°Р№Р»Р°)
+                // - NB: РџСЂРѕС‡РёС‚Р°РЅРЅС‹Рµ РґР°РЅРЅС‹Рµ РїРµСЂРІРѕР№ РІРёРґРёРјРѕР№ Р·Р°РїРёСЃРё РЅРѕРІРѕРіРѕ Р»РѕРіРёС‡РµСЃРєРѕРіРѕ С„Р°Р№Р»Р°
+                //		 РґР°Р»РµРµ РЅРµ РёСЃРїРѕР»СЊР·СѓСЋС‚СЃСЏ (Р±СѓРґСѓС‚ РїСЂРѕС‡РёС‚Р°РЅС‹ Р·Р°РЅРѕРІРѕ);
+                //		 СЌС‚Рѕ РЅРµРєСЂРёС‚РёС‡РЅРѕ, С‚.Рє. С‡РёСЃР»Рѕ Р»РѕРіРёС‡РµСЃРєРёС… С„Р°Р№Р»РѕРІ РѕР±С‹С‡РЅРѕ РјР°Р»Рѕ
 				break;
 			}
 			else 
             {
 				input_visible_rcd.setPos(0);
-				// - Восстанавливаем позицию входного потока видимой записи
-				//	 на начале первого сегмента
+				// - Р’РѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј РїРѕР·РёС†РёСЋ РІС…РѕРґРЅРѕРіРѕ РїРѕС‚РѕРєР° РІРёРґРёРјРѕР№ Р·Р°РїРёСЃРё
+				//	 РЅР° РЅР°С‡Р°Р»Рµ РїРµСЂРІРѕРіРѕ СЃРµРіРјРµРЅС‚Р°
 				logical_rcd.newRecord();
 			}
 		} // if (lrEnded)
 
 		while (input_visible_rcd.getPos() < visible_rcd.dataLength())
         {
-		    // - Текущая видимая запись не закончилась?
-		    //   Читаем очередной сегмент
+		    // - РўРµРєСѓС‰Р°СЏ РІРёРґРёРјР°СЏ Р·Р°РїРёСЃСЊ РЅРµ Р·Р°РєРѕРЅС‡РёР»Р°СЃСЊ?
+		    //   Р§РёС‚Р°РµРј РѕС‡РµСЂРµРґРЅРѕР№ СЃРµРіРјРµРЅС‚
 			if (first_segment)
             {
 				logical_rcd_location.visRecPos = vsbl_rcd_start;
@@ -5887,15 +5887,15 @@ void LogicalFile::Impl::read(Input &file_DLIS, bool &was_last)
 
 			if (log_rcd_ended)
             {
-                // Прочитан ли последний сегмент логической записи
-			    // Обрабатываем накопленное тело логической записи
+                // РџСЂРѕС‡РёС‚Р°РЅ Р»Рё РїРѕСЃР»РµРґРЅРёР№ СЃРµРіРјРµРЅС‚ Р»РѕРіРёС‡РµСЃРєРѕР№ Р·Р°РїРёСЃРё
+			    // РћР±СЂР°Р±Р°С‚С‹РІР°РµРј РЅР°РєРѕРїР»РµРЅРЅРѕРµ С‚РµР»Рѕ Р»РѕРіРёС‡РµСЃРєРѕР№ Р·Р°РїРёСЃРё
 				if (log_file_start != logical_rcd.isFileHeader())
                     throw RI(RI::BadFHLRPos);
 
-                // - Строго говоря, эта проверка имеет смысл только для первого
-                //	 логического файла, для остальных же - это контроль
-                //	 правильности программы
-                // - NB: Проверку правильного положения Defining Origin лучше выполнить позже
+                // - РЎС‚СЂРѕРіРѕ РіРѕРІРѕСЂСЏ, СЌС‚Р° РїСЂРѕРІРµСЂРєР° РёРјРµРµС‚ СЃРјС‹СЃР» С‚РѕР»СЊРєРѕ РґР»СЏ РїРµСЂРІРѕРіРѕ
+                //	 Р»РѕРіРёС‡РµСЃРєРѕРіРѕ С„Р°Р№Р»Р°, РґР»СЏ РѕСЃС‚Р°Р»СЊРЅС‹С… Р¶Рµ - СЌС‚Рѕ РєРѕРЅС‚СЂРѕР»СЊ
+                //	 РїСЂР°РІРёР»СЊРЅРѕСЃС‚Рё РїСЂРѕРіСЂР°РјРјС‹
+                // - NB: РџСЂРѕРІРµСЂРєСѓ РїСЂР°РІРёР»СЊРЅРѕРіРѕ РїРѕР»РѕР¶РµРЅРёСЏ Defining Origin Р»СѓС‡С€Рµ РІС‹РїРѕР»РЅРёС‚СЊ РїРѕР·Р¶Рµ
 
 				if (logical_rcd.encrypted()) 
                     m_crypt = true;
@@ -5931,7 +5931,7 @@ void LogicalFile::Impl::readIFLR(LogicalRecord &iflr, Input &inDlis,
 	bool firstVR = true;
 	iflr.newRecord();
 	while (true) {
-	// Читаем очередную видимую запись, содержащую данную IFLR-запись
+	// Р§РёС‚Р°РµРј РѕС‡РµСЂРµРґРЅСѓСЋ РІРёРґРёРјСѓСЋ Р·Р°РїРёСЃСЊ, СЃРѕРґРµСЂР¶Р°С‰СѓСЋ РґР°РЅРЅСѓСЋ IFLR-Р·Р°РїРёСЃСЊ
 		if (firstVR) {
 			if (loc.visRecPos != m_vrpos) {
 				inDlis.setPos(loc.visRecPos);
@@ -5939,22 +5939,22 @@ void LogicalFile::Impl::readIFLR(LogicalRecord &iflr, Input &inDlis,
 				m_vr.read(inDlis);
 			} else
 				inDlis.setPos(loc.visRecPos + (std::streamoff)m_vr.length());
-/* - NB: Судя по экспериментам, на выполнение функции позиционирования в потоке
-		 ifstream::seekg() какое-то заметное время не требуется, но если это
-		 не так, вызов inDlis.setPos() следует выполнять только
-		 при необходимости, перед считыванием следующей видимой записи
-		 (т.к. это считывание не понадобится, если вся логическая запись
-		 находится внутри одной видимой записи) */
+/* - NB: РЎСѓРґСЏ РїРѕ СЌРєСЃРїРµСЂРёРјРµРЅС‚Р°Рј, РЅР° РІС‹РїРѕР»РЅРµРЅРёРµ С„СѓРЅРєС†РёРё РїРѕР·РёС†РёРѕРЅРёСЂРѕРІР°РЅРёСЏ РІ РїРѕС‚РѕРєРµ
+		 ifstream::seekg() РєР°РєРѕРµ-С‚Рѕ Р·Р°РјРµС‚РЅРѕРµ РІСЂРµРјСЏ РЅРµ С‚СЂРµР±СѓРµС‚СЃСЏ, РЅРѕ РµСЃР»Рё СЌС‚Рѕ
+		 РЅРµ С‚Р°Рє, РІС‹Р·РѕРІ inDlis.setPos() СЃР»РµРґСѓРµС‚ РІС‹РїРѕР»РЅСЏС‚СЊ С‚РѕР»СЊРєРѕ
+		 РїСЂРё РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё, РїРµСЂРµРґ СЃС‡РёС‚С‹РІР°РЅРёРµРј СЃР»РµРґСѓСЋС‰РµР№ РІРёРґРёРјРѕР№ Р·Р°РїРёСЃРё
+		 (С‚.Рє. СЌС‚Рѕ СЃС‡РёС‚С‹РІР°РЅРёРµ РЅРµ РїРѕРЅР°РґРѕР±РёС‚СЃСЏ, РµСЃР»Рё РІСЃСЏ Р»РѕРіРёС‡РµСЃРєР°СЏ Р·Р°РїРёСЃСЊ
+		 РЅР°С…РѕРґРёС‚СЃСЏ РІРЅСѓС‚СЂРё РѕРґРЅРѕР№ РІРёРґРёРјРѕР№ Р·Р°РїРёСЃРё) */
 		} else {
 			m_vrpos = inDlis.getPos();
 			m_vr.read(inDlis);
 		}
 		Input inVR(m_vr.pData(), inDlis.pErrorLog());
-// - NB: Второй параметр (пока) не используется, хотя ошибки могут возникать
+// - NB: Р’С‚РѕСЂРѕР№ РїР°СЂР°РјРµС‚СЂ (РїРѕРєР°) РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ, С…РѕС‚СЏ РѕС€РёР±РєРё РјРѕРіСѓС‚ РІРѕР·РЅРёРєР°С‚СЊ
 		if (firstVR) inVR.setPos(loc.ofs);
 		while (/*firstVR || */inVR.getPos() < m_vr.dataLength()) {
-		// - Текущая видимая запись не закончилась?
-		// Читаем очередной сегмент
+		// - РўРµРєСѓС‰Р°СЏ РІРёРґРёРјР°СЏ Р·Р°РїРёСЃСЊ РЅРµ Р·Р°РєРѕРЅС‡РёР»Р°СЃСЊ?
+		// Р§РёС‚Р°РµРј РѕС‡РµСЂРµРґРЅРѕР№ СЃРµРіРјРµРЅС‚
 			bool lrEnded;
 			iflr.readSegment(inVR, lrEnded);
 			if (lrEnded) return;
@@ -5970,16 +5970,16 @@ void LogicalFile::Impl::readIFLR(LogicalRecord &iflr, Input &inDlis,
 //		Output outVR(m_vr.pOutData());
 //			d_nfr290("a");
 //		uint segCnt = lr.writeSegments(outVR, m_vr.outSpaceLeft(), lrEnded);
-//		// - Число записанных (или дописанных) в m_vr сегментов, для которых
-//		//	 хватило места (segCnt==0 означает, что места недостаточно и нужно
-//		//	 начинать новую видимую запись)
+//		// - Р§РёСЃР»Рѕ Р·Р°РїРёСЃР°РЅРЅС‹С… (РёР»Рё РґРѕРїРёСЃР°РЅРЅС‹С…) РІ m_vr СЃРµРіРјРµРЅС‚РѕРІ, РґР»СЏ РєРѕС‚РѕСЂС‹С…
+//		//	 С…РІР°С‚РёР»Рѕ РјРµСЃС‚Р° (segCnt==0 РѕР·РЅР°С‡Р°РµС‚, С‡С‚Рѕ РјРµСЃС‚Р° РЅРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Рё РЅСѓР¶РЅРѕ
+//		//	 РЅР°С‡РёРЅР°С‚СЊ РЅРѕРІСѓСЋ РІРёРґРёРјСѓСЋ Р·Р°РїРёСЃСЊ)
 //			d_nfr290("b");
 //		if (segCnt > 0) continue;
 //			if (lrEnded || m_vr.outEmpty()) throw RI(RI::ProgErr, 11);
-//	// Записываем заполненную видимую запись в выходной поток
+//	// Р—Р°РїРёСЃС‹РІР°РµРј Р·Р°РїРѕР»РЅРµРЅРЅСѓСЋ РІРёРґРёРјСѓСЋ Р·Р°РїРёСЃСЊ РІ РІС‹С…РѕРґРЅРѕР№ РїРѕС‚РѕРє
 //			d_nfr290("c");
 //		m_vr.write(outDlis);
-//	// Начинаем новую видимую запись
+//	// РќР°С‡РёРЅР°РµРј РЅРѕРІСѓСЋ РІРёРґРёРјСѓСЋ Р·Р°РїРёСЃСЊ
 //			d_nfr290("d");
 //		m_vr.newOutRecord();
 //			d_nfr290("e");
@@ -5992,17 +5992,17 @@ void LogicalFile::Impl::writeLogicalRecordBody(Output &outDlis,
 	bool lrEnded = false;
 	while (!lrEnded) {
 		uint segCnt = lr.writeSegments(outVR, m_vr.outSpaceLeft(), lrEnded);
-		// - Число записанных (или дописанных) в m_vr сегментов, для которых
-		//	 хватило места (segCnt==0 означает, что места недостаточно и нужно
-		//	 начинать новую видимую запись)
+		// - Р§РёСЃР»Рѕ Р·Р°РїРёСЃР°РЅРЅС‹С… (РёР»Рё РґРѕРїРёСЃР°РЅРЅС‹С…) РІ m_vr СЃРµРіРјРµРЅС‚РѕРІ, РґР»СЏ РєРѕС‚РѕСЂС‹С…
+		//	 С…РІР°С‚РёР»Рѕ РјРµСЃС‚Р° (segCnt==0 РѕР·РЅР°С‡Р°РµС‚, С‡С‚Рѕ РјРµСЃС‚Р° РЅРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Рё РЅСѓР¶РЅРѕ
+		//	 РЅР°С‡РёРЅР°С‚СЊ РЅРѕРІСѓСЋ РІРёРґРёРјСѓСЋ Р·Р°РїРёСЃСЊ)
 		if (segCnt > 0) continue;
 			if (lrEnded || m_vr.outEmpty()) throw RI(RI::ProgErr, 11);
-	// Записываем заполненную видимую запись в выходной поток
+	// Р—Р°РїРёСЃС‹РІР°РµРј Р·Р°РїРѕР»РЅРµРЅРЅСѓСЋ РІРёРґРёРјСѓСЋ Р·Р°РїРёСЃСЊ РІ РІС‹С…РѕРґРЅРѕР№ РїРѕС‚РѕРє
 		m_vr.write(outDlis);
-	// Начинаем новую видимую запись
+	// РќР°С‡РёРЅР°РµРј РЅРѕРІСѓСЋ РІРёРґРёРјСѓСЋ Р·Р°РїРёСЃСЊ
 		outVR.close();
-		// - Закрываем объект outVR, т.к. при вызове m_vr.newOutRecord() поток,
-		//	 с которым связан outVR, уничтожается
+		// - Р—Р°РєСЂС‹РІР°РµРј РѕР±СЉРµРєС‚ outVR, С‚.Рє. РїСЂРё РІС‹Р·РѕРІРµ m_vr.newOutRecord() РїРѕС‚РѕРє,
+		//	 СЃ РєРѕС‚РѕСЂС‹Рј СЃРІСЏР·Р°РЅ outVR, СѓРЅРёС‡С‚РѕР¶Р°РµС‚СЃСЏ
 		m_vr.newOutRecord();
 		outVR.open(m_vr.pOutData());
 	}
@@ -6030,9 +6030,9 @@ RI LogicalFile::Impl::writeFrame(Output &outDlis, FrameType *frameType) {
 	LogicalRecord lr(LogicalRecord::FDATA);
 	Output lrBody(lr.pOutBody());
 	SingleValue::write(lrBody, frameType->name(), Representation::OBNAME);
-/* - NB: Используем здесь (и в других местах) SingleValue::write
-		 (а не Value::Convertor::toRaw) из соображений "симметричности" коду
-		 операций чтения (в данном случае функции makeNextFrame) */
+/* - NB: РСЃРїРѕР»СЊР·СѓРµРј Р·РґРµСЃСЊ (Рё РІ РґСЂСѓРіРёС… РјРµСЃС‚Р°С…) SingleValue::write
+		 (Р° РЅРµ Value::Convertor::toRaw) РёР· СЃРѕРѕР±СЂР°Р¶РµРЅРёР№ "СЃРёРјРјРµС‚СЂРёС‡РЅРѕСЃС‚Рё" РєРѕРґСѓ
+		 РѕРїРµСЂР°С†РёР№ С‡С‚РµРЅРёСЏ (РІ РґР°РЅРЅРѕРј СЃР»СѓС‡Р°Рµ С„СѓРЅРєС†РёРё makeNextFrame) */
 	frameType->pim->writeNextOutFrame(lrBody);
 	writeLogicalRecordBody(outDlis, lr);
 	return RI();
@@ -6053,9 +6053,9 @@ void LogicalFile::Impl::readLogicalRecordBody(LogicalRecord &lr, const LogicalRe
 
 		makeNextSet(lrBody, log_rcd_type.e);
 
-// - NB: Передать временный экземпляр Input (с вызовом конструктора
-//		 непосредственно при передаче параметра) невозможно, т.к. требуется
-//		 передача по ссылке без атрибута const
+// - NB: РџРµСЂРµРґР°С‚СЊ РІСЂРµРјРµРЅРЅС‹Р№ СЌРєР·РµРјРїР»СЏСЂ Input (СЃ РІС‹Р·РѕРІРѕРј РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР°
+//		 РЅРµРїРѕСЃСЂРµРґСЃС‚РІРµРЅРЅРѕ РїСЂРё РїРµСЂРµРґР°С‡Рµ РїР°СЂР°РјРµС‚СЂР°) РЅРµРІРѕР·РјРѕР¶РЅРѕ, С‚.Рє. С‚СЂРµР±СѓРµС‚СЃСЏ
+//		 РїРµСЂРµРґР°С‡Р° РїРѕ СЃСЃС‹Р»РєРµ Р±РµР· Р°С‚СЂРёР±СѓС‚Р° const
 	} 
     else 
     {
@@ -6066,11 +6066,11 @@ void LogicalFile::Impl::readLogicalRecordBody(LogicalRecord &lr, const LogicalRe
 			parseObjects();
 		}
 
-        /* - NB: Правильно ли устанавливать связь между FRAME- и CHANNEL-объектами
-		(а также выполнять некоторые проверки) в parseObjects здесь?
-		Но это зависит, например, от того, могут ли CHANNEL-объекты
-		находиться после ссылающихся на них FRAME-объектов, а также от того,
-		могут ли FRAME- и CHANNEL-объекты находиться после IFLR-записей */
+        /* - NB: РџСЂР°РІРёР»СЊРЅРѕ Р»Рё СѓСЃС‚Р°РЅР°РІР»РёРІР°С‚СЊ СЃРІСЏР·СЊ РјРµР¶РґСѓ FRAME- Рё CHANNEL-РѕР±СЉРµРєС‚Р°РјРё
+		(Р° С‚Р°РєР¶Рµ РІС‹РїРѕР»РЅСЏС‚СЊ РЅРµРєРѕС‚РѕСЂС‹Рµ РїСЂРѕРІРµСЂРєРё) РІ parseObjects Р·РґРµСЃСЊ?
+		РќРѕ СЌС‚Рѕ Р·Р°РІРёСЃРёС‚, РЅР°РїСЂРёРјРµСЂ, РѕС‚ С‚РѕРіРѕ, РјРѕРіСѓС‚ Р»Рё CHANNEL-РѕР±СЉРµРєС‚С‹
+		РЅР°С…РѕРґРёС‚СЊСЃСЏ РїРѕСЃР»Рµ СЃСЃС‹Р»Р°СЋС‰РёС…СЃСЏ РЅР° РЅРёС… FRAME-РѕР±СЉРµРєС‚РѕРІ, Р° С‚Р°РєР¶Рµ РѕС‚ С‚РѕРіРѕ,
+		РјРѕРіСѓС‚ Р»Рё FRAME- Рё CHANNEL-РѕР±СЉРµРєС‚С‹ РЅР°С…РѕРґРёС‚СЊСЃСЏ РїРѕСЃР»Рµ IFLR-Р·Р°РїРёСЃРµР№ */
 
 		if (log_rcd_type.i == LogicalRecord::FDATA)
         {
@@ -6129,7 +6129,7 @@ void LogicalFile::Impl::makeNextSet(Input &input_body_EFLR, EFLRType type)
 	if (mvp_sets.size() == 1) 
     {
 		FileHeader *pfh = pFileHeader();
-        // Анализируем File Header (в первом Set)
+        // РђРЅР°Р»РёР·РёСЂСѓРµРј File Header (РІ РїРµСЂРІРѕРј Set)
 		if (!pfh) 
         {
 			input_body_EFLR.addIssue(RI::BadFH);
@@ -6137,10 +6137,10 @@ void LogicalFile::Impl::makeNextSet(Input &input_body_EFLR, EFLRType type)
 		}
 
 //		if (inEFLRBody.lastValidPos() != (std::streampos)120)
-        /* - NB: Т.к. std::streampos является классом с несколькими полями (причем,
-        как показывает отладочное окно, значение позиции в потоке описывается,
-        похоже, комбинацией двух полей), приведение целого числа к типу
-        std::streampos ненадежно */
+        /* - NB: Рў.Рє. std::streampos СЏРІР»СЏРµС‚СЃСЏ РєР»Р°СЃСЃРѕРј СЃ РЅРµСЃРєРѕР»СЊРєРёРјРё РїРѕР»СЏРјРё (РїСЂРёС‡РµРј,
+        РєР°Рє РїРѕРєР°Р·С‹РІР°РµС‚ РѕС‚Р»Р°РґРѕС‡РЅРѕРµ РѕРєРЅРѕ, Р·РЅР°С‡РµРЅРёРµ РїРѕР·РёС†РёРё РІ РїРѕС‚РѕРєРµ РѕРїРёСЃС‹РІР°РµС‚СЃСЏ,
+        РїРѕС…РѕР¶Рµ, РєРѕРјР±РёРЅР°С†РёРµР№ РґРІСѓС… РїРѕР»РµР№), РїСЂРёРІРµРґРµРЅРёРµ С†РµР»РѕРіРѕ С‡РёСЃР»Р° Рє С‚РёРїСѓ
+        std::streampos РЅРµРЅР°РґРµР¶РЅРѕ */
 		if ((size_t)(input_body_EFLR.lastValidPos()) != 120)
             input_body_EFLR.addIssue(RI::NonStdFH, 4);
 			
@@ -6175,8 +6175,8 @@ void LogicalFile::Impl::makeNextFrame(std::istream *isIFLRBody, const LogicalRec
 
 	ObjectIt iteFr = pin->endObject(Object::FRAME);
 	ObjectIt ito   = findByKey(pin->beginObject(Object::FRAME), iteFr, Object::nameOf, obn);
-    /* - NB: Поиск можно оптимизировать, запоминая последний найденный тип фрейма
-	(Frame Object), но это имеет смысл, если разных типов много */
+    /* - NB: РџРѕРёСЃРє РјРѕР¶РЅРѕ РѕРїС‚РёРјРёР·РёСЂРѕРІР°С‚СЊ, Р·Р°РїРѕРјРёРЅР°СЏ РїРѕСЃР»РµРґРЅРёР№ РЅР°Р№РґРµРЅРЅС‹Р№ С‚РёРї С„СЂРµР№РјР°
+	(Frame Object), РЅРѕ СЌС‚Рѕ РёРјРµРµС‚ СЃРјС‹СЃР», РµСЃР»Рё СЂР°Р·РЅС‹С… С‚РёРїРѕРІ РјРЅРѕРіРѕ */
 	if (ito == iteFr) 
     {
 		inBody.addIssue(RI::BadFrame, 2); 
@@ -6184,8 +6184,8 @@ void LogicalFile::Impl::makeNextFrame(std::istream *isIFLRBody, const LogicalRec
 	}
 
 	inBody.close();
-	// - т.к. поток isIFLRBody далее передается в FRAME-объект
-	//	 (где может быть уничтожен)
+	// - С‚.Рє. РїРѕС‚РѕРє isIFLRBody РґР°Р»РµРµ РїРµСЂРµРґР°РµС‚СЃСЏ РІ FRAME-РѕР±СЉРµРєС‚
+	//	 (РіРґРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ СѓРЅРёС‡С‚РѕР¶РµРЅ)
 
 	FrameType *pft = dynamic_cast<FrameType *>(*ito);
 //	const LogicalRecordLocation *ploc = m_rparent->loadFramesToMemory() ?
@@ -6228,40 +6228,40 @@ RI LogicalFile::Impl::parseObjects()
 //						   Object::nameOf);
 //		if (!ok) { ri = RI::AmbigObjs; break; }
 //	}
-// - NB: Не выполняет проверку уникальности объектов типов Object::TypeOther
+// - NB: РќРµ РІС‹РїРѕР»РЅСЏРµС‚ РїСЂРѕРІРµСЂРєСѓ СѓРЅРёРєР°Р»СЊРЅРѕСЃС‚Рё РѕР±СЉРµРєС‚РѕРІ С‚РёРїРѕРІ Object::TypeOther
 
 	ok = allUniqueKeys(pin->cbeginObject(), pin->cendObject(), Object::referenceTo);
-	// - NB: Использование Object::referenceTo позволяет простым образом
-	//		 проверить уникальность имен объектов всех типов, в том числе
-	//		 входящих в Object::TypeOther
-	// - NB: Значительно замедляет выполнение (см. замеры ниже)!
+	// - NB: РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ Object::referenceTo РїРѕР·РІРѕР»СЏРµС‚ РїСЂРѕСЃС‚С‹Рј РѕР±СЂР°Р·РѕРј
+	//		 РїСЂРѕРІРµСЂРёС‚СЊ СѓРЅРёРєР°Р»СЊРЅРѕСЃС‚СЊ РёРјРµРЅ РѕР±СЉРµРєС‚РѕРІ РІСЃРµС… С‚РёРїРѕРІ, РІ С‚РѕРј С‡РёСЃР»Рµ
+	//		 РІС…РѕРґСЏС‰РёС… РІ Object::TypeOther
+	// - NB: Р—РЅР°С‡РёС‚РµР»СЊРЅРѕ Р·Р°РјРµРґР»СЏРµС‚ РІС‹РїРѕР»РЅРµРЅРёРµ (СЃРј. Р·Р°РјРµСЂС‹ РЅРёР¶Рµ)!
 	if (!ok) 
         ri = RI(RI::AmbigObjs);
 
-/* Время выполнения функции Reader::Impl::read (release-сборка)
-   на файле RST.dlis (39 МБайт)
-   - без проверки уникальности: 0.27 с
-   - с проверкой в цикле по типам (кроме TypeOther) через Object::nameOf: 0.27 с
-   - с проверкой через Object::referenceTo: 0.55 с
-	 = то же с отключением собственно операций получения ключей и их сравнения
-	   в allUniqueKeys: 0.27 с
-	   (вывод: собственно организация итератора ObjectConstIt не является
-	   причиной замедления, просто число операций сравнения велико)
-	 = то же с использованием в allUniqueKeys вызова findByKey: 0.41 с
-   После изменения порядка сравнения в ObjectReference::operator==
-   (сначала сравнение имен, потом типов)
-   - с проверкой через Object::referenceTo: 0.58 с
+/* Р’СЂРµРјСЏ РІС‹РїРѕР»РЅРµРЅРёСЏ С„СѓРЅРєС†РёРё Reader::Impl::read (release-СЃР±РѕСЂРєР°)
+   РЅР° С„Р°Р№Р»Рµ RST.dlis (39 РњР‘Р°Р№С‚)
+   - Р±РµР· РїСЂРѕРІРµСЂРєРё СѓРЅРёРєР°Р»СЊРЅРѕСЃС‚Рё: 0.27 СЃ
+   - СЃ РїСЂРѕРІРµСЂРєРѕР№ РІ С†РёРєР»Рµ РїРѕ С‚РёРїР°Рј (РєСЂРѕРјРµ TypeOther) С‡РµСЂРµР· Object::nameOf: 0.27 СЃ
+   - СЃ РїСЂРѕРІРµСЂРєРѕР№ С‡РµСЂРµР· Object::referenceTo: 0.55 СЃ
+	 = С‚Рѕ Р¶Рµ СЃ РѕС‚РєР»СЋС‡РµРЅРёРµРј СЃРѕР±СЃС‚РІРµРЅРЅРѕ РѕРїРµСЂР°С†РёР№ РїРѕР»СѓС‡РµРЅРёСЏ РєР»СЋС‡РµР№ Рё РёС… СЃСЂР°РІРЅРµРЅРёСЏ
+	   РІ allUniqueKeys: 0.27 СЃ
+	   (РІС‹РІРѕРґ: СЃРѕР±СЃС‚РІРµРЅРЅРѕ РѕСЂРіР°РЅРёР·Р°С†РёСЏ РёС‚РµСЂР°С‚РѕСЂР° ObjectConstIt РЅРµ СЏРІР»СЏРµС‚СЃСЏ
+	   РїСЂРёС‡РёРЅРѕР№ Р·Р°РјРµРґР»РµРЅРёСЏ, РїСЂРѕСЃС‚Рѕ С‡РёСЃР»Рѕ РѕРїРµСЂР°С†РёР№ СЃСЂР°РІРЅРµРЅРёСЏ РІРµР»РёРєРѕ)
+	 = С‚Рѕ Р¶Рµ СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј РІ allUniqueKeys РІС‹Р·РѕРІР° findByKey: 0.41 СЃ
+   РџРѕСЃР»Рµ РёР·РјРµРЅРµРЅРёСЏ РїРѕСЂСЏРґРєР° СЃСЂР°РІРЅРµРЅРёСЏ РІ ObjectReference::operator==
+   (СЃРЅР°С‡Р°Р»Р° СЃСЂР°РІРЅРµРЅРёРµ РёРјРµРЅ, РїРѕС‚РѕРј С‚РёРїРѕРІ)
+   - СЃ РїСЂРѕРІРµСЂРєРѕР№ С‡РµСЂРµР· Object::referenceTo: 0.58 СЃ
 */
-/* - NB: Для ускорения проверок на уникальность можно попробовать одно из
-		 следующих решений:
-		 1) использовать вложенную пару map-контейнеров: ключ внешнего
-			контейнера - тип объекта, ключ внутреннего - его имя (при этом
-			естественным образом появляется возможность еще одного варианта
-			реализации итераторов ObjectXXXIt)
-		 2) хранить экземпляр ObjectReference непосредственно в Object
-			и возвращать его по ссылке (вместо ObjectReference можно
-			использовать некий вспомогательный класс, хранящий ссылки на члены
-			Object::Impl, содержащие тип и имя объекта) */
+/* - NB: Р”Р»СЏ СѓСЃРєРѕСЂРµРЅРёСЏ РїСЂРѕРІРµСЂРѕРє РЅР° СѓРЅРёРєР°Р»СЊРЅРѕСЃС‚СЊ РјРѕР¶РЅРѕ РїРѕРїСЂРѕР±РѕРІР°С‚СЊ РѕРґРЅРѕ РёР·
+		 СЃР»РµРґСѓСЋС‰РёС… СЂРµС€РµРЅРёР№:
+		 1) РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РІР»РѕР¶РµРЅРЅСѓСЋ РїР°СЂСѓ map-РєРѕРЅС‚РµР№РЅРµСЂРѕРІ: РєР»СЋС‡ РІРЅРµС€РЅРµРіРѕ
+			РєРѕРЅС‚РµР№РЅРµСЂР° - С‚РёРї РѕР±СЉРµРєС‚Р°, РєР»СЋС‡ РІРЅСѓС‚СЂРµРЅРЅРµРіРѕ - РµРіРѕ РёРјСЏ (РїСЂРё СЌС‚РѕРј
+			РµСЃС‚РµСЃС‚РІРµРЅРЅС‹Рј РѕР±СЂР°Р·РѕРј РїРѕСЏРІР»СЏРµС‚СЃСЏ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РµС‰Рµ РѕРґРЅРѕРіРѕ РІР°СЂРёР°РЅС‚Р°
+			СЂРµР°Р»РёР·Р°С†РёРё РёС‚РµСЂР°С‚РѕСЂРѕРІ ObjectXXXIt)
+		 2) С…СЂР°РЅРёС‚СЊ СЌРєР·РµРјРїР»СЏСЂ ObjectReference РЅРµРїРѕСЃСЂРµРґСЃС‚РІРµРЅРЅРѕ РІ Object
+			Рё РІРѕР·РІСЂР°С‰Р°С‚СЊ РµРіРѕ РїРѕ СЃСЃС‹Р»РєРµ (РІРјРµСЃС‚Рѕ ObjectReference РјРѕР¶РЅРѕ
+			РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РЅРµРєРёР№ РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Р№ РєР»Р°СЃСЃ, С…СЂР°РЅСЏС‰РёР№ СЃСЃС‹Р»РєРё РЅР° С‡Р»РµРЅС‹
+			Object::Impl, СЃРѕРґРµСЂР¶Р°С‰РёРµ С‚РёРї Рё РёРјСЏ РѕР±СЉРµРєС‚Р°) */
 
 	ObjectIt itbCh = pin->beginObject(Object::CHANNEL),
 			 iteCh = pin->endObject(Object::CHANNEL);
@@ -6282,19 +6282,19 @@ RI LogicalFile::Impl::parseObjects()
 //			if (riCh.retCode() == RI::NoChan) eraseObject(it);
             if (!pfo->pim->allChannelsLinked()) 
                 eraseObject(it);
-			// - Удаляем FRAME-объект, если не все его CHANNEL-объекты найдены
+			// - РЈРґР°Р»СЏРµРј FRAME-РѕР±СЉРµРєС‚, РµСЃР»Рё РЅРµ РІСЃРµ РµРіРѕ CHANNEL-РѕР±СЉРµРєС‚С‹ РЅР°Р№РґРµРЅС‹
 			else if (!atbegin) 
                 --it;
-// - NB: Декремент данного итератора за пределами контейнера приводит к ошибке:
-//		 соответствует ли это требованиям к итераторам?
+// - NB: Р”РµРєСЂРµРјРµРЅС‚ РґР°РЅРЅРѕРіРѕ РёС‚РµСЂР°С‚РѕСЂР° Р·Р° РїСЂРµРґРµР»Р°РјРё РєРѕРЅС‚РµР№РЅРµСЂР° РїСЂРёРІРѕРґРёС‚ Рє РѕС€РёР±РєРµ:
+//		 СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ Р»Рё СЌС‚Рѕ С‚СЂРµР±РѕРІР°РЅРёСЏРј Рє РёС‚РµСЂР°С‚РѕСЂР°Рј?
 			ri.upTo(riCh);
 
 			if (atbegin) 
                 break;
 		}
 	}
-// - NB: Надо правильнее организовать этот цикл или, еще лучше, ввести
-//		 reverse-итератор
+// - NB: РќР°РґРѕ РїСЂР°РІРёР»СЊРЅРµРµ РѕСЂРіР°РЅРёР·РѕРІР°С‚СЊ СЌС‚РѕС‚ С†РёРєР» РёР»Рё, РµС‰Рµ Р»СѓС‡С€Рµ, РІРІРµСЃС‚Рё
+//		 reverse-РёС‚РµСЂР°С‚РѕСЂ
 	return ri;
 } // LogicalFile::Impl::parseObjects
 
@@ -6379,8 +6379,8 @@ const Origin *LogicalFile::cdefiningOrigin() const	{
 	LogicalFile::ObjectConstIt ite = cendObject();
 	return (itb == ite) ? NULL : dynamic_cast<const Origin *>(*itb);
 }
-//TODO: Ввести функцию 'int objectCount(Object::Type)', чтобы такие функции,
-//		как cdefiningOrigin, записывались короче
+//TODO: Р’РІРµСЃС‚Рё С„СѓРЅРєС†РёСЋ 'int objectCount(Object::Type)', С‡С‚РѕР±С‹ С‚Р°РєРёРµ С„СѓРЅРєС†РёРё,
+//		РєР°Рє cdefiningOrigin, Р·Р°РїРёСЃС‹РІР°Р»РёСЃСЊ РєРѕСЂРѕС‡Рµ
 
 Origin *LogicalFile::definingOrigin()
 	{ return const_cast<Origin *>(cdefiningOrigin()); }
@@ -6388,8 +6388,8 @@ Origin *LogicalFile::definingOrigin()
 LogicalFile::ObjectConstIt
 LogicalFile::cbeginObject(Object::Type type) const {
 	ObjectIteratorData d = ObjectIteratorData(type);
-	iterateObject(d, true);	// "Продвигаемся" к первому объекту типа type
-//		iterateObject(d);	// "Продвигаемся" к первому объекту типа type
+	iterateObject(d, true);	// "РџСЂРѕРґРІРёРіР°РµРјСЃСЏ" Рє РїРµСЂРІРѕРјСѓ РѕР±СЉРµРєС‚Сѓ С‚РёРїР° type
+//		iterateObject(d);	// "РџСЂРѕРґРІРёРіР°РµРјСЃСЏ" Рє РїРµСЂРІРѕРјСѓ РѕР±СЉРµРєС‚Сѓ С‚РёРїР° type
 	return ObjectConstIt(this, d);
 }
 
@@ -6401,18 +6401,18 @@ LogicalFile::ObjectConstIt LogicalFile::cendObject() const {
 LogicalFile::ObjectIt
 LogicalFile::beginObject(Object::Type type) {
 	ObjectIteratorData d = ObjectIteratorData(type);
-	iterateObject(d, true);	// "Продвигаемся" к первому объекту типа type
-//		iterateObject(d);	// "Продвигаемся" к первому объекту типа type
+	iterateObject(d, true);	// "РџСЂРѕРґРІРёРіР°РµРјСЃСЏ" Рє РїРµСЂРІРѕРјСѓ РѕР±СЉРµРєС‚Сѓ С‚РёРїР° type
+//		iterateObject(d);	// "РџСЂРѕРґРІРёРіР°РµРјСЃСЏ" Рє РїРµСЂРІРѕРјСѓ РѕР±СЉРµРєС‚Сѓ С‚РёРїР° type
 	return ObjectIt(this, d);
 }
 
 LogicalFile::ObjectIt LogicalFile::endObject(Object::Type type) {
 	return ObjectIt(this, ObjectIteratorData(type, pim->mvp_sets.size(), 0));
 }
-/* - NB: Т.к. это bidirectional-итератор, возвращаемое значение функции
-		 endObject тоже зависит от типа DLIS-объекта (в отличие от функции
-		 cendObject), поэтому есть опасность зацикливания при случайном указании
-		 разных типов при вызове beginObject и endObject в условии цикла */
+/* - NB: Рў.Рє. СЌС‚Рѕ bidirectional-РёС‚РµСЂР°С‚РѕСЂ, РІРѕР·РІСЂР°С‰Р°РµРјРѕРµ Р·РЅР°С‡РµРЅРёРµ С„СѓРЅРєС†РёРё
+		 endObject С‚РѕР¶Рµ Р·Р°РІРёСЃРёС‚ РѕС‚ С‚РёРїР° DLIS-РѕР±СЉРµРєС‚Р° (РІ РѕС‚Р»РёС‡РёРµ РѕС‚ С„СѓРЅРєС†РёРё
+		 cendObject), РїРѕСЌС‚РѕРјСѓ РµСЃС‚СЊ РѕРїР°СЃРЅРѕСЃС‚СЊ Р·Р°С†РёРєР»РёРІР°РЅРёСЏ РїСЂРё СЃР»СѓС‡Р°Р№РЅРѕРј СѓРєР°Р·Р°РЅРёРё
+		 СЂР°Р·РЅС‹С… С‚РёРїРѕРІ РїСЂРё РІС‹Р·РѕРІРµ beginObject Рё endObject РІ СѓСЃР»РѕРІРёРё С†РёРєР»Р° */
 
 const Object *LogicalFile::cobject(Object::Type type,
 								   const ObjectName &name) const {
@@ -6436,9 +6436,9 @@ LogicalFile::ObjectIteratorData
 bool LogicalFile::same(const ObjectIteratorData &d1,
 					   const ObjectIteratorData &d2) const
 	{ return d1.samePosition(d2); }
-// - NB: При сравнении итераторов учитываем только положение текущего,
-//		 DLIS-объекта, но не его тип (ObjectIteratorData::type) - в частности,
-//		 для унификации функции LogicalFile::cendObject
+// - NB: РџСЂРё СЃСЂР°РІРЅРµРЅРёРё РёС‚РµСЂР°С‚РѕСЂРѕРІ СѓС‡РёС‚С‹РІР°РµРј С‚РѕР»СЊРєРѕ РїРѕР»РѕР¶РµРЅРёРµ С‚РµРєСѓС‰РµРіРѕ,
+//		 DLIS-РѕР±СЉРµРєС‚Р°, РЅРѕ РЅРµ РµРіРѕ С‚РёРї (ObjectIteratorData::type) - РІ С‡Р°СЃС‚РЅРѕСЃС‚Рё,
+//		 РґР»СЏ СѓРЅРёС„РёРєР°С†РёРё С„СѓРЅРєС†РёРё LogicalFile::cendObject
 
 const Object *LogicalFile::cgetObject(const ObjectIteratorData &d) const
 	{ return pim->pcSet(d.indexSet)->pcObject(d.indexObject); }
@@ -6456,7 +6456,7 @@ void LogicalFile::iterateObject(ObjectIteratorData &d, bool fwd /*backwards*/ ) 
 //			if (d.indexSet == -1) d.indexSet = pim->setCount();
 
 			bool found, foundEmpty;
-			// Находим следующий непустой Set нужного типа
+			// РќР°С…РѕРґРёРј СЃР»РµРґСѓСЋС‰РёР№ РЅРµРїСѓСЃС‚РѕР№ Set РЅСѓР¶РЅРѕРіРѕ С‚РёРїР°
 			do {
 				d.indexSet = pim->indexOfSet(d.type(), d.indexSet + 1);
 				found = d.indexSet != -1;
@@ -6522,8 +6522,8 @@ public:
 		intToChars(seqNum, sizeof seqNum, 1);
 		memcpy(dlisVersion, "V1.00", sizeof dlisVersion);
 		memcpy(structure, "RECORD", sizeof structure);
-        // - NB: Вместо memcpy можно было бы использовать (собственную) функцию toChars,
-        //		 она медленнее, но с проверкой длины
+        // - NB: Р’РјРµСЃС‚Рѕ memcpy РјРѕР¶РЅРѕ Р±С‹Р»Рѕ Р±С‹ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ (СЃРѕР±СЃС‚РІРµРЅРЅСѓСЋ) С„СѓРЅРєС†РёСЋ toChars,
+        //		 РѕРЅР° РјРµРґР»РµРЅРЅРµРµ, РЅРѕ СЃ РїСЂРѕРІРµСЂРєРѕР№ РґР»РёРЅС‹
 		intToChars(maxVisRecLen,  sizeof maxVisRecLen, 0);
 		memset(storageSetId, ' ', sizeof storageSetId);
 	}
@@ -6534,17 +6534,17 @@ public:
             throw RI(RI::SULLongId);
 
 		toChars(storageSetId, sizeof storageSetId, s, true);
-		// - NB: с автоматическим усечением
+		// - NB: СЃ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРёРј СѓСЃРµС‡РµРЅРёРµРј
 	}
 
 private:
-// НЕПРЕРЫВНАЯ серия полей общей длиной 80 байт
+// РќР•РџР Р•Р Р«Р’РќРђРЇ СЃРµСЂРёСЏ РїРѕР»РµР№ РѕР±С‰РµР№ РґР»РёРЅРѕР№ 80 Р±Р°Р№С‚
 	char        seqNum      [4];
 	char        dlisVersion [5];
 	char        structure   [6];
 	char        maxVisRecLen[5];
 	char        storageSetId[60];
-// - NB: нужно быть уверенным, что к полям не применяется выравнивание!
+// - NB: РЅСѓР¶РЅРѕ Р±С‹С‚СЊ СѓРІРµСЂРµРЅРЅС‹Рј, С‡С‚Рѕ Рє РїРѕР»СЏРј РЅРµ РїСЂРёРјРµРЅСЏРµС‚СЃСЏ РІС‹СЂР°РІРЅРёРІР°РЅРёРµ!
 }; // class StorageUnitLabel
 
 // ============================================================================
@@ -6569,7 +6569,7 @@ private:
 	void read();
 	void loadFrame(const FrameType *frameType, uint32 frameIndex);
 
-	// - Загружает фрейм в режиме m_frMem=false
+	// - Р—Р°РіСЂСѓР¶Р°РµС‚ С„СЂРµР№Рј РІ СЂРµР¶РёРјРµ m_frMem=false
 // Data
 	ErrorLogImpl     m_err;
 	Input            m_in;
@@ -6577,10 +6577,10 @@ private:
 	string           m_ssId;
 	vector<LogicalFile *> mvp_lfs;
 	bool             m_frMem;
-	// - Признак загрузки фреймов в память в функции read.
-	/* - При m_frMem=false в каждом экземпляре Frame запоминается положение
-		 сответствующего фрейма во входном DLIS-потоке */
-//	uint32 m_frix;	// Индекс текущего загруженного фрейма при m_frMem=false
+	// - РџСЂРёР·РЅР°Рє Р·Р°РіСЂСѓР·РєРё С„СЂРµР№РјРѕРІ РІ РїР°РјСЏС‚СЊ РІ С„СѓРЅРєС†РёРё read.
+	/* - РџСЂРё m_frMem=false РІ РєР°Р¶РґРѕРј СЌРєР·РµРјРїР»СЏСЂРµ Frame Р·Р°РїРѕРјРёРЅР°РµС‚СЃСЏ РїРѕР»РѕР¶РµРЅРёРµ
+		 СЃРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРіРѕ С„СЂРµР№РјР° РІРѕ РІС…РѕРґРЅРѕРј DLIS-РїРѕС‚РѕРєРµ */
+//	uint32 m_frix;	// РРЅРґРµРєСЃ С‚РµРєСѓС‰РµРіРѕ Р·Р°РіСЂСѓР¶РµРЅРЅРѕРіРѕ С„СЂРµР№РјР° РїСЂРё m_frMem=false
 }; // class Reader::Impl
 
 void Reader::Impl::clear() {
@@ -6609,8 +6609,8 @@ void Reader::Impl::read()
 		try 
         {
 			plf->pim->read(m_in, ended);
-            // - Замеренное ускорение выполнения функции Reader::Impl::read (release-сборка)
-            //	 при использовании буферизации: - 20% на файле RST.dlis (39 МБайт)
+            // - Р—Р°РјРµСЂРµРЅРЅРѕРµ СѓСЃРєРѕСЂРµРЅРёРµ РІС‹РїРѕР»РЅРµРЅРёСЏ С„СѓРЅРєС†РёРё Reader::Impl::read (release-СЃР±РѕСЂРєР°)
+            //	 РїСЂРё РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРё Р±СѓС„РµСЂРёР·Р°С†РёРё: - 20% РЅР° С„Р°Р№Р»Рµ RST.dlis (39 РњР‘Р°Р№С‚)
 		}
 		catch(RI) 
         {
@@ -6630,10 +6630,10 @@ void Reader::Impl::read()
 
 //void Reader::Impl::loadFrame(const FrameType *frameType, uint32 frameIndex) {
 //	if (frameIndex == m_frix)
-//		return;	// - нужный фрейм уже загружен
-//// Очищаем содержимое ранее загруженного фрейма
+//		return;	// - РЅСѓР¶РЅС‹Р№ С„СЂРµР№Рј СѓР¶Рµ Р·Р°РіСЂСѓР¶РµРЅ
+//// РћС‡РёС‰Р°РµРј СЃРѕРґРµСЂР¶РёРјРѕРµ СЂР°РЅРµРµ Р·Р°РіСЂСѓР¶РµРЅРЅРѕРіРѕ С„СЂРµР№РјР°
 //	if (m_frix != -1) frameType->pim->clearSlots(m_frix);
-//// Загружаем требуемый фрейм и запоминаем его индекс
+//// Р—Р°РіСЂСѓР¶Р°РµРј С‚СЂРµР±СѓРµРјС‹Р№ С„СЂРµР№Рј Рё Р·Р°РїРѕРјРёРЅР°РµРј РµРіРѕ РёРЅРґРµРєСЃ
 //	LogicalFile *plf = LogicalFile::Impl::logicalFileOf(frameType);
 //	plf->pim->loadIFLR(m_in, frameType, frameIndex);
 //	m_frix = frameIndex;
@@ -6651,8 +6651,8 @@ Reader::Reader() : pim(new Impl) {}
 Reader::~Reader() {
 	delete pim;
 }
-// - NB: Если предполагать возможность создания клиентской программой
-//		 наследников Reader, то, видимо, нужно сделать деструктор виртуальным
+// - NB: Р•СЃР»Рё РїСЂРµРґРїРѕР»Р°РіР°С‚СЊ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ СЃРѕР·РґР°РЅРёСЏ РєР»РёРµРЅС‚СЃРєРѕР№ РїСЂРѕРіСЂР°РјРјРѕР№
+//		 РЅР°СЃР»РµРґРЅРёРєРѕРІ Reader, С‚Рѕ, РІРёРґРёРјРѕ, РЅСѓР¶РЅРѕ СЃРґРµР»Р°С‚СЊ РґРµСЃС‚СЂСѓРєС‚РѕСЂ РІРёСЂС‚СѓР°Р»СЊРЅС‹Рј
 
 RI Reader::open(std::istream *stream, std::streamsize byteCount) {
 	close();
@@ -6665,7 +6665,7 @@ RI Reader::open(std::istream *stream, std::streamsize byteCount) {
 	}
 	return RI();
 }
-// - NB: Функция еще не тестировалась (в т.ч. при byteCount!=-1)
+// - NB: Р¤СѓРЅРєС†РёСЏ РµС‰Рµ РЅРµ С‚РµСЃС‚РёСЂРѕРІР°Р»Р°СЃСЊ (РІ С‚.С‡. РїСЂРё byteCount!=-1)
 
 RI Reader::open(const string &fileName) 
 {
@@ -6723,17 +6723,17 @@ const ErrorLog &Reader::read(bool loadFrames)
 RI Reader::readFrame(const FrameType *frameType, uint32 frameIndex) {
 	try {
 		if (frameIndex >= frameType->frameCount()) throw RI(RI::BadFrameNum, 3);
-		if (!pim->m_frMem)	// - режим загрузки фреймов по требованию
+		if (!pim->m_frMem)	// - СЂРµР¶РёРј Р·Р°РіСЂСѓР·РєРё С„СЂРµР№РјРѕРІ РїРѕ С‚СЂРµР±РѕРІР°РЅРёСЋ
 			pim->loadFrame(frameType, frameIndex);
 		return frameType->pim->fillChannelValues(frameIndex);
 	}
 	catch(RI ri) {
 		return ri.toCritical();
 	}
-	/* - NB: блок try/catch используется хотя бы потому, что в нем выполняется
-			 чтение потока (в виде которого хранится фрейм), размер которого
-			 еще не проверен и может оказаться меньшим, чем следует
-			 из атрибутов соответствующего Frame-объекта */
+	/* - NB: Р±Р»РѕРє try/catch РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ С…РѕС‚СЏ Р±С‹ РїРѕС‚РѕРјСѓ, С‡С‚Рѕ РІ РЅРµРј РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ
+			 С‡С‚РµРЅРёРµ РїРѕС‚РѕРєР° (РІ РІРёРґРµ РєРѕС‚РѕСЂРѕРіРѕ С…СЂР°РЅРёС‚СЃСЏ С„СЂРµР№Рј), СЂР°Р·РјРµСЂ РєРѕС‚РѕСЂРѕРіРѕ
+			 РµС‰Рµ РЅРµ РїСЂРѕРІРµСЂРµРЅ Рё РјРѕР¶РµС‚ РѕРєР°Р·Р°С‚СЊСЃСЏ РјРµРЅСЊС€РёРј, С‡РµРј СЃР»РµРґСѓРµС‚
+			 РёР· Р°С‚СЂРёР±СѓС‚РѕРІ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРіРѕ Frame-РѕР±СЉРµРєС‚Р° */
 }
 
 // ============================================================================
@@ -6789,7 +6789,7 @@ private:
 	StorageUnitLabel m_sul;
 	string m_ssId;
 	vector<LogicalFile *> mvp_lfs;
-	uint m_wCnt;	// Число записанных логических файлов
+	uint m_wCnt;	// Р§РёСЃР»Рѕ Р·Р°РїРёСЃР°РЅРЅС‹С… Р»РѕРіРёС‡РµСЃРєРёС… С„Р°Р№Р»РѕРІ
 }; // class Writer::Impl
 
 
@@ -6797,7 +6797,7 @@ Writer::Writer() : pim(new Impl) {}
 
 Writer::~Writer() {
 	delete pim;
-// - NB: Надо проанализировать предупреждение компилятора на эту инструкцию
+// - NB: РќР°РґРѕ РїСЂРѕР°РЅР°Р»РёР·РёСЂРѕРІР°С‚СЊ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ РєРѕРјРїРёР»СЏС‚РѕСЂР° РЅР° СЌС‚Сѓ РёРЅСЃС‚СЂСѓРєС†РёСЋ
 }
 
 RI Writer::open(std::ostream *stream, const string &id) {
@@ -6870,7 +6870,7 @@ RI Writer::writeNextFrame(FrameType *frameType) {
 // ============================================================================
 
 #ifndef NDEBUG
-// Функции внутреннего отладочного тестирования модуля
+// Р¤СѓРЅРєС†РёРё РІРЅСѓС‚СЂРµРЅРЅРµРіРѕ РѕС‚Р»Р°РґРѕС‡РЅРѕРіРѕ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ РјРѕРґСѓР»СЏ
 
 bool d_test_IntField() {
 	using namespace Representation;
@@ -6949,13 +6949,13 @@ bool d_test_ValueConvertor() {
 
 // ============================================================================
 
-// ===== Схема реализации PIMPL-идиомы для древовидной структуры =====
+// ===== РЎС…РµРјР° СЂРµР°Р»РёР·Р°С†РёРё PIMPL-РёРґРёРѕРјС‹ РґР»СЏ РґСЂРµРІРѕРІРёРґРЅРѕР№ СЃС‚СЂСѓРєС‚СѓСЂС‹ =====
 namespace Pimpl_Sample {
 
 class Parent;
 class Child;
 
-// Интерфейс (h-файл)
+// РРЅС‚РµСЂС„РµР№СЃ (h-С„Р°Р№Р»)
 
 class T {
 public:
@@ -6965,11 +6965,11 @@ private:
 	T();
 	class Impl;
 	Impl *pim;
-// - NB: auto_ptr не используем хотя бы потому, что в C++11
-//		 он считается deprecated
+// - NB: auto_ptr РЅРµ РёСЃРїРѕР»СЊР·СѓРµРј С…РѕС‚СЏ Р±С‹ РїРѕС‚РѕРјСѓ, С‡С‚Рѕ РІ C++11
+//		 РѕРЅ СЃС‡РёС‚Р°РµС‚СЃСЏ deprecated
 };
 
-// Реализация (cpp-файл)
+// Р РµР°Р»РёР·Р°С†РёСЏ (cpp-С„Р°Р№Р»)
 
 class T::Impl {
 public:

@@ -8,7 +8,6 @@
 namespace DLIS
 {
 
-
 /**
  * - Storage Unit Sequence Number
  * - DLIS Version
@@ -16,8 +15,7 @@ namespace DLIS
  * - Maximum Record Length
  * - Storage Set Identifier
  */
-using StorageUnitLabel           = std::tuple<char[4], char[5], char[6], char[5], char[60]>;
-
+using StorageUnitLabel = std::tuple<char[4], char[5], char[6], char[5], char[60]>;
 
 /**
  * Logical Records consist of Logical Record Segments
@@ -34,8 +32,7 @@ using StorageUnitLabel           = std::tuple<char[4], char[5], char[6], char[5]
  *   - Byte FF
  *   - Major version in uint8_t
  */
-using VisibleRecordHeader        = std::tuple<uint16_t, char[1], uint8_t>;
-
+using VisibleRecordHeader = std::tuple<uint16_t, char, uint8_t>;
 
 /**
  * - Logical Record Segment Length
@@ -44,7 +41,6 @@ using VisibleRecordHeader        = std::tuple<uint16_t, char[1], uint8_t>;
  */
 using LogicalRecordSegmentHeader = std::tuple<uint16_t, uint8_t, uint8_t>;
 
-//Reader(sementHeader).is t
 
 enum LogicalRecordSegmentHeaderAttributeBits : uint8_t
 {
@@ -58,7 +54,6 @@ enum LogicalRecordSegmentHeaderAttributeBits : uint8_t
   PADDING                  = 0  // 0 - no record paddign, 1 - pad bytes are in LRST
 };
 
-
 enum class IndirectlyFormattedLogicalRecordType : uint8_t
 {
   FRAME_DATA       = 0,
@@ -66,7 +61,6 @@ enum class IndirectlyFormattedLogicalRecordType : uint8_t
   // 2-126 - reserverd, undefined
   END_OF_DATA      = 127
 };
-
 
 enum class ExplicitlyFormattedLogicalRecordType : uint8_t
 {
@@ -80,13 +74,12 @@ enum class ExplicitlyFormattedLogicalRecordType : uint8_t
   UPDATE_DATA                 = 7,
   UNFORMATTED_DATA_IDENTIFIER = 8,
   LONG_NAME                   = 9,
-  SPECIFICATION               = 10,// attribute, code, eflr, iflr, object-type, specification
-  DICTIONARY                  = 11 // base dictionary, idenfier, lexicon, option
-                                   // 12 - 127 reserverd, undefined
+  SPECIFICATION               = 10, // attribute, code, eflr, iflr, object-type, specification
+  DICTIONARY                  = 11  // base dictionary, idenfier, lexicon, option
+                                    // 12 - 127 reserverd, undefined
 };
 
 //using LogicalRecordSegmentEncryptionPacket = std::tuple<uint16_t, uint16_t, ....>
-
 
 using ComponentDescriptor = uint8_t;
 
@@ -103,7 +96,6 @@ enum ComponentDescriptorRoleBits : uint8_t
   SET      = BOOST_BINARY(111 00000)
 };
 
-
 using SetDescriptor = uint8_t;
 
 enum SetDescriptorBits : uint8_t
@@ -116,7 +108,6 @@ struct Set
 {
   std::string type;
   std::string name;
-
 };
 
 //enum class ComponentDescriptorRoleBits : uint8_t
@@ -124,8 +115,6 @@ struct Set
 //FOURTH_BIT_TYPE = BOOST_BINARY(000 1 0000),
 //FIFTH_BIT_NAME  = BOOST_BINARY(000 1 0000)
 //};
-
-
 
 enum class RepresentationCode : uint8_t
 {
@@ -158,9 +147,5 @@ enum class RepresentationCode : uint8_t
   UNITS  = 27
 };
 
-
-
 using ObnameHeader = std::tuple<char, char, char, char, char>;
-
-
 }

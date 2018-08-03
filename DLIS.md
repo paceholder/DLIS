@@ -14,9 +14,15 @@ File Structure
                                               |
                                     __________|
                                    |
-    [___________________________Segment_________________________]
+    [______________________________Segment_____________________________]
 
-    [Logical Record Segment Header][    Objects   ][   Trailer  ]
+    [Logical Record Segment Header][Encryption Packet][Objects][Trailer]
+                                                          |
+                                    ______________________|
+                                   |
+    [___________________________Objects_____________________________]
+
+    [Logical Record Segment Header][Encryption Packet][Objects][Trailer]
 
 
 1. Storage Unit Label - 80 bytes
@@ -26,7 +32,7 @@ File Structure
   - `char[5]` - Maximum Record Length
   - `char[60]` - Storage Set Identifier
 
-2. Storage Unit Length & Version:
+2. Visible Record Header - Storage Unit Length & Version:
   - `uint16_t` - length
   - `uint8_t` - 0xFF
   - `uint8_t` - major version

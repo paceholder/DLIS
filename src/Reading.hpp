@@ -14,10 +14,9 @@
 namespace DLIS
 {
 
-
 template<typename ... T>
 std::size_t
-size(std::tuple<T ...> & tuple)
+tupleSize(std::tuple<T ...> & tuple)
 {
   std::size_t s = 0;
 
@@ -49,13 +48,15 @@ convertEndian(T & t)
 
 template<typename ... T>
 void
-read(std::ifstream & file, std::tuple<T ...> * tuple)
+read(std::ifstream & file,
+     std::tuple<T ...> * tuple)
 {
   auto readTuplePart =
     [&file](auto & part)
     {
       using Type = decltype(part);
-      file.read(reinterpret_cast<char *>(&part), sizeof(Type));
+      std::size_t s = sizeof(Type);
+      file.read(reinterpret_cast<char *>(&part), s);
 
       convertEndian(part);
     };
