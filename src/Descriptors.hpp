@@ -104,6 +104,15 @@ enum SetDescriptorBits : uint8_t
   NAME = BOOST_BINARY(0000 1000)
 };
 
+enum AttributeDescriptorBits : uint8_t
+{
+  LABEL               = BOOST_BINARY(000 10000),
+  COUNT               = BOOST_BINARY(000 01000),
+  REPRESENTATION_CODE = BOOST_BINARY(000 00100),
+  UNITS               = BOOST_BINARY(000 00010),
+  VALUE               = BOOST_BINARY(000 00001)
+};
+
 struct Set
 {
   std::string type;

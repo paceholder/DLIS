@@ -50,10 +50,10 @@ parse(std::string filename)
       auto const & headerAccessor = DLIS::accessor(vrh);
       std::cout << headerAccessor << std::endl;
 
-      std::size_t b = (std::size_t)file.tellg() - DLIS::tupleSize(vrh);
 
-      parsingContext.setCurrentRecordRanges(b,
-                                            b + headerAccessor.length());
+      parsingContext.setCurrentRecordRanges(file,
+                                            DLIS::tupleSize(vrh),
+                                            headerAccessor.length());
 
       //file.ignore(headerAccessor.length() - DLIS::size(vrh) );
     }
@@ -67,13 +67,83 @@ parse(std::string filename)
       LogicalRecordSegmentHeader segHeader;
       read(file, &segHeader);
 
-      auto const & a = DLIS::accessor(segHeader);
+      auto const & segHeaderAccessor = DLIS::accessor(segHeader);
+      std::cout << segHeaderAccessor << std::endl;
 
-      std::cout << a << std::endl;
+      parsingContext.setCurrentSegmentRanges(file,
+                                             DLIS::tupleSize(segHeader),
+                                             segHeaderAccessor.length());
 
-      l += a.length();
+      if (segHeaderAccessor.explicitlyFormatted())
+      {
+        while(parsingContext.inSegment(file))
+        {
+          ComponentDescriptor componentDescriptor;
+          read(file, &componentDescriptor);
 
-      file.ignore(a.length() - DLIS::tupleSize(segHeader) );
+          auto const & compAccessor = DLIS::accessor(componentDescriptor);
+          std::cout << compAccessor << std::endl;
+
+          if (compAccessor.isSet())
+          {
+            SetDescriptor setDescriptor = componentDescriptor;
+
+            if (setDescriptor & SetDescriptorBits::TYPE)
+            {
+              auto setType = read(file, RepresentationCode::IDENT);
+              std::cout << "Set Type: " << setType << std::endl;
+            }
+
+            if (setDescriptor & SetDescriptorBits::NAME)
+            {
+              auto setName = read(file, RepresentationCode::IDENT);
+              std::cout << "Set Name: " << setName << std::endl;
+            }
+
+            // read attributes
+            //{
+              //ComponentDescriptor attr;
+              //read(file, &attr);
+
+              //auto const & a = DLIS::accessor(attr);
+              //std::cout << a << std::endl;
+
+            //}
+          }
+          else if (compAccessor.isAttribute())
+          {
+            if (componentDescriptor & AttributeDescriptorBits::LABEL)
+            {
+              auto setType = read(file, RepresentationCode::IDENT);
+              std::cout << "Label: " << setType << std::endl;
+            }
+            if (componentDescriptor & AttributeDescriptorBits::COUNT)
+            {
+//
+            }
+            if (componentDescriptor & AttributeDescriptorBits::REPRESENTATION_CODE)
+            {
+              auto repCode = read(file, RepresentationCode::USHORT);
+              std::cout << "Representation Code: " << repCode << std::endl;
+//
+            }
+
+
+
+
+            std::cout << "ATTRIBUTE" << std::endl;
+          }
+          else if (compAccessor.isObject())
+          {
+            std::cout << "OBJECT" << std::endl;
+          }
+        }
+      }
+
+
+      l += segHeaderAccessor.length();
+
+      //file.ignore(a.length() - DLIS::tupleSize(segHeader) );
     }
 
     std::cout << "LENGTH: " << l << std::endl;
@@ -83,41 +153,6 @@ parse(std::string filename)
 
   }
 
-  //if (a.explicitlyFormatted())
-  //{
-  //ComponentDescriptor componentDescriptor;
-  //read(file, &componentDescriptor);
-
-  //auto const & a = DLIS::accessor(componentDescriptor);
-  //std::cout << a << std::endl;
-
-  //if (a.isSet())
-  //{
-  //SetDescriptor setDescriptor = componentDescriptor;
-
-  //if (setDescriptor & SetDescriptorBits::TYPE)
-  //{
-  //auto setType = read(file, RepresentationCode::IDENT);
-  //std::cout << "Set Type: " << setType << std::endl;
-  //}
-
-  //if (setDescriptor & SetDescriptorBits::NAME)
-  //{
-  //auto setName = read(file, RepresentationCode::IDENT);
-  //std::cout << "Set Name: " << setName << std::endl;
-  //}
-
-  //// read attributes
-  //{
-  //ComponentDescriptor attr;
-  //read(file, &attr);
-
-  //auto const & a = DLIS::accessor(attr);
-  //std::cout << a << std::endl;
-
-  //}
-  //}
-  //}
   //else // Indirectly Formatted
   //{
   //// Next step is toread OBNAME in form:

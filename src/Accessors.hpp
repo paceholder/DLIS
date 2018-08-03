@@ -281,24 +281,56 @@ struct Accessor<ComponentDescriptor>
   using Type = ComponentDescriptor;
 
   explicit Accessor(Type const & t)
-    : tt(t)
+    : bitset(t)
+    , type(t & BOOST_BINARY(111 00000))
+    , characts(t & BOOST_BINARY(0001 1111))
   {
+  }
+
+
+  bool isAbsentAttribute() const
+  {
+    return ((type ^ ComponentDescriptorRoleBits::ABSATR) == 0);
   }
 
 
   bool isSet() const
   {
-    return (((tt & BOOST_BINARY(1110 0000)) ^ ComponentDescriptorRoleBits::SET) == 0);
+    return ((type ^ ComponentDescriptorRoleBits::SET) == 0);
   }
+
+  bool isAttribute() const
+  {
+    return ((type ^ ComponentDescriptorRoleBits::ATTRIB) == 0);
+  }
+
+  bool isInvariantAttribute() const
+  {
+    return ((type ^ ComponentDescriptorRoleBits::INVATR) == 0);
+  }
+
+  bool isObject() const
+  {
+    return ((type ^ ComponentDescriptorRoleBits::OBJECT) == 0);
+  }
+
+  bool isRedundantSet() const
+  {
+    return ((type ^ ComponentDescriptorRoleBits::RDSET) == 0);
+  }
+
+  bool isReplacementSet() const
+  {
+    return ((type ^ ComponentDescriptorRoleBits::RSET) == 0);
+  }
+
 
 
   friend
   std::ostream &
   operator<<(std::ostream & stream, Accessor<Type> const & a)
   {
-    stream << "Component Descriptor:" << std::bitset<8>(a.tt) << "\n";
-
-    auto tt = a.tt & BOOST_BINARY(1110 0000);
+    stream << "Component Descriptor:" << std::bitset<8>(a.bitset) << "\n";
 
     auto leftC = [](std::ostream & stream) -> std::ostream&
                  {
@@ -315,22 +347,22 @@ struct Accessor<ComponentDescriptor>
     stream << std::boolalpha;
 
     leftC(stream) << "Absent Attribute:";
-    rightC(stream) << ((tt ^ ComponentDescriptorRoleBits::ABSATR) == 0) << "\n";
+    rightC(stream) << a.isAbsentAttribute() << "\n";
 
     leftC(stream) << "Attribute:";
-    rightC(stream) << ((tt ^ ComponentDescriptorRoleBits::ATTRIB) == 0) << "\n";
+    rightC(stream) << a.isAttribute() << "\n";
 
     leftC(stream) << "Invariant Attribute:";
-    rightC(stream) << ((tt ^ ComponentDescriptorRoleBits::INVATR) == 0) << "\n";
+    rightC(stream) << a.isInvariantAttribute() << "\n";
 
     leftC(stream) << "Object:";
-    rightC(stream) << ((tt ^ ComponentDescriptorRoleBits::OBJECT) == 0) << "\n";
+    rightC(stream) << a.isObject() << "\n";
 
     leftC(stream)<< "Redundant Set:";
-    rightC(stream) << ((tt ^ ComponentDescriptorRoleBits::RDSET) == 0) << "\n";
+    rightC(stream) << a.isRedundantSet() << "\n";
 
     leftC(stream) << "Replacement Set:";
-    rightC(stream) << ((tt ^ ComponentDescriptorRoleBits::RSET) == 0)<< "\n";
+    rightC(stream) << a.isReplacementSet() << "\n";
 
     leftC(stream) << "Set:";
     rightC(stream) << a.isSet() << "\n";
@@ -339,8 +371,9 @@ struct Accessor<ComponentDescriptor>
   }
 
 
-
-  Type const & tt;
+  Type const & bitset;
+  Type const type;
+  Type const characts;
 };
 
 

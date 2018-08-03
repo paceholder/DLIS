@@ -18,13 +18,13 @@ template<typename ... T>
 std::size_t
 tupleSize(std::tuple<T ...> & tuple)
 {
-  std::size_t s = 0;
+  std::size_t s        = 0;
 
   auto sizeOfTuplePart =
     [&s](auto & part)
     {
       using Type = decltype(part);
-      s += sizeof(Type);
+      s         += sizeof(Type);
     };
 
   boost::fusion::for_each(tuple, sizeOfTuplePart);
@@ -44,7 +44,8 @@ convertEndian(T & t)
 template<typename T>
 std::enable_if_t<!std::is_arithmetic<T>::value>
 convertEndian(T & t)
-{}
+{
+}
 
 template<typename ... T>
 void
@@ -79,22 +80,32 @@ read(std::ifstream & file, RepresentationCode rc)
 {
   switch (rc)
   {
-    case RepresentationCode::IDENT:
-    {
-      uint8_t length;
-      read(file, &length);
+  case RepresentationCode::IDENT:
+  {
+    uint8_t length;
+    read(file, &length);
 
-      std::string s(length, '\0');
+    std::string s(length, '\0');
 
-      file.read(&s[0], length);
+    file.read(&s[0], length);
 
-      return s;
-    }
-    break;
-
-    default:
-      break;
+    return s;
   }
+  break;
+  case RepresentationCode::USHORT:
+  {
+    uint8_t l;
+    read(file, &l);
+
+    return std::to_string((unsigned int)l);
+  }
+  break;
+
+  default:
+    break;
+  }
+
+  return std::string();
 }
 
 
