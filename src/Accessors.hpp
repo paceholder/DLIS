@@ -250,22 +250,22 @@ struct Accessor<LogicalRecordSegmentHeader>
     rightC(stream) << a.explicitlyFormatted() << "\n";
 
     leftC(stream) << "First Segment:";
-    rightC(stream)  << a.firstSegment() << "\n";
+    rightC(stream) << a.firstSegment() << "\n";
 
     leftC(stream) << "Last Segment:";
-    rightC(stream)  << a.lastSegment() << "\n";
+    rightC(stream) << a.lastSegment() << "\n";
 
     leftC(stream) << "Has Encryption:";
-    rightC(stream)  << a.hasEncryption() << "\n";
+    rightC(stream) << a.hasEncryption() << "\n";
 
     leftC(stream) << "Has Checksum:";
-    rightC(stream)  << a.hasChecksum() << "\n";
+    rightC(stream) << a.hasChecksum() << "\n";
 
     leftC(stream) << "Has Trailing Length:";
-    rightC(stream)  << a.hasTrailingLength() << "\n";
+    rightC(stream) << a.hasTrailingLength() << "\n";
 
     leftC(stream) << "Has Padding:";
-    rightC(stream)  << a.hasPadding() << "\n";
+    rightC(stream) << a.hasPadding() << "\n";
 
     return stream;
   }
@@ -278,12 +278,12 @@ struct Accessor<LogicalRecordSegmentHeader>
 template<>
 struct Accessor<ComponentDescriptor>
 {
-  using Type = ComponentDescriptor;
+  using Type = uint8_t;
 
-  explicit Accessor(Type const & t)
-    : bitset(t)
-    , type(t & BOOST_BINARY(111 00000))
-    , characts(t & BOOST_BINARY(0001 1111))
+  explicit Accessor(ComponentDescriptor const & t)
+    : bitset(t.byte)
+    , type(t.byte & BOOST_BINARY(111 00000))
+    , characts(t.byte & BOOST_BINARY(0001 1111))
   {
   }
 
@@ -328,7 +328,8 @@ struct Accessor<ComponentDescriptor>
 
   friend
   std::ostream &
-  operator<<(std::ostream & stream, Accessor<Type> const & a)
+  operator<<(std::ostream & stream,
+             Accessor<ComponentDescriptor> const & a)
   {
     stream << "Component Descriptor:" << std::bitset<8>(a.bitset) << "\n";
 
@@ -377,52 +378,14 @@ struct Accessor<ComponentDescriptor>
 };
 
 
-template<>
-struct Accessor<ObnameHeader>
+std::ostream &
+operator<<(std::ostream & o, Obname const &obname)
 {
-  using Type = ObnameHeader;
+  o << obname.origin << "'"
+    << obname.version << "'"
+    << obname.ident << '\n';
+  return o;
+}
 
-  explicit Accessor(Type const & oh)
-    : obnh(oh)
-  {
-  }
-
-  std::string
-  fiveSymbols() const
-  {
-    std::string s;
-
-    s += std::get<0>(obnh);
-    s += std::get<1>(obnh);
-    s += std::get<2>(obnh);
-    s += std::get<3>(obnh);
-    s += std::get<4>(obnh);
-
-    return s;
-  }
-
-  //friend
-  //std::ostream &
-  //operator<<(std::ostream & stream, Accessor<Type> const & a)
-  //{
-  //stream << "Logical Record Segment Header:" << "\n";
-  //stream << '\t' << a.length() << "\n";
-  //stream << '\t' << a.attributes() << "\n";
-  //stream << '\t' << a.recordType() << "\n";
-  //stream << std::boolalpha;
-  //stream << "Explicitly Formatted: " << a.explicitlyFormatted() << "\n";
-  //stream << "First Segment: " << a.firstSegment() << "\n";
-  //stream << "Last Segment: " << a.lastSegment() << "\n";
-  //stream << "Has Encryption: " << a.hasEncryption() << "\n";
-  //stream << "Has Checksum: " << a.hasChecksum() << "\n";
-  //stream << "Has Trailing Length: " << a.hasTrailingLength() << "\n";
-  //stream << "Has Padding: " << a.hasPadding() << "\n";
-
-  //return stream;
-  //}
-
-
-  Type const & obnh;
-};
 
 }

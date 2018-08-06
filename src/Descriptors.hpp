@@ -81,7 +81,7 @@ enum class ExplicitlyFormattedLogicalRecordType : uint8_t
 
 //using LogicalRecordSegmentEncryptionPacket = std::tuple<uint16_t, uint16_t, ....>
 
-using ComponentDescriptor = uint8_t;
+struct ComponentDescriptor { uint8_t byte; };
 
 // First three bits in ComponentDescriptor
 enum ComponentDescriptorRoleBits : uint8_t
@@ -96,7 +96,7 @@ enum ComponentDescriptorRoleBits : uint8_t
   SET      = BOOST_BINARY(111 00000)
 };
 
-using SetDescriptor = uint8_t;
+struct SetDescriptor { uint8_t byte; };
 
 enum SetDescriptorBits : uint8_t
 {
@@ -113,17 +113,20 @@ enum AttributeDescriptorBits : uint8_t
   VALUE               = BOOST_BINARY(000 00001)
 };
 
+
+struct ObjectDescriptor { uint8_t byte; };
+
+enum ObjecDescriptorBits : uint8_t
+{
+  OBJECT_NAME = BOOST_BINARY(000 10000)
+};
+
 struct Set
 {
   std::string type;
   std::string name;
 };
 
-//enum class ComponentDescriptorRoleBits : uint8_t
-//{
-//FOURTH_BIT_TYPE = BOOST_BINARY(000 1 0000),
-//FIFTH_BIT_NAME  = BOOST_BINARY(000 1 0000)
-//};
 
 enum class RepresentationCode : uint8_t
 {
@@ -156,5 +159,78 @@ enum class RepresentationCode : uint8_t
   UNITS  = 27
 };
 
-using ObnameHeader = std::tuple<char, char, char, char, char>;
+template<RepresentationCode rc>
+struct RCodeTraits;
+
+
+template<>
+struct RCodeTraits<RepresentationCode::ASCII>
+{
+  using ClientType = std::string;
+};
+
+template<>
+struct RCodeTraits<RepresentationCode::IDENT>
+{
+  using ClientType = std::string;
+};
+
+template<>
+struct RCodeTraits<RepresentationCode::UVARI>
+{
+  using ClientType = unsigned int;
+};
+
+template<>
+struct RCodeTraits<RepresentationCode::ORIGIN>
+{
+  using ClientType = unsigned int;
+};
+
+template<>
+struct RCodeTraits<RepresentationCode::USHORT>
+{
+  using ClientType = unsigned int;
+};
+
+template <RepresentationCode rc>
+using RCodeTraits_t =
+  typename RCodeTraits<rc>::ClientType;
+
+
+
+
+
+
+
+enum UvariBits : uint8_t
+{
+  ONE_BYTE_NUMBER  = BOOST_BINARY(1 000 0000),
+  TWO_BYTE_NUMBER  = BOOST_BINARY(10 00 0000),
+  FOUR_BYTE_NUMBER = BOOST_BINARY(11 00 0000),
+
+  TWO_BYTE_MASK    = BOOST_BINARY(11 00 0000)
+};
+
+struct Obname
+{
+  unsigned int origin;
+  unsigned int version;
+  std::string ident;
+};
+
+
+struct Attribute
+{
+  std::string label;
+
+  unsigned int count = 1;
+
+  RepresentationCode repCode = RepresentationCode::IDENT;
+  //RepresentationCode repCode = RepresentationCode::UVARI;
+
+  std::string units; // the same as IDENT
+};
+
+
 }
