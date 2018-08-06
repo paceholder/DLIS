@@ -41,7 +41,6 @@ using VisibleRecordHeader = std::tuple<uint16_t, char, uint8_t>;
  */
 using LogicalRecordSegmentHeader = std::tuple<uint16_t, uint8_t, uint8_t>;
 
-
 enum LogicalRecordSegmentHeaderAttributeBits : uint8_t
 {
   LOGICAL_RECORD_STRUCTURE = 7, // 0 - indirectly formatted logical record, 1 - explicitly
@@ -113,7 +112,6 @@ enum AttributeDescriptorBits : uint8_t
   VALUE               = BOOST_BINARY(000 00001)
 };
 
-
 struct ObjectDescriptor { uint8_t byte; };
 
 enum ObjecDescriptorBits : uint8_t
@@ -126,7 +124,6 @@ struct Set
   std::string type;
   std::string name;
 };
-
 
 enum class RepresentationCode : uint8_t
 {
@@ -162,7 +159,6 @@ enum class RepresentationCode : uint8_t
 template<RepresentationCode rc>
 struct RCodeTraits;
 
-
 template<>
 struct RCodeTraits<RepresentationCode::ASCII>
 {
@@ -195,13 +191,7 @@ struct RCodeTraits<RepresentationCode::USHORT>
 
 template <RepresentationCode rc>
 using RCodeTraits_t =
-  typename RCodeTraits<rc>::ClientType;
-
-
-
-
-
-
+        typename RCodeTraits<rc>::ClientType;
 
 enum UvariBits : uint8_t
 {
@@ -212,6 +202,7 @@ enum UvariBits : uint8_t
   TWO_BYTE_MASK    = BOOST_BINARY(11 00 0000)
 };
 
+
 struct Obname
 {
   unsigned int origin;
@@ -219,6 +210,36 @@ struct Obname
   std::string ident;
 };
 
+
+struct Object
+{
+  Object(std::vector<Attribute> defaultAttributes)
+    : _defaultAttributes(defaultAttributes)
+  {}
+
+
+private:
+  std::vector<Attribute> _templateAttributes;
+};
+
+
+struct Set
+{
+  Set()
+    : _collectingAttributes(true)
+  {}
+
+  Obname obname;
+
+  std::vector<Attribute> templateAttributes;
+
+  bool setCollectingAttributes(bool c)
+  {_collectingAttributes = c;}
+
+private:
+
+  bool _collectingAttributes;
+};
 
 struct Attribute
 {
@@ -231,6 +252,4 @@ struct Attribute
 
   std::string units; // the same as IDENT
 };
-
-
 }
